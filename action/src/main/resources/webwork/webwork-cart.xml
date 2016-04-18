@@ -1,0 +1,26 @@
+<!DOCTYPE xwork PUBLIC "-//OpenSymphony Group//XWork 1.1.1//EN" "http://www.opensymphony.com/xwork/xwork-1.1.1.dtd">
+<xwork>
+	<package name="{http://kmall}kmall$cart"
+		extends="{http://kmall}kmall$framework" namespace="/cart">
+
+		<!-- mobile -->
+		<action name="index" class="cartAction" method="index">
+			<interceptor-ref name="shopInfo" />
+			<interceptor-ref name="authenticationStack" />
+			<result name="success">/m/cart/index.vm</result>
+		</action>
+		
+		<!-- mobile -->
+		<action name="cartAction" class="cartAction">
+			<interceptor-ref name="authenticationStack" />
+			<result name="success" type="redirect-action">
+				<param name="actionName">index</param>
+			</result>
+		</action>
+		
+		<!-- mobile 添加购物车 action 验证权限 -->
+		<action name="addCart" class="cartAction" method="addCart">
+		</action>
+		
+	</package>
+</xwork>

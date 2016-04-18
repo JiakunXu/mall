@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="GB2312"?>
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="points">
+	
+	<typeAlias alias="points" type="com.kintiger.mall.api.points.bo.Points" />
+	
+	<select id="getPointsCount" parameterClass="points" resultClass="java.lang.Integer">
+	<![CDATA[
+		SELECT COUNT(1)
+		FROM MALL.MALL_TB_POINTS t,
+		  MALL.MALL_TB_ITEM p
+		WHERE t.item_id = p.item_id
+		AND t.shop_id   = p.shop_id
+		AND t.state     = 'U'
+		AND p.state     = 'U'
+		AND p.stock     > 0
+		AND t.shop_id   = #shopId#
+	]]>
+		<dynamic>
+			<isNotEmpty property="itemName" prepend="and">
+			<![CDATA[ p.item_name like #itemName,handler=wildcard# ]]>
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<select id="getPointsList" parameterClass="points" resultClass="points">
+		<include refid="global.paginationStart" />
+	<![CDATA[
+		SELECT t.points_id  AS pointsId,
+		  t.item_id         AS itemId,
+		  t.sku_id          AS skuId,
+		  p.item_name       AS itemName,
+		  q.properties_name AS propertiesName,
+		  t.points,
+		  TO_CHAR(t.expire_date,'yyyy-mm-dd') AS expireDate
+		FROM MALL.MALL_TB_POINTS t,
+		  MALL.MALL_TB_ITEM p,
+		  (SELECT qq.item_id,
+			qq.sku_id ,
+			qq.properties_name
+		  FROM MALL.MALL_TB_ITEM_SKU qq
+		  WHERE qq.state = 'U'
+		  ) q
+		WHERE t.item_id = p.item_id
+		AND t.shop_id   = p.shop_id
+		AND t.sku_id    = q.sku_id(+)
+		AND t.state     = 'U'
+		AND p.state     = 'U'
+		AND p.stock     > 0
+		AND t.shop_id   = #shopId#
+	]]>
+		<dynamic>
+			<isNotEmpty property="itemName" prepend="and">
+			<![CDATA[ p.item_name like #itemName,handler=wildcard# ]]>
+			</isNotEmpty>	
+		</dynamic>
+		<include refid="global.orderBy" />
+		<include refid="global.paginationEnd" />
+	</select>
+	
+	<insert id="createPoints" parameterClass="points">
+		<selectKey resultClass="java.lang.String" keyProperty="pointsId">
+		<![CDATA[
+			SELECT MALL.MALL_SEQ_POINTS.NEXTVAL FROM DUAL
+		]]>
+		</selectKey>
+	<![CDATA[
+		INSERT
+		INTO MALL.MALL_TB_POINTS
+		  (
+			POINTS_ID,
+			ITEM_ID,
+			SKU_ID,
+			POINTS,
+			EXPIRE_DATE,
+			STATE,
+			CREATE_DATE,
+			MODIFY_DATE,
+			MODIFY_USER,
+			SHOP_ID
+		  )
+		  VALUES
+		  (
+			#pointsId#,
+			#itemId#,
+			#skuId#,
+			#points#,
+			TO_DATE(#expireDate#, 'yyyy-mm-dd'),
+			'U',
+			sysdate,
+			sysdate,
+			#modifyUser#,
+			#shopId#
+		  )
+	]]>
+	</insert>
+	
+	<update id="deletePoints" parameterClass="points">
+	<![CDATA[
+		UPDATE MALL.MALL_TB_POINTS t
+		SET t.modify_date = sysdate,
+		  t.modify_user   = #modifyUser#,
+		  t.state         = 'D'
+		WHERE t.state     = 'U'
+		AND t.shop_id     = #shopId#
+		AND t.points_id   = #pointsId#
+	]]>
+	</update>
+	
+</sqlMap>

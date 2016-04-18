@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>商品管理 - 商品详情 － Kmall</title>
+		#ICON()
+        #CSSM(["ext", "nav", "bootstrap.docs", "dropzone", "select2", "bootstrap", "pnotify", "conflict"])
+		<style>
+		.input-mini { width: 70px; height: 30px; }
+		.input-small { width: 100px; height: 30px; }
+		.input-medium { width: 130px; }
+		.table>tbody>tr>td { vertical-align: inherit; }
+		.th-stock { width: 80px; }
+		.th-price, .th-code, .th-origin { width: 90px; }
+		.picture { padding-right: 5px; padding-left: 0px; margin-bottom: 3px; }
+		</style>
+		#UA()
+	</head>
+	<body>
+		<div class="global-reset global-container global-type-global">
+    		#parse("/kmall/framework/top.vm")
+            <div class="global-common-a">
+				<div class="global">
+					<div class="global-header fn-clear">
+						<div class="global-header-content">
+							<div class="global-logo">
+                                <a herf="#"></a>
+                            </div>
+                            <div class="global-logo-neighbor"></div>
+							<ul class="global-nav">
+								<li class="global-nav-item"><a href="$!{env.appUrl}/shop/index.htm">店铺管理</a></li>
+                                <li class="global-nav-item global-nav-item-current">
+									<a href="$!{env.appUrl}/item/index.htm">商品管理</a>
+									<span class="global-nav-item-arrow">◆</span>
+									<span class="global-nav-item-arrow global-nav-item-arrow-border">◆</span>
+								</li>
+                                <li class="global-nav-item"><a href="$!{env.appUrl}/trade/index.htm">交易管理</a></li>
+								<li class="global-nav-item"><a href="$!{env.appUrl}/market/index.htm">市场营销</a></li>
+								<li class="global-nav-item"><a href="$!{env.appUrl}/member/index.htm">会员管理</a></li>
+                            </ul>
+                        </div>
+                    </div>
+					<div class="global-subheader">
+                        <ul class="global-subnav">
+							<li class="global-subnav-item  global-subnav-item-current"><a href="#detail">商品详情</a></li>
+						</ul>
+                    </div>
+                </div>
+			</div>
+        </div>
+		
+		<div class="container" id="detail">
+			<div class="modal-dialog modal-lg">
+    			<div class="modal-content">
+        			<div class="modal-header">
+        				<h4 class="modal-title">商品基本信息</h4>
+        			</div>
+					<div class="modal-body">
+            			<form class="form-horizontal" role="form" method="post">
+							
+							<div class="panel panel-default">
+								<div class="panel-heading">基本信息</div>
+								<div class="panel-body">
+									<div class="col-md-6">
+    									<div class="form-group">
+                							<label class="col-md-3 control-label">商品类目</label>
+                        					<div class="col-md-4">
+                                                <input type="text" class="form-control input-medium" id="pItemCid" />
+                                            </div>
+    										<div class="col-md-4">
+    											<input type="text" class="form-control input-medium" id="itemCid" name="item.itemCid" />
+                                            </div>
+                                        </div>
+										<div class="form-group">
+                							<label class="col-md-3 control-label">商品类型</label>
+                        					<div class="col-md-9 control-label" style="text-align: left;">
+                                                <label>
+                                                    <input type="radio" name="item.shipment" value="Y" checked /> 实物商品 （物流发货）
+                                                </label>
+                                            </div>
+                                        </div>
+    									<div class="form-group">
+                							<label class="col-md-3 control-label">商品名称</label>
+                        					<div class="col-md-9">
+                        						<input type="text" class="form-control" id="itemName" name="item.itemName" value="$!{item.itemName}" placeholder="必填" />
+                                            </div>
+                                        </div>
+    									<div class="form-group">
+                							<label class="col-md-3 control-label">价格</label>
+                        					<div class="col-md-6">
+    											<div class="input-group">
+                        							<div class="input-group-addon">￥</div>
+    												<input type="text" class="form-control" id="price" name="item.price" value="$!{item.price}" />
+                        						</div>
+                                            </div>
+											<div class="col-md-3">
+    											<input type="text" class="form-control" placeholder="市场价：" name="item.origin" value="$!{item.origin}" />
+                                            </div>
+                                        </div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group">
+                							<label class="col-md-3 control-label">商品描述</label>
+                        					<div class="col-md-9">
+                                               <textarea class="form-control" rows="3" name="item.remark">$!{item.remark}</textarea>
+                                            </div>
+                                        </div>
+										<div class="form-group">
+                							<label class="col-md-3 control-label">商品图片</label>
+                        					<div class="col-md-9">
+                            					#foreach($itemFile in $item.itemFileList)
+												<div class="col-md-3 picture" id="fileId$!{itemFile.fileId}">
+													<input type="hidden" name="fileId" value="$!{itemFile.fileId}" ></input>
+													<a href="javascript:removePic('fileId$!{itemFile.fileId}');">
+                                                        <span class="glyphicon glyphicon-remove-sign pull-right" style="margin-bottom: -5px;"></span>
+    												</a>
+    												<a href="$!{itemFile.filePath}" target="_blank">
+                                                        <img class="img-thumbnail" style="height: 60px;" src="$!{itemFile.filePath}"></img>
+                                                    </a>
+                                                </div>
+												#end
+												<div class="col-md-3" style="padding-right: 3px; padding-left: 0px; margin-top: 8px; margin-left: 3px;" id="uploadPic">
+													<a class="btn glyphicon glyphicon-picture" style="height: 60px; border: 1px solid #ccc; font-size: 33px;" data-toggle="modal" data-target="#uploadModal"></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+								</div>
+							</div>
+							
+							<div class="panel panel-default">
+								<div class="panel-heading">库存/规格</div>
+								<div class="panel-body">
+									<div class="form-group">
+            							<label class="col-md-2 control-label">商品规格</label>
+										<div class="col-md-9">
+											<table class="table table-striped">
+												<tbody>
+        											<tr><td><input type="text" class="form-control" style="width: 100px;" id="specCat1" name="specCat" /></td></tr>
+													<tr><td><input type="text" class="form-control" id="specItem1" name="specItem" /></td></tr>
+													<tr><td><input type="text" class="form-control" style="width: 100px;" id="specCat2" name="specCat" /></td></tr>
+													<tr><td><input type="text" class="form-control" id="specItem2" name="specItem" /></td></tr>
+													<tr><td><input type="text" class="form-control" style="width: 100px;" id="specCat3" name="specCat" /></td></tr>
+													<tr><td><input type="text" class="form-control" id="specItem3" name="specItem" /></td></tr>
+                                                </tbody>
+                                            </table>
+										</div>
+                                    </div>
+									<div class="form-group">
+            							<label class="col-md-2 control-label">商品库存</label>
+                    					<div class="col-md-9">
+											<div id="skuT">
+												#if($!{item.specCat})
+												<table class="table table-bordered" id="sku">
+													<thead>
+														<tr>
+															#foreach($specCat in $item.specCatList)
+															<th>$!{specCat.specCName}</th>
+															#end
+															<th class="th-price">价格（元）</th>
+															<th class="th-stock">库存</th>
+															<th class="th-code">商品编码</th>
+															<th class="th-origin">市场价格</th>
+														</tr>
+													</thead>
+													<tbody>
+														#foreach($sku in $item.skuList)
+														<tr>
+															#foreach($value in $sku.specItemValueList)
+															<td>$!{value}</td>
+															#end
+															<td><input type="text" class="form-control input-mini text-right" name="price" onblur="onPriceBlur(this);" value="$!{sku.price}" ></input></td>
+															<td><input type="text" class="form-control input-mini text-right" name="stock" onblur="onStockBlur(this);" value="$!{sku.stock}" ></input></td>
+															<td><input type="text" class="form-control input-small" name="codes" value="$!{sku.codes}" ></input></td>
+															<td><input type="text" class="form-control input-mini text-right" name="origin" onblur="onOriginBlur(this);" value="$!{sku.origin}" ></input></td>
+															<input type="hidden" name="properties" value="$!{sku.properties}" ></input>
+															<input type="hidden" name="propertiesName" value="$!{sku.propertiesName}" ></input>
+														</tr>
+														#end
+													</tbody>
+												</table>
+												#end
+											</div>
+                                        </div>
+                                    </div>
+									<div class="form-inline form-group">
+            							<label class="col-md-2 control-label">总库存</label>
+                    					<div class="col-md-6">
+											<label>
+												<input type="text" class="form-control" id="stock" name="item.stock" value="$!{item.stock}" />
+                                                <input type="checkbox" name="hide_stock" value="0">页面不显示商品库存
+                                            </label>
+                                        </div>
+                                    </div>
+									<div class="form-group">
+            							<label class="col-md-2 control-label">商家编码</label>
+                    					<div class="col-md-3">
+											<input type="text" class="form-control" name="" />
+                                        </div>
+                                    </div>
+								</div>
+							</div>
+    						
+							<div class="panel panel-default">
+								<div class="panel-heading">物流/其它</div>
+								<div class="panel-body">
+									<div class="form-inline form-group">
+            							<label class="col-md-3 control-label">运费设置</label>
+                    					<div class="col-md-5">
+											<label>
+                                                <input type="radio" name="" value="0" checked /> 统一邮费
+												<div class="input-group">
+                        							<div class="input-group-addon">￥</div>
+    												<input type="text" class="form-control" id="postage" name="item.postage" value="$!{item.postage}" onblur='onPostageBlur(this);' />
+                        						</div>
+                                            </label>
+                                        </div>
+                                    </div>
+									<div class="form-inline form-group">
+            							<label class="col-md-3 control-label">每人限购</label>
+                    					<div class="col-md-5">
+                    						<input type="text" class="form-control" name="item.quota" value="$!{item.quota}" placeholder="必填" />
+											0 代表不限购
+                                        </div>
+                                    </div>
+								</div>
+							</div>
+							
+							<input type="hidden" id="isDisplay" name="item.isDisplay" />
+							<input type="hidden" name="itemId" value="$!{item.itemId}" />
+                        </form>
+                    </div>
+        			<div class="modal-footer">
+        				<a class="btn btn-primary" href="javascript:update('Y');">保存并上架</a>
+						<a class="btn btn-primary" href="javascript:update('N');">保存并下架</a>
+						<a class="btn btn-default" href="#">取消</a>
+        			</div>
+                </div>
+          	</div>
+        </div>
+		#parse("/kmall/framework/footer.vm")
+
+        <!-- Upload Modal -->
+        <div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="uploadModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header" style="border-bottom: 0px solid #e5e5e5; padding-bottom: 0;">
+						<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+						<ul class="nav nav-tabs" role="tablist" id="myTab">
+        					<li class="active"><a href="#select" role="tab" data-toggle="tab">选择已上传图片</a></li>
+        					<li><a href="#upload" role="tab" data-toggle="tab">上传图片</a></li>
+                        </ul>
+					</div>
+					<!-- tab-content -->
+        			<div class="tab-content">
+            			<!-- select -->
+            			<div class="tab-pane active" id="select">
+                			<div class="modal-body">
+								<form class="form-horizontal" role="form">
+    								<div id="pic4select" class="form-group" style="margin-right: 0; margin-left: 0; margin-top: -10px;">
+        								#foreach($fileInfo in $fileList)
+        								<div class="col-md-3 picture">
+											<label class="checkbox-inline">
+                                                <input style="margin-top: 35px;" type="checkbox" name="picId" value="$!{fileInfo.fileId}~!@#$%^&*()_+$!{fileInfo.filePath}"></input>
+            									<a href="$!{fileInfo.filePath}" target="_blank">
+                                                    <img class="img-thumbnail" style="height: 80px;" src="$!{fileInfo.filePath}"></img>
+                                                </a>
+                                            </label>
+                                        </div>
+										#end
+                                    </div>
+									<ul class="pager" style="margin: 0;">
+    									<li class="disabled" id="previous"><a class="glyphicon glyphicon-chevron-left" href="javascript:previous();"></a></li>
+                                        <span id="pp">$!{p}</span> / <span id="tt">$!{total}</span>
+    									<li id="next"><a class="glyphicon glyphicon-chevron-right" href="javascript:next();"></a></li>
+                                        <input type="hidden" id="p" value="$!{p}"></input>
+										<input type="hidden" id="total" value="$!{total}"></input>
+                                    </ul>
+                                </form>
+                			</div>
+                			<div class="modal-footer">
+        						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        						<a class="btn btn-primary" href="javascript:selectedPic();">确认选中图片</a>
+        					</div>
+                        </div>
+            			<!-- upload -->
+            			<div class="tab-pane" id="upload">
+                			<div class="modal-body">
+                				<div>
+            						<form class="dropzone" id="uploadDropzone">
+            							<div class="dz-default dz-message"></div>
+            						</form>
+                                </div>
+                			</div>
+                			<div class="modal-footer">
+        						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        						<a class="btn btn-primary" href="javascript:selectPic();">确认选中图片</a>
+        					</div>
+                        </div>
+        			</div>
+        			<!-- tab-content -->
+        		</div>
+        		<!-- modal-content -->
+        	</div>
+        	<!-- modal-dialog -->
+		</div>
+
+		<iframe id="hideFrame" name="hideFrame" style="display:none"></iframe>
+		#JSM(["ext", "jquery", "bootstrap", "dropzone", "select2", "pnotify", "top"])
+		#JS_ENV_VAL()
+		<script type="text/javascript">
+		var specCat = '$!{item.specCat}';
+		var specItem = '$!{item.specItem}';
+        </script>
+		<script type="text/javascript" src="$!{env.imgUrl}/js/kmall/item/itemDetail.js"></script>
+	</body>
+</html>

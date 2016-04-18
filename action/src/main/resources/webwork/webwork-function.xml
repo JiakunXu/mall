@@ -1,0 +1,13 @@
+<!DOCTYPE xwork PUBLIC "-//OpenSymphony Group//XWork 1.1.1//EN" "http://www.opensymphony.com/xwork/xwork-1.1.1.dtd">
+<xwork>
+	<package name="{http://kmall}kmall$function"
+		extends="{http://kmall}kmall$framework" namespace="/function">
+
+		<action name="functionAction" class="functionAction" >
+			<interceptor-ref name="authenticationStack" />
+			<result name="searchFunAction4Role">/kmall/function/searchFunAction4Role.vm</result>
+			<result name="searchFunAction">/kmall/function/searchFunAction.vm</result>
+		</action>
+
+	</package>
+</xwork>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="GB2312"?>
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="item.tag">
+	
+	<typeAlias alias="itemTag" type="com.kintiger.mall.api.item.bo.ItemTag" />
+	
+	<update id="updateItemTag" parameterClass="itemTag">
+	<![CDATA[
+		UPDATE MALL.MALL_TB_ITEM_TAG t
+		SET t.modify_date = sysdate,
+		  t.modify_user   = #modifyUser#,
+		  t.state         = 'D'
+		WHERE t.state     = 'U'
+		AND t.item_id     = #itemId#
+	]]>
+	</update>
+	
+</sqlMap>

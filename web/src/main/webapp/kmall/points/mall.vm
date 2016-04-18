@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>积分商城 － Kmall</title>
+		#ICON()
+        #CSSM(["ext", "nav", "bootstrap.docs", "bootstrap", "pnotify", "conflict"])
+		<style>
+		.form-group { padding-right: 5px; padding-left: 5px; }
+		.form-inline .form-control { height: 26px; }
+		</style>
+		#UA()
+	</head>
+	<body>
+		<div class="global-reset global-container global-type-global">
+    		#parse("/kmall/framework/top.vm")
+            <div class="global-common-a">
+				<div class="global">
+					<div class="global-header fn-clear">
+						<div class="global-header-content">
+							<div class="global-logo">
+                                <a herf="#"></a>
+                            </div>
+                            <div class="global-logo-neighbor"></div>
+							<ul class="global-nav">
+								<li class="global-nav-item"><a href="$!{env.appUrl}/shop/index.htm">店铺管理</a></li>
+                                <li class="global-nav-item"><a href="$!{env.appUrl}/item/index.htm">商品管理</a></li>
+                                <li class="global-nav-item"><a href="$!{env.appUrl}/trade/index.htm">交易管理</a></li>
+								<li class="global-nav-item global-nav-item-current">
+									<a href="$!{env.appUrl}/market/index.htm">市场营销</a>
+									<span class="global-nav-item-arrow">◆</span>
+									<span class="global-nav-item-arrow global-nav-item-arrow-border">◆</span>
+								</li>
+								<li class="global-nav-item"><a href="$!{env.appUrl}/member/index.htm">会员管理</a></li>
+                            </ul>
+                        </div>
+                    </div>
+					<div class="global-subheader">
+                        <ul class="global-subnav">
+							<li class="global-subnav-item"><a href="$!{env.appUrl}/market/index.htm">营销概况</a></li>
+							<li class="global-subnav-item global-subnav-item-current"><a href="$!{env.appUrl}/points/pointsMall.htm">积分商城</a></li>
+							<li class="global-subnav-item"><a href="$!{env.appUrl}/points/pointsCard.htm">积分充值</a></li>
+							<li class="global-subnav-item"><a href="$!{env.appUrl}/advert/index.htm">广告投放</a></li>
+						</ul>
+                    </div>
+                </div>
+			</div>
+        </div>
+		
+		<div class="container">
+			<div class="col-md-2">
+				<div class="panel panel-default">
+    				<div class="panel-body">
+						<span class="glyphicon glyphicon-paperclip"></span><small> 积分商城的商品与商品管理的商品信息一致</small>
+    				</div>
+    			</div>
+            </div>
+			
+			<div class="col-md-10">
+    			<div class="panel panel-default">
+    				<div class="panel-body">
+            			<div class="bs-callout bs-callout-info">
+							<form class="form-inline" role="form" method="post">
+                				<div class="form-group">
+                					<label>兑换商品</label>
+                					<input class="form-control" style="width: 130px;" type='text' id='itemName' />
+                                </div>
+								<div class="form-group">
+									<a class="btn btn-primary btn-xs" href="javascript:search();">查询</a>
+            						<a class="btn btn-default btn-xs" href="javascript:resets();">重置</a>
+                                </div>
+                            </form>
+                        </div>
+            			
+            			<div class="cent_border">
+            				<div id="gridList" class="ext-grid-mask"></div>
+            			</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+		#parse("/kmall/framework/footer.vm")
+		
+		<iframe id="hideFrame" name="hideFrame" style="display:none"></iframe>
+		#JSM(["ext", "jquery", "bootstrap", "pnotify", "top"])
+		#JS_ENV_VAL()
+		<script type="text/javascript">
+		var store;
+        </script>
+       	<script type="text/javascript" src="$!{env.imgUrl}/js/kmall/points/mall.js"></script>
+	</body>
+</html>

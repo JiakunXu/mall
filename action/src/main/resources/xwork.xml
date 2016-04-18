@@ -1,0 +1,32 @@
+<!DOCTYPE xwork PUBLIC "-//OpenSymphony Group//XWork 1.1.1//EN" "http://www.opensymphony.com/xwork/xwork-1.1.1.dtd">
+<xwork>
+	<include file="webwork-default.xml" />
+	<include file="webwork/webwork-framework.xml" />
+	<include file="webwork/webwork-account.xml" />
+	<include file="webwork/webwork-advert.xml" />
+	<include file="webwork/webwork-agreement.xml" />
+	<include file="webwork/webwork-cart.xml" />
+	<include file="webwork/webwork-company.xml" />
+	<include file="webwork/webwork-error.xml" />
+	<include file="webwork/webwork-express.xml" />
+	<include file="webwork/webwork-favorite.xml" />
+	<include file="webwork/webwork-file.xml" />
+	<include file="webwork/webwork-function.xml" />
+	<include file="webwork/webwork-help.xml" />
+	<include file="webwork/webwork-item.xml" />
+	<include file="webwork/webwork-login.xml" />
+	<include file="webwork/webwork-market.xml" />
+	<include file="webwork/webwork-member.xml" />
+	<include file="webwork/webwork-module.xml" />
+	<include file="webwork/webwork-monitor.xml" />
+	<include file="webwork/webwork-notify.xml" />
+	<include file="webwork/webwork-points.xml" />
+	<include file="webwork/webwork-portal.xml" />
+	<include file="webwork/webwork-register.xml" />
+	<include file="webwork/webwork-role.xml" />
+	<include file="webwork/webwork-settlement.xml" />
+	<include file="webwork/webwork-shop.xml" />
+	<include file="webwork/webwork-spec.xml" />
+	<include file="webwork/webwork-trade.xml" />
+	<include file="webwork/webwork-user.xml" />
+</xwork>

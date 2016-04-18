@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="shopAction" class="com.kintiger.mall.shop.action.ShopAction" parent="baseAction" scope="request">
+		<property name="shopService" ref="shopService" />
+		<property name="itemService" ref="itemService" />
+		<property name="tagService" ref="tagService" />
+		<property name="pageviewService" ref="pageviewService" />
+	</bean>
+	
+	<bean id="shopService" class="com.kintiger.mall.shop.service.impl.ShopServiceImpl">
+		<property name="memcachedCacheService" ref="memcachedCacheService" />
+		<property name="fileService" ref="fileService" />
+		<property name="shopDao" ref="shopDao" />
+	</bean>
+
+	<bean id="shopDao" class="com.kintiger.mall.shop.dao.impl.ShopDaoImpl" parent="baseDao" />
+	
+</beans>

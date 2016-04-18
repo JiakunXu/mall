@@ -1,0 +1,25 @@
+<!DOCTYPE xwork PUBLIC "-//OpenSymphony Group//XWork 1.1.1//EN" "http://www.opensymphony.com/xwork/xwork-1.1.1.dtd">
+<xwork>
+	<package name="{http://kmall}kmall$register"
+		extends="{http://kmall}kmall$framework" namespace="/register">
+
+		<action name="index" class="registerAction" method="index">
+			<result name="success">/kmall/portal/register.vm</result>
+		</action>
+		
+		<action name="registerAction" class="registerAction">
+		</action>
+		
+		<!-- mobile 客户端注册 -->
+		<action name="mindex" class="mobileRegisterAction" method="index">
+			<interceptor-ref name="shopInfoStack" />
+			<result name="success">/m/portal/register.vm</result>
+			<result name="recommend">/m/portal/recommend.vm</result>
+		</action>
+		
+		<!-- mobile -->
+		<action name="mobileRegisterAction" class="mobileRegisterAction">
+		</action>
+		
+	</package>
+</xwork>

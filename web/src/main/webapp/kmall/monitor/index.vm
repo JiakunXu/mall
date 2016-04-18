@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+    <head>
+		<title>系统监控中心</title>
+        <meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		#ICON()
+        #CSSM(["bootstrap"])
+		#UA()
+    </head>
+    <body>
+		<div class="container">
+			<div class="row">
+    			<div class="page-header">
+    				<h3>系统监控中心</h3>
+    			</div>
+            </div>
+        	<div class="row">
+        		<div class="col-xs-3">
+        			<div class="thumbnail">
+						<img class="img-responsive" src="$!{env.imgUrl}/image/monitor/JCH_JC_03.png" />
+						<div class="caption">
+            				<h4>系统操作日志</h4>
+            				<p>系统所有操作监控.</p>
+							<br />
+            				<p><a class="btn btn-default" href="javascript:f1()">查看更多 &raquo;</a></p>
+                        </div>
+        			</div>
+        		</div>
+        		<div class="col-xs-3">
+        			<div class="thumbnail">
+						<img class="img-responsive" src="$!{env.imgUrl}/image/monitor/JCH_JC_05.png" />
+						<div class="caption">
+            				<h4>系统错误日志</h4>
+            				<p>系统通过LGO.ERROR记录的错误日志.</p>
+            				<p><a class="btn btn-default" href="javascript:f2()">查看更多 &raquo;</a></p>
+                        </div>
+        			</div>
+        		</div>
+        		<div class="col-xs-3">
+        			<div class="thumbnail">
+						<img class="img-responsive" src="$!{env.imgUrl}/image/monitor/JCH_JC_07.png" />
+						<div class="caption">
+            				<h4>监控 - 接口响应</h4>
+            				<p>接口响应时间及并发请求数.</p>
+							<br />
+            				<p><a class="btn btn-default" href="javascript:f3()">查看更多 &raquo;</a></p>
+                        </div>
+        			</div>
+        		</div>
+				<div class="col-xs-3">
+        			<div class="thumbnail">
+						<img class="img-responsive" src="$!{env.imgUrl}/image/monitor/JCH_JC_09.png" />
+						<div class="caption">
+            				<h4>监控 - 缓存</h4>
+            				<p>cache监控及操作.</p>
+							<br />
+            				<p><a class="btn btn-default" href="javascript:f4()">查看更多 &raquo;</a></p>
+                        </div>
+        			</div>
+        		</div>
+        	</div>
+        </div>
+		#JS_ENV_VAL()
+		<script type="text/javascript" src="$!{env.imgUrl}/js/xplatform/monitor/index.js"></script>
+    </body>
+</html>

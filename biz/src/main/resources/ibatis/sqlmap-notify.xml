@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="GB2312"?>
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="notify">
+	
+	<typeAlias alias="notifys" type="com.kintiger.mall.api.notify.bo.Notify" />
+	
+	<select id="getNotifyCount" parameterClass="notifys" resultClass="java.lang.Integer">
+	<![CDATA[
+		SELECT COUNT(1)
+		FROM BASIS.basis_tb_notify t
+		WHERE t.state    = 'U'
+		AND t.user_id    = #userId#
+		AND t.send_date <= sysdate
+	]]>
+		<dynamic>
+			<isNotEmpty property="type" prepend="and">
+			<![CDATA[ t.type    = #type# ]]>
+			</isNotEmpty>
+			<isNotEmpty property="review" prepend="and">
+			<![CDATA[ t.review  = #review# ]]>
+			</isNotEmpty>
+			<isNotEmpty property="gmtStart" prepend="and">
+			<![CDATA[ t.send_date >= to_date(#gmtStart#, 'yyyy-mm-dd') ]]>
+			</isNotEmpty>
+			<isNotEmpty property="gmtEnd" prepend="and">
+			<![CDATA[ t.send_date < to_date(#gmtEnd#, 'yyyy-mm-dd') + 1 ]]>
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+	<select id="getNotifyList" parameterClass="notifys" resultClass="notifys">
+		<include refid="global.paginationStart" />
+	<![CDATA[
+		SELECT t.id,
+		  t.system,
+		  t.message,
+		  TO_CHAR(t.send_date,'yyyy-mm-dd hh24:mi:ss') AS sendDate,
+		  t.review,
+		  t.modify_date AS modifyDate
+		FROM BASIS.basis_tb_notify t
+		WHERE t.state    = 'U'
+		AND t.user_id    = #userId#
+		AND t.send_date <= sysdate
+	]]>
+		<dynamic>
+			<isNotEmpty property="type" prepend="and">
+			<![CDATA[ t.type    = #type# ]]>
+			</isNotEmpty>
+			<isNotEmpty property="review" prepend="and">
+			<![CDATA[ t.review  = #review# ]]>
+			</isNotEmpty>
+			<isNotEmpty property="gmtStart" prepend="and">
+			<![CDATA[ t.send_date >= to_date(#gmtStart#, 'yyyy-mm-dd') ]]>
+			</isNotEmpty>
+			<isNotEmpty property="gmtEnd" prepend="and">
+			<![CDATA[ t.send_date < to_date(#gmtEnd#, 'yyyy-mm-dd') + 1 ]]>
+			</isNotEmpty>
+		</dynamic>
+		<include refid="global.orderBy" />
+		<include refid="global.paginationEnd" />
+	</select>
+	
+	<insert id="createNotify" parameterClass="notifys">
+		<selectKey resultClass="java.lang.String" keyProperty="id">
+		<![CDATA[
+			SELECT BASIS.BASIS_SEQ_NOTIFY.nextval AS id FROM dual
+		]]>
+		</selectKey>
+	<![CDATA[
+		INSERT
+		INTO BASIS.basis_tb_notify
+		  (
+			ID,
+			TYPE,
+			SYSTEM,
+			USER_ID,
+			MESSAGE,
+			SEND_DATE,
+			REVIEW,
+			CREATE_DATE,
+			MODIFY_DATE,
+			MODIFY_USER,
+			STATE
+		  )
+		  VALUES
+		  (
+			#id:VARCHAR#,
+			#type:VARCHAR#,
+			#system:VARCHAR#,
+			#userId:VARCHAR#,
+			#message:VARCHAR#,
+	]]>
+		<dynamic>
+			<isNotEmpty property="sendDate">
+			<![CDATA[
+				to_date(#sendDate#, 'yyyy-mm-dd hh24:mi:ss'),
+			]]>
+			</isNotEmpty>
+			<isEmpty property="sendDate">
+			<![CDATA[
+				sysdate,
+			]]>
+			</isEmpty>
+		</dynamic>
+	<![CDATA[
+			'N',
+			sysdate,
+			sysdate,
+			#modifyUser:VARCHAR#,
+			'U'
+		  )
+	]]>
+	</insert>
+	
+	<update id="updateNotify" parameterClass="notifys">
+	<![CDATA[
+		UPDATE BASIS.basis_tb_notify t
+		SET t.modify_date = sysdate,
+		  t.modify_user   = #modifyUser#
+	]]>
+		<dynamic>
+			<isNotEmpty property="review" prepend=",">
+			<![CDATA[ t.review        = #review# ]]>
+			</isNotEmpty>
+		</dynamic>
+	<![CDATA[
+		WHERE t.state     = 'U'
+		AND t.user_id     = #userId#
+		AND t.id         IN
+	]]>
+		<iterate property="codes" open="(" close=")" conjunction=",">#codes[]#</iterate>
+	</update>
+	
+</sqlMap>

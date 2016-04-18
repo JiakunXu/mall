@@ -1,0 +1,34 @@
+<!DOCTYPE xwork PUBLIC "-//OpenSymphony Group//XWork 1.1.1//EN" "http://www.opensymphony.com/xwork/xwork-1.1.1.dtd">
+<xwork>
+	<package name="{http://kmall}kmall$monitor"
+		extends="{http://kmall}kmall$framework" namespace="/monitor">
+		
+		<action name="monitorAction" class="monitorAction" >
+			<interceptor-ref name="authenticationStack" />
+			<result name="index">/kmall/monitor/index.vm</result>
+		</action>
+		
+		<action name="actionMonitorAction" class="actionMonitorAction" >
+			<interceptor-ref name="authenticationStack" />
+			<result name="searchActionLog">/kmall/log/searchActionLog.vm</result>
+		</action>
+		
+		<action name="cacheMonitorAction" class="cacheMonitorAction" >
+			<interceptor-ref name="authenticationStack" />
+			<result name="searchCacheStats">/kmall/monitor/searchCacheStats.vm</result>
+			<result name="updatePrepare">/kmall/monitor/configCache.vm</result>
+			<result name="searchCacheMonitor">/kmall/monitor/searchCacheMonitor.vm</result>
+		</action>
+		
+		<action name="logMonitorAction" class="logMonitorAction" >
+			<interceptor-ref name="authenticationStack" />
+			<result name="searchLogMonitor">/kmall/log/searchLogMonitor.vm</result>
+		</action>
+		
+		<action name="methodMonitorAction" class="methodMonitorAction" >
+			<interceptor-ref name="authenticationStack" />
+			<result name="searchMethodMonitor">/kmall/monitor/searchMethodMonitor.vm</result>
+		</action>
+
+	</package>
+</xwork>

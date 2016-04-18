@@ -1,0 +1,52 @@
+<!DOCTYPE xwork PUBLIC "-//OpenSymphony Group//XWork 1.1.1//EN" "http://www.opensymphony.com/xwork/xwork-1.1.1.dtd">
+<xwork>
+	<package name="{http://kmall}kmall$member"
+		extends="{http://kmall}kmall$framework" namespace="/member">
+
+		<action name="index" class="memberAction" method="index">
+			<interceptor-ref name="authenticationStack" />
+			<result name="success">/kmall/member/index.vm</result>
+		</action>
+		
+		<action name="memberAction" class="memberAction">
+			<interceptor-ref name="authenticationStack" />
+			<result name="searchMember">/kmall/member/searchMember.vm</result>
+		</action>
+		
+		<action name="memberPointsAction" class="memberPointsAction">
+			<interceptor-ref name="authenticationStack" />
+		</action>
+		
+		<action name="memberInfoAction" class="memberInfoAction">
+			<interceptor-ref name="authenticationStack" />
+		</action>
+		
+		<!-- mobile -->
+		<action name="memberCenter" class="memberAction" method="memberCenter">
+			<interceptor-ref name="shopInfo" />
+			<interceptor-ref name="authenticationStack" />
+			<result name="success">/m/member/memberCenter.vm</result>
+		</action>
+		
+		<!-- mobile -->
+		<action name="member" class="memberAction" method="member">
+			<interceptor-ref name="shopInfo" />
+			<interceptor-ref name="authenticationStack" />
+			<result name="success">/m/member/member.vm</result>
+		</action>
+		
+		<!-- mobile -->
+		<action name="memberPoints" class="memberPointsAction" method="searchMemberPoints">
+			<interceptor-ref name="shopInfo" />
+			<interceptor-ref name="authenticationStack" />
+			<result name="success">/m/member/memberPoints.vm</result>
+		</action>
+		
+		<!-- mobile -->
+		<action name="memberInfo" class="memberInfoAction" method="searchMemberInfo">
+			<interceptor-ref name="authenticationStack" />
+			<result name="success">/m/member/memberInfo.vm</result>
+		</action>
+		
+	</package>
+</xwork>

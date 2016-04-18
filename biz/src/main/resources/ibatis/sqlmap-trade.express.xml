@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="GB2312"?>
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="trade.express">
+	
+	<typeAlias alias="tradeExpress" type="com.kintiger.mall.api.trade.bo.TradeExpress" />
+	
+	<insert id="createTradeExpress" parameterClass="tradeExpress">
+		<selectKey resultClass="java.lang.String" keyProperty="id">
+		<![CDATA[
+			SELECT MALL.MALL_SEQ_TRADE_EXPRESS.NEXTVAL FROM DUAL
+		]]>
+		</selectKey>
+	<![CDATA[
+		INSERT
+		INTO MALL.MALL_TB_TRADE_EXPRESS
+		  (
+			ID,
+			TRADE_ID,
+			EPS_ID,
+			EPS_NO,
+			STATE,
+			CREATE_DATE,
+			MODIFY_DATE,
+			MODIFY_USER
+		  )
+		  VALUES
+		  (
+			#id#,
+			#tradeId#,
+			#epsId#,
+			#epsNo#,
+			'U',
+			sysdate,
+			sysdate,
+			#modifyUser#
+		  )			
+	]]>
+	</insert>
+	
+	<select id="getTradeExpressList" parameterClass="tradeExpress" resultClass="tradeExpress">
+	<![CDATA[
+		SELECT t.id,
+		  t.eps_no   AS epsNo,
+		  p.eps_name AS epsName,
+		  p.api,
+		  p.mobile_api AS mobileApi
+		FROM MALL.MALL_TB_TRADE_EXPRESS t ,
+		  MALL.MALL_TB_EXPRESS p
+		WHERE t.eps_id = p.eps_id
+		AND t.state    = 'U'
+		AND p.state    = 'U'
+		AND t.trade_id = #tradeId#
+	]]>
+	</select>
+	
+</sqlMap>

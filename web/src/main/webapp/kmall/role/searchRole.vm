@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+    <head>
+		<title>角色配置</title>
+        <meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		#ICON()
+        #CSSM(["ext", "bootstrap", "conflict"])
+		#UA()
+	</head>
+	<body>
+		<div class="container">
+			<div class="page-header-sm">
+				<h3>
+					<small>角色配置</small>
+					<div class="pull-right">
+						<a class="btn btn-primary btn-xs" href="javascript:createRole();">创建角色</a>
+						<a class="btn btn-default btn-xs" href="javascript:syncSAPRole();">同步ERP角色</a>
+                    </div>
+				</h3>
+			</div>
+        	<form class="well well-sm" role="form" method="post">
+				<div class="row">
+					<label class="col-xs-1 text-right">角色编号</label>
+					<div class="col-xs-2">
+						<input type="text" id="roleId" />
+                    </div>
+					<label class="col-xs-1 text-right">角色名称</label>
+					<div class="col-xs-2">
+						<input type='text' id='roleName' />
+                    </div>
+					<div class="col-xs-3">
+						<a class="btn btn-primary btn-xs" href="javascript:search();">查询</a>
+						<a class="btn btn-default btn-xs" href="javascript:resets();">重置</a>
+						<a class="btn btn-default btn-xs" href="javascript:trigger();" id="trigger">收起更多</a>
+                    </div>
+				</div>
+				<div class="row" id="more1">
+					<label class="col-xs-1 text-right">角色类型</label>
+					<div class="col-xs-2">
+						<input type='text' id='type' />
+                    </div>
+					<label class="col-xs-1 text-right">默认角色</label>
+					<div class="col-xs-2">
+						<input type='text' id='defaults' />
+                    </div>
+				</div>
+				<div class="row" id="more2">
+					<label class="col-xs-1 text-right">分配岗位</label>
+					<div class="col-xs-2">
+						<input type='text' id='staState' />
+                    </div>
+					<label class="col-xs-1 text-right">分配人员</label>
+					<div class="col-xs-2">
+						<input type='text' id='userState' />
+                    </div>
+				</div>
+            </form>
+			<div class="cent_border">
+				<div id="gridList" class="ext-grid-mask"></div>
+			</div>
+        </div>
+		<iframe id="hideFrame" name="hideFrame" style="display:none"></iframe>
+		#JSM(["common", "ext", "jquery"])
+        #JS_ENV_VAL()
+        <script type="text/javascript">
+        var store;
+        </script>
+        <script type="text/javascript" src="$!{env.imgUrl}/js/xplatform/role/searchRole.js"></script>
+	</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+    <head>
+		<title>角色查询</title>
+        <meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		#ICON()
+        #CSSM(["ext", "bootstrap", "conflict"])
+		#UA()
+	</head>
+	<body>
+		<div class="container" style="width:95%;">
+			<div class="page-header-sm">
+				<h3>
+					<small>角色查询</small>
+					<div class="pull-right">
+						<a class="btn btn-primary btn-xs" href="javascript:window.close();">关闭</a>
+                    </div>
+				</h3>
+			</div>
+        	<form class="well well-sm" role="form" method="post">
+				<div class="">
+					<label class="col-xs-1 text-right">编号</label>
+					<div class="col-xs-2">
+						<input type="text" id="roleId" value="$!{roleId}" />
+                    </div>
+					<label class="col-xs-1 text-right">名称</label>
+					<div class="col-xs-2">
+						<input type="text" id="roleName" value="$!{roleName}" />
+                    </div>
+					<div class="pull-right">
+						<a class="btn btn-primary btn-xs" href="javascript:search();">查询</a>
+						<a class="btn btn-default btn-xs" href="javascript:resets();">重置</a>
+                    </div>
+				</div>
+            </form>
+			<div class="cent_border">
+				<div id="gridList" class="ext-grid-mask"></div>
+			</div>
+        </div>
+		#JSM(["common", "ext", "jquery"])
+        #JS_ENV_VAL()
+        <script type="text/javascript">
+        var menuId = '$!{menuId}';
+        </script>
+        <script type="text/javascript" src="$!{env.imgUrl}/js/xplatform/role/searchRole4Config.js"></script>
+	</body>
+</html>

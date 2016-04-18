@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="GB2312"?>
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="user">
+	
+	<typeAlias alias="user" type="com.kintiger.mall.api.user.bo.User" />
+	
+	<insert id="createUser" parameterClass="user">
+		<selectKey resultClass="java.lang.String" keyProperty="userId">
+		<![CDATA[
+			SELECT MALL.MALL_SEQ_USER.NEXTVAL FROM dual
+		]]>
+		</selectKey>
+	<![CDATA[
+		INSERT
+		INTO MALL.MALL_TB_USER
+		  (
+			USER_ID,
+			USER_NAME,
+			PASSPORT,
+			PASSWORD,
+			MOBILE,
+			EMAIL,
+			STATE,
+			CREATE_DATE,
+			MODIFY_DATE,
+			MODIFY_USER
+		  )
+		  VALUES
+		  (
+			#userId:VARCHAR#,
+			#userName:VARCHAR#,
+			upper(#passport:VARCHAR#),
+			#password:VARCHAR#,
+			#mobile:VARCHAR#,
+			#email:VARCHAR#,
+			'U',
+			sysdate,
+			sysdate,
+			#userId:VARCHAR#
+		  )
+	]]>
+	</insert>
+	
+	<select id="getUser4Validate" parameterClass="java.lang.String" resultClass="user">
+	<![CDATA[
+		SELECT t.user_id AS userId,
+		  t.passport,
+		  t.password,
+		  t.user_name AS userName,
+		  t.email
+		FROM MALL.MALL_TB_USER t
+		WHERE t.state  = 'U'
+		AND t.passport = upper(#possport#)
+	]]>
+	</select>
+	
+	<select id="getUser" parameterClass="user" resultClass="user">
+	<![CDATA[
+		SELECT t.user_id AS userId,
+		  t.passport,
+		  t.user_name AS userName,
+		  t.mobile,
+		  t.email
+		FROM MALL.MALL_TB_USER t
+		WHERE t.state = 'U'
+		AND t.user_id = #userId#
+	]]>
+	</select>
+	
+	<update id="updateUser" parameterClass="user">
+	<![CDATA[
+		UPDATE MALL.MALL_TB_USER t
+		SET t.modify_date = sysdate,
+		  t.modify_user   = #modifyUser#,
+		  t.user_name     = #userName#
+	]]>
+		<dynamic>
+			<isNotNull property="email" prepend=",">
+			<![CDATA[ t.email         = #email# ]]>
+			</isNotNull>
+		</dynamic>
+	<![CDATA[
+		WHERE t.state     = 'U'
+		AND t.user_id     = #userId#
+	]]>
+	</update>
+	
+	<update id="updatePassword" parameterClass="user">
+	<![CDATA[
+		UPDATE MALL.MALL_TB_USER t
+		SET t.modify_date = sysdate,
+		  t.modify_user   = #modifyUser#,
+		  t.password      = #password#
+		WHERE t.state     = 'U'
+		AND t.user_id     = #userId#
+	]]>
+		<dynamic>
+			<isNotEmpty property="oldPassword" prepend="and">
+			<![CDATA[ t.password = #oldPassword# ]]>
+			</isNotEmpty>
+		</dynamic>
+	</update>
+	
+</sqlMap>

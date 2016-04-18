@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="functionAction" class="com.kintiger.mall.function.action.FunctionAction" scope="request" parent="baseAction">
+		<property name="functionService" ref="functionService" />
+	</bean>
+	
+	<bean id="functionService" class="com.kintiger.mall.function.service.impl.FunctionServiceImpl">
+		<property name="transactionTemplate" ref="transactionTemplate" />
+		<property name="functionDao" ref="functionDao" />
+	</bean>
+	
+	<bean id="functionDao" class="com.kintiger.mall.function.dao.impl.FunctionDaoImpl" parent="baseDao" />
+	
+</beans>

@@ -1,0 +1,12 @@
+<!DOCTYPE xwork PUBLIC "-//OpenSymphony Group//XWork 1.1.1//EN" "http://www.opensymphony.com/xwork/xwork-1.1.1.dtd">
+<xwork>
+	<package name="{http://kmall}kmall$help"
+		extends="{http://kmall}kmall$framework" namespace="/help">
+
+		<action name="helpAction" class="helpAction" >
+			<interceptor-ref name="authenticationStack" />
+			<result name="index">/kmall/help/index.vm</result>
+		</action>
+		
+	</package>
+</xwork>

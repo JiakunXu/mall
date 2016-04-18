@@ -1,0 +1,414 @@
+<?xml version="1.0" encoding="GB2312"?>
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="trade">
+	
+	<typeAlias alias="trade" type="com.kintiger.mall.api.trade.bo.Trade" />
+	
+	<select id="getTradeStats" parameterClass="trade" resultClass="trade">
+		<dynamic>
+			<isEqual property="type" compareValue="create">
+			<![CDATA[
+				SELECT TO_CHAR(t.create_date, 'yyyy-mm-dd') AS dates,
+				  COUNT(1)                                  AS COUNT
+				FROM MALL.MALL_TB_TRADE t
+				WHERE t.state      = 'U'
+				AND t.shop_id      = #shopId#
+				AND t.create_date >= to_date(#gmtStart#, 'yyyy-mm-dd')
+				AND t.create_date  < to_date(#gmtEnd#, 'yyyy-mm-dd') + 1
+				GROUP BY TO_CHAR(t.create_date, 'yyyy-mm-dd')
+				ORDER BY dates ASC
+			]]>
+			</isEqual>
+			<isEqual property="type" compareValue="pay">
+			<![CDATA[
+				SELECT TO_CHAR(t.pay_date, 'yyyy-mm-dd') AS dates,
+				  COUNT(1)                               AS COUNT
+				FROM MALL.MALL_TB_TRADE t
+				WHERE t.state   = 'U'
+				AND t.shop_id   = #shopId#
+				AND t.pay_date >= to_date(#gmtStart#, 'yyyy-mm-dd')
+				AND t.pay_date  < to_date(#gmtEnd#, 'yyyy-mm-dd') + 1
+				GROUP BY TO_CHAR(t.pay_date, 'yyyy-mm-dd')
+				ORDER BY dates ASC
+			]]>
+			</isEqual>
+			<isEqual property="type" compareValue="send">
+			<![CDATA[
+				SELECT TO_CHAR(t.send_date, 'yyyy-mm-dd') AS dates,
+				  COUNT(1)                                AS COUNT
+				FROM MALL.MALL_TB_TRADE t
+				WHERE t.state    = 'U'
+				AND t.shop_id    = #shopId#
+				AND t.send_date >= to_date(#gmtStart#, 'yyyy-mm-dd')
+				AND t.send_date  < to_date(#gmtEnd#, 'yyyy-mm-dd') + 1
+				GROUP BY TO_CHAR(t.send_date, 'yyyy-mm-dd')
+				ORDER BY dates ASC
+			]]>
+			</isEqual>
+			<isEqual property="type" compareValue="sign">
+			<![CDATA[
+				SELECT TO_CHAR(t.sign_date, 'yyyy-mm-dd') AS dates,
+				  COUNT(1)                                AS COUNT
+				FROM MALL.MALL_TB_TRADE t
+				WHERE t.state    = 'U'
+				AND t.shop_id    = #shopId#
+				AND t.sign_date >= to_date(#gmtStart#, 'yyyy-mm-dd')
+				AND t.sign_date  < to_date(#gmtEnd#, 'yyyy-mm-dd') + 1
+				GROUP BY TO_CHAR(t.sign_date, 'yyyy-mm-dd')
+				ORDER BY dates ASC
+			]]>
+			</isEqual>
+			<isEqual property="type" compareValue="cancel">
+			<![CDATA[
+				SELECT TO_CHAR(t.modify_date, 'yyyy-mm-dd') AS dates,
+				  COUNT(1)                                  AS COUNT
+				FROM MALL.MALL_TB_TRADE t
+				WHERE t.state      = 'U'
+				AND t.type         = 'cancel'
+				AND t.shop_id      = #shopId#
+				AND t.modify_date >= to_date(#gmtStart#, 'yyyy-mm-dd')
+				AND t.modify_date  < to_date(#gmtEnd#, 'yyyy-mm-dd') + 1
+				GROUP BY TO_CHAR(t.modify_date, 'yyyy-mm-dd')
+				ORDER BY dates ASC
+			]]>
+			</isEqual>
+		</dynamic>
+	</select>
+	
+	<select id="getTradeRevenue" parameterClass="trade" resultClass="java.lang.Integer">
+	<![CDATA[
+		SELECT NVL(SUM(t.trade_price- t.coupon_price + t.postage + t.change), 0)
+		FROM MALL.MALL_TB_TRADE t
+		WHERE t.state      = 'U'
+		AND t.type        IN ('tosend','send','sign')
+		AND t.shop_id      = #shopId#
+		AND t.create_date >= to_date(#gmtStart#, 'yyyy-mm-dd')
+		AND t.create_date  < to_date(#gmtEnd#, 'yyyy-mm-dd') + 1
+	]]>
+	</select>
+	
+	<select id="getTradeCount" parameterClass="trade" resultClass="java.lang.Integer">
+	<![CDATA[
+		SELECT COUNT(1)
+		FROM MALL.MALL_TB_TRADE t
+		WHERE t.state = 'U'
+		AND t.shop_id = #shopId#
+	]]>
+		<dynamic>
+			<isNotEmpty property="type">
+				<isNotEqual property="type" compareValue="star" prepend="and">
+				<![CDATA[ t.type = #type# ]]>
+				</isNotEqual>
+				<isEqual property="type" compareValue="star" prepend="and">
+				<![CDATA[ t.score > 0 ]]>
+				</isEqual>
+			</isNotEmpty>
+			<isNotEmpty property="shipment" prepend="and">
+			<![CDATA[ t.shipment = #shipment# ]]>
+			</isNotEmpty>
+			<isNotEmpty property="codes" prepend="and">
+			<![CDATA[ t.type IN ]]>
+				<iterate property="codes" open="(" close=")" conjunction=",">#codes[]#</iterate>
+			</isNotEmpty>
+			<isNotEmpty property="userId" prepend="and">
+			<![CDATA[ t.user_id = #userId# ]]>
+			</isNotEmpty>
+			<isNotEmpty property="tradeNo" prepend="and">
+			<![CDATA[ t.trade_no like #tradeNo,handler=wildcard# ]]>
+			</isNotEmpty>
+			<isNotEmpty property="receiverName" prepend="and">
+			<![CDATA[ t.receiver_name like #receiverName,handler=wildcard# ]]>
+			</isNotEmpty>
+			<isNotEmpty property="receiverTel" prepend="and">
+			<![CDATA[ t.receiver_tel like #receiverTel,handler=wildcard# ]]>
+			</isNotEmpty>
+			
+			<!-- 下单  -->
+			<isNotEmpty property="gmtStart" prepend="and">
+			<![CDATA[ t.create_date >= to_date(#gmtStart#, 'yyyy-mm-dd') ]]>
+			</isNotEmpty>
+			<isNotEmpty property="gmtEnd" prepend="and">
+			<![CDATA[ t.create_date < to_date(#gmtEnd#, 'yyyy-mm-dd') + 1 ]]>
+			</isNotEmpty>
+			
+			<!-- 付款  -->
+			<isNotEmpty property="payDate" prepend="and">
+			<![CDATA[ t.pay_date >= to_date(#payDate#, 'yyyy-mm-dd') ]]>
+			</isNotEmpty>
+			<isNotEmpty property="payDate" prepend="and">
+			<![CDATA[ t.pay_date < to_date(#payDate#, 'yyyy-mm-dd') + 1 ]]>
+			</isNotEmpty>
+			
+			<!-- 发货  -->
+			<isNotEmpty property="sendDate" prepend="and">
+			<![CDATA[ t.send_date >= to_date(#sendDate#, 'yyyy-mm-dd') ]]>
+			</isNotEmpty>
+			<isNotEmpty property="sendDate" prepend="and">
+			<![CDATA[ t.send_date < to_date(#sendDate#, 'yyyy-mm-dd') + 1 ]]>
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<select id="getTradeList" parameterClass="trade" resultClass="trade">
+		<include refid="global.paginationStart" />
+	<![CDATA[
+		SELECT t.trade_id AS tradeId,
+		  t.trade_no      AS tradeNo,
+		  t.trade_price   AS tradePrice,
+		  t.coupon_price  AS couponPrice,
+		  t.postage,
+		  t.change,
+		  t.receiver_name                                    AS receiverName,
+		  t.receiver_tel                                     AS receiverTel,
+		  TO_CHAR(t.create_date,'yyyy-mm-dd hh24:mi:ss')     AS createDate,
+		  TO_CHAR(t.modify_date,'yyyy-mm-dd hh24:mi:ss')     AS modifyDate,
+		  TO_CHAR(t.pay_date,'yyyy-mm-dd hh24:mi:ss')        AS payDate,
+		  TO_CHAR(t.send_date,'yyyy-mm-dd hh24:mi:ss')       AS sendDate,
+		  TO_CHAR(t.sign_date,'yyyy-mm-dd hh24:mi:ss')       AS signDate,
+		  TO_CHAR(t.feedback_date,'yyyy-mm-dd hh24:mi:ss')   AS feedbackDate,
+		  TO_CHAR(t.feedbacked_date,'yyyy-mm-dd hh24:mi:ss') AS feedbackedDate,
+		  t.type,
+		  t.score,
+		  t.trade_points AS tradePoints,
+		  t.shipment,
+		  t.feedback_type AS feedbackType,
+		  t.user_id       AS userId
+		FROM MALL.MALL_TB_TRADE t
+		WHERE t.state = 'U'
+		AND t.shop_id = #shopId#
+	]]>
+		<dynamic>
+			<isNotEmpty property="type">
+				<isNotEqual property="type" compareValue="star" prepend="and">
+				<![CDATA[ t.type = #type# ]]>
+				</isNotEqual>
+				<isEqual property="type" compareValue="star" prepend="and">
+				<![CDATA[ t.score > 0 ]]>
+				</isEqual>
+			</isNotEmpty>
+			<isNotEmpty property="shipment" prepend="and">
+			<![CDATA[ t.shipment = #shipment# ]]>
+			</isNotEmpty>
+			<isNotEmpty property="codes" prepend="and">
+			<![CDATA[ t.type IN ]]>
+				<iterate property="codes" open="(" close=")" conjunction=",">#codes[]#</iterate>
+			</isNotEmpty>
+			<isNotEmpty property="userId" prepend="and">
+			<![CDATA[ t.user_id = #userId# ]]>
+			</isNotEmpty>
+			<isNotEmpty property="tradeNo" prepend="and">
+			<![CDATA[ t.trade_no like #tradeNo,handler=wildcard# ]]>
+			</isNotEmpty>
+			<isNotEmpty property="receiverName" prepend="and">
+			<![CDATA[ t.receiver_name like #receiverName,handler=wildcard# ]]>
+			</isNotEmpty>
+			<isNotEmpty property="receiverTel" prepend="and">
+			<![CDATA[ t.receiver_tel like #receiverTel,handler=wildcard# ]]>
+			</isNotEmpty>
+		</dynamic>
+		<include refid="global.orderBy" />
+		<include refid="global.paginationEnd" />
+	</select>
+	
+	<update id="updateTrade" parameterClass="trade">
+	<![CDATA[
+		UPDATE MALL.MALL_TB_TRADE t
+		SET t.modify_date = sysdate,
+		  t.modify_user   = #modifyUser#
+	]]>
+		<dynamic>
+			<isNotEmpty property="score" prepend=",">
+			<![CDATA[ t.score         = #score# ]]>
+			</isNotEmpty>
+			<isNotEmpty property="type" prepend=",">
+			<![CDATA[ t.type          = #type# ]]>
+			</isNotEmpty>
+			<isNotEmpty property="type">
+				<isEqual property="type" compareValue="tosend" prepend=",">
+				<![CDATA[ t.PAY_DATE = sysdate ]]>
+				</isEqual>
+				<isEqual property="type" compareValue="send" prepend=",">
+				<![CDATA[ t.SEND_DATE = sysdate ]]>
+				</isEqual>
+				<isEqual property="type" compareValue="sign" prepend=",">
+				<![CDATA[ t.SIGN_DATE = sysdate ]]>
+				</isEqual>
+				<isEqual property="type" compareValue="feedback" prepend=",">
+				<![CDATA[ t.FEEDBACK_DATE = sysdate ]]>
+				</isEqual>
+				<isEqual property="type" compareValue="feedbacked" prepend=",">
+				<![CDATA[ t.FEEDBACKED_DATE = sysdate ]]>
+				</isEqual>
+			</isNotEmpty>
+			<isNotEmpty property="receiverName" prepend=",">
+			<![CDATA[ t.receiver_name = #receiverName# ]]>
+			</isNotEmpty>
+			<isNotEmpty property="receiverProvince" prepend=",">
+			<![CDATA[ t.receiver_province = #receiverProvince# ]]>
+			</isNotEmpty>
+			<isNotEmpty property="receiverCity" prepend=",">
+			<![CDATA[ t.receiver_city = #receiverCity# ]]>
+			</isNotEmpty>
+			<isNotEmpty property="receiverArea" prepend=",">
+			<![CDATA[ t.receiver_area = #receiverArea# ]]>
+			</isNotEmpty>
+			<isNotEmpty property="receiverBackCode" prepend=",">
+			<![CDATA[ t.receiver_back_code = #receiverBackCode# ]]>
+			</isNotEmpty>
+			<isNotEmpty property="receiverAddress" prepend=",">
+			<![CDATA[ t.receiver_address = #receiverAddress# ]]>
+			</isNotEmpty>
+			<isNotEmpty property="receiverZip" prepend=",">
+			<![CDATA[ t.receiver_zip = #receiverZip# ]]>
+			</isNotEmpty>
+			<isNotEmpty property="receiverTel" prepend=",">
+			<![CDATA[ t.receiver_tel = #receiverTel# ]]>
+			</isNotEmpty>
+			<isNotEmpty property="shipment" prepend=",">
+			<![CDATA[ t.shipment = #shipment# ]]>
+			</isNotEmpty>
+			<isNotEmpty property="payType" prepend=",">
+			<![CDATA[ t.pay_type = #payType# ]]>
+			</isNotEmpty>
+			<isNotEmpty property="feedbackType" prepend=",">
+			<![CDATA[ t.feedback_type = #feedbackType# ]]>
+			</isNotEmpty>
+		</dynamic>
+	<![CDATA[
+		WHERE t.trade_id  = #tradeId#
+		AND t.shop_id     = #shopId#
+		AND t.state       = 'U'
+	]]>
+		<dynamic>
+			<isNotEmpty property="userId" prepend="and">
+			<![CDATA[ t.user_id = #userId# ]]>
+			</isNotEmpty>
+			<isNotEmpty property="type" prepend="and">
+			<![CDATA[ t.type <> #type# ]]>
+			</isNotEmpty>
+		</dynamic>
+	</update>
+	
+	<insert id="createTrade" parameterClass="trade">
+		<selectKey resultClass="java.lang.String" keyProperty="tradeId">
+		<![CDATA[
+			SELECT MALL.MALL_SEQ_TRADE.NEXTVAL FROM DUAL
+		]]>
+		</selectKey>
+	<![CDATA[
+		INSERT
+		INTO MALL.MALL_TB_TRADE
+		  (
+			TRADE_ID,
+			USER_ID,
+			SHOP_ID,
+			TRADE_PRICE,
+			COUPON_PRICE,
+			POSTAGE,
+			CHANGE,
+			TYPE,
+			TRADE_NO,
+			STATE,
+			CREATE_DATE,
+			MODIFY_DATE,
+			MODIFY_USER,
+			RECEIVER_NAME,
+			RECEIVER_PROVINCE,
+			RECEIVER_CITY,
+			RECEIVER_AREA,
+			RECEIVER_BACK_CODE,
+			RECEIVER_ADDRESS,
+			RECEIVER_ZIP,
+			RECEIVER_TEL,
+			CART_ID,
+			TRADE_POINTS,
+			SHIPMENT,
+			PAY_TYPE
+		  )
+		  VALUES
+		  (
+			#tradeId#,
+			#userId#,
+			#shopId#,
+			#tradePrice#,
+			#couponPrice#,
+			#postage#,
+			#change#,
+			#type#,
+			#tradeNo#,
+			'U',
+			sysdate,
+			sysdate,
+			#userId#,
+			#receiverName#,
+			#receiverProvince#,
+			#receiverCity#,
+			#receiverArea#,
+			#receiverBackCode#,
+			#receiverAddress#,
+			#receiverZip#,
+			#receiverTel#,
+			#cartId#,
+			#tradePoints#,
+			#shipment#,
+			#payType#
+		  )				
+	]]>
+	</insert>
+	
+	<select id="getTrade" parameterClass="trade" resultClass="trade">
+	<![CDATA[
+		SELECT t.trade_id AS tradeId,
+		  t.trade_no      AS tradeNo,
+		  t.trade_price   AS tradePrice,
+		  t.trade_points  AS tradePoints,
+		  t.coupon_price  AS couponPrice,
+		  t.postage,
+		  t.change,
+		  t.type,
+		  t.receiver_name                                    AS receiverName,
+		  t.receiver_province                                AS receiverProvince,
+		  t.receiver_city                                    AS receiverCity,
+		  t.receiver_area                                    AS receiverArea,
+		  t.receiver_back_code                               AS receiverBackCode,
+		  t.receiver_address                                 AS receiverAddress,
+		  t.receiver_zip                                     AS receiverZip,
+		  t.receiver_tel                                     AS receiverTel,
+		  t.cart_id                                          AS cartId,
+		  t.shop_id                                          AS shopId,
+		  p.company_id                                       AS companyId,
+		  t.user_id                                          AS userId,
+		  TO_CHAR(t.create_date,'yyyy-mm-dd hh24:mi:ss')     AS createDate,
+		  TO_CHAR(t.pay_date,'yyyy-mm-dd hh24:mi:ss')        AS payDate,
+		  TO_CHAR(t.send_date,'yyyy-mm-dd hh24:mi:ss')       AS sendDate,
+		  TO_CHAR(t.sign_date,'yyyy-mm-dd hh24:mi:ss')       AS signDate,
+		  TO_CHAR(t.feedback_date,'yyyy-mm-dd hh24:mi:ss')   AS feedbackDate,
+		  TO_CHAR(t.feedbacked_date,'yyyy-mm-dd hh24:mi:ss') AS feedbackedDate,
+		  t.shipment,
+		  t.pay_type      AS payType,
+		  t.feedback_type AS feedbackType
+		FROM MALL.MALL_TB_TRADE t,
+		  MALL.MALL_TB_SHOP p
+		WHERE t.shop_id = p.shop_id
+		AND t.state     = 'U'
+		AND p.state     = 'U'
+	]]>
+		<dynamic>
+			<isNotEmpty property="shopId" prepend="and">
+			<![CDATA[ t.shop_id = #shopId# ]]>
+			</isNotEmpty>
+			<isNotEmpty property="tradeNo" prepend="and">
+			<![CDATA[ t.trade_no = #tradeNo# ]]>
+			</isNotEmpty>
+			<isEmpty property="tradeNo" prepend="and">
+			<![CDATA[ t.trade_id = #tradeId# ]]>
+			</isEmpty>
+			<isNotEmpty property="userId" prepend="and">
+			<![CDATA[ t.user_id = #userId# ]]>
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+</sqlMap>

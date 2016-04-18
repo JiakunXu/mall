@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="GB2312"?>
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="settlement">
+	
+	<typeAlias alias="settlement" type="com.kintiger.mall.api.settlement.bo.Settlement" />
+	
+	<!-- trade -->
+	
+	<select id="getSettlementCount" parameterClass="settlement" resultClass="java.lang.Integer">
+	<![CDATA[
+		SELECT COUNT(1)
+		FROM MALL.MALL_TB_TRADE t
+		WHERE t.state = 'U'
+		AND t.type   IN ('tosend','send','sign')
+		AND t.shop_id = #shopId#
+	]]>
+		<dynamic>
+			<isNotEmpty property="gmtStart" prepend="and">
+			<![CDATA[ t.pay_date >= to_date(#gmtStart#, 'yyyy-mm-dd') ]]>
+			</isNotEmpty>
+			<isNotEmpty property="gmtEnd" prepend="and">
+			<![CDATA[ t.pay_date < to_date(#gmtEnd#, 'yyyy-mm-dd') + 1 ]]>
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<select id="getSettlementList" parameterClass="settlement" resultClass="settlement">
+		<include refid="global.paginationStart" />
+	<![CDATA[
+		SELECT TO_CHAR(t.pay_date, 'yyyy-mm-dd hh24:mi:ss') AS createDate,
+		  CASE
+			WHEN q.out_trade_no IS NOT NULL
+			THEN TO_CHAR(q.total_fee)
+			ELSE p.total_fee
+		  END        AS totalFee,
+		  t.trade_no AS outTradeNo,
+		  CASE
+			WHEN q.out_trade_no IS NOT NULL
+			THEN q.trade_no
+			ELSE p.trade_no
+		  END AS tradeNo
+		FROM MALL.MALL_TB_TRADE t,
+		  (SELECT pp.out_trade_no,
+			pp.trade_no,
+			pp.total_fee
+		  FROM MALL.MALL_TB_PAY_ALI_NOTIFY pp
+		  WHERE pp.state = 'U'
+		  ) p,
+		  (SELECT qq.out_trade_no,
+			qq.transaction_id  AS trade_no,
+			qq.total_fee / 100 AS total_fee
+		  FROM MALL.MALL_TB_PAY_WX_NOTIFY qq
+		  WHERE qq.state = 'U'
+		  ) q
+		WHERE t.trade_no = q.out_trade_no(+)
+		AND t.trade_no   = p.out_trade_no(+)
+		AND t.state      = 'U'
+		AND t.type      IN ('tosend','send','sign')
+		AND t.shop_id    = #shopId#
+	]]>
+		<dynamic>
+			<isNotEmpty property="gmtStart" prepend="and">
+			<![CDATA[ t.pay_date >= to_date(#gmtStart#, 'yyyy-mm-dd') ]]>
+			</isNotEmpty>
+			<isNotEmpty property="gmtEnd" prepend="and">
+			<![CDATA[ t.pay_date < to_date(#gmtEnd#, 'yyyy-mm-dd') + 1 ]]>
+			</isNotEmpty>
+		</dynamic>
+	<![CDATA[
+		ORDER BY t.pay_date DESC
+	]]>
+		<include refid="global.paginationEnd" />
+	</select>
+	
+	<!-- alipay -->
+	
+	<select id="getAlipaySettlement" parameterClass="settlement" resultClass="java.math.BigDecimal">
+	<![CDATA[
+		SELECT NVL(SUM(t.total_fee), 0)
+		FROM MALL.MALL_TB_PAY_ALI_NOTIFY t,
+		  MALL.MALL_TB_TRADE p
+		WHERE t.out_trade_no = p.trade_no
+		AND t.state          = 'U'
+		AND p.state          = 'U'
+		AND p.shop_id        = #shopId#
+	]]>
+		<dynamic>
+			<isNotEmpty property="gmtStart" prepend="and">
+			<![CDATA[ to_date(t.gmt_create, 'yyyy-mm-dd hh24:mi:ss') >= to_date(#gmtStart#, 'yyyy-mm-dd') ]]>
+			</isNotEmpty>
+			<isNotEmpty property="gmtEnd" prepend="and">
+			<![CDATA[ to_date(t.gmt_create, 'yyyy-mm-dd hh24:mi:ss') < to_date(#gmtEnd#, 'yyyy-mm-dd') + 1 ]]>
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<select id="getAlipaySettlementCount" parameterClass="settlement" resultClass="java.lang.Integer">
+	<![CDATA[
+		SELECT COUNT(1)
+		FROM MALL.MALL_TB_PAY_ALI_NOTIFY t,
+		  MALL.MALL_TB_TRADE p
+		WHERE t.out_trade_no = p.trade_no
+		AND t.state          = 'U'
+		AND p.state          = 'U'
+		AND p.shop_id        = #shopId#
+	]]>
+		<dynamic>
+			<isNotEmpty property="gmtStart" prepend="and">
+			<![CDATA[ to_date(t.gmt_create, 'yyyy-mm-dd hh24:mi:ss') >= to_date(#gmtStart#, 'yyyy-mm-dd') ]]>
+			</isNotEmpty>
+			<isNotEmpty property="gmtEnd" prepend="and">
+			<![CDATA[ to_date(t.gmt_create, 'yyyy-mm-dd hh24:mi:ss') < to_date(#gmtEnd#, 'yyyy-mm-dd') + 1 ]]>
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<select id="getAlipaySettlementList" parameterClass="settlement" resultClass="settlement">
+		<include refid="global.paginationStart" />
+	<![CDATA[
+		SELECT t.gmt_create AS createDate,
+		  t.total_fee       AS totalFee,
+		  t.out_trade_no    AS outTradeNo,
+		  t.trade_no        AS tradeNo
+		FROM MALL.MALL_TB_PAY_ALI_NOTIFY t,
+		  MALL.MALL_TB_TRADE p
+		WHERE t.out_trade_no = p.trade_no
+		AND t.state          = 'U'
+		AND p.state          = 'U'
+		AND p.shop_id        = #shopId#
+	]]>
+		<dynamic>
+			<isNotEmpty property="gmtStart" prepend="and">
+			<![CDATA[ to_date(t.gmt_create, 'yyyy-mm-dd hh24:mi:ss') >= to_date(#gmtStart#, 'yyyy-mm-dd') ]]>
+			</isNotEmpty>
+			<isNotEmpty property="gmtEnd" prepend="and">
+			<![CDATA[ to_date(t.gmt_create, 'yyyy-mm-dd hh24:mi:ss') < to_date(#gmtEnd#, 'yyyy-mm-dd') + 1 ]]>
+			</isNotEmpty>
+		</dynamic>
+	<![CDATA[
+		ORDER BY t.gmt_create DESC
+	]]>
+		<include refid="global.paginationEnd" />
+	</select>
+	
+	<!-- wx -->
+	
+	<select id="getWxSettlement" parameterClass="settlement" resultClass="java.math.BigDecimal">
+	<![CDATA[
+		SELECT NVL(SUM(t.total_fee), 0)
+		FROM MALL.MALL_TB_PAY_WX_NOTIFY t,
+		  MALL.MALL_TB_TRADE p
+		WHERE t.out_trade_no = p.trade_no
+		AND t.state          = 'U'
+		AND p.state          = 'U'
+		AND p.shop_id        = #shopId#
+	]]>
+		<dynamic>
+			<isNotEmpty property="gmtStart" prepend="and">
+			<![CDATA[ to_date(t.time_end, 'yyyymmddhh24miss') >= to_date(#gmtStart#, 'yyyy-mm-dd') ]]>
+			</isNotEmpty>
+			<isNotEmpty property="gmtEnd" prepend="and">
+			<![CDATA[ to_date(t.time_end, 'yyyymmddhh24miss') < to_date(#gmtEnd#, 'yyyy-mm-dd') + 1 ]]>
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<select id="getWxSettlementCount" parameterClass="settlement" resultClass="java.lang.Integer">
+	<![CDATA[
+		SELECT COUNT(1)
+		FROM MALL.MALL_TB_PAY_WX_NOTIFY t,
+		  MALL.MALL_TB_TRADE p
+		WHERE t.out_trade_no = p.trade_no
+		AND t.state          = 'U'
+		AND p.state          = 'U'
+		AND p.shop_id        = #shopId#
+	]]>
+		<dynamic>
+			<isNotEmpty property="gmtStart" prepend="and">
+			<![CDATA[ to_date(t.time_end, 'yyyymmddhh24miss') >= to_date(#gmtStart#, 'yyyy-mm-dd') ]]>
+			</isNotEmpty>
+			<isNotEmpty property="gmtEnd" prepend="and">
+			<![CDATA[ to_date(t.time_end, 'yyyymmddhh24miss') < to_date(#gmtEnd#, 'yyyy-mm-dd') + 1 ]]>
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<select id="getWxSettlementList" parameterClass="settlement" resultClass="settlement">
+		<include refid="global.paginationStart" />
+	<![CDATA[
+		SELECT t.time_end  AS createDate,
+		  t.total_fee/100  AS totalFee,
+		  t.out_trade_no   AS outTradeNo,
+		  t.transaction_id AS tradeNo
+		FROM MALL.MALL_TB_PAY_WX_NOTIFY t,
+		  MALL.MALL_TB_TRADE p
+		WHERE t.out_trade_no = p.trade_no
+		AND t.state          = 'U'
+		AND p.state          = 'U'
+		AND p.shop_id        = #shopId#
+	]]>
+		<dynamic>
+			<isNotEmpty property="gmtStart" prepend="and">
+			<![CDATA[ to_date(t.time_end, 'yyyymmddhh24miss') >= to_date(#gmtStart#, 'yyyy-mm-dd') ]]>
+			</isNotEmpty>
+			<isNotEmpty property="gmtEnd" prepend="and">
+			<![CDATA[ to_date(t.time_end, 'yyyymmddhh24miss') < to_date(#gmtEnd#, 'yyyy-mm-dd') + 1 ]]>
+			</isNotEmpty>
+		</dynamic>
+	<![CDATA[
+		ORDER BY t.time_end DESC
+	]]>
+		<include refid="global.paginationEnd" />
+	</select>
+
+</sqlMap>

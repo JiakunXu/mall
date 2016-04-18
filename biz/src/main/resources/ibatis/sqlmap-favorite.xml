@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="GB2312"?>
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="favorite">
+	<typeAlias alias="favorite" type="com.kintiger.mall.api.favorite.bo.Favorite" />
+	
+	<select id="getFavoriteCount" parameterClass="favorite" resultClass="java.lang.Integer">
+	<![CDATA[
+		SELECT COUNT(1) FROM BASIS.basis_tb_favorite t
+	]]>
+		<dynamic prepend="WHERE">
+			<isNotEmpty property="pid" prepend="and">
+			<![CDATA[ t.pid = #pid# ]]>
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<select id="getFavoriteList" parameterClass="favorite" resultClass="favorite">
+	<![CDATA[
+		SELECT t.id,
+		  t.name,
+		  t.url,
+		  t.target,
+		  redirect_url AS redirectUrl
+		FROM basis.basis_tb_favorite t
+		WHERE t.user_id = #userId#
+		AND t.pid       = #pid#
+		ORDER BY t.rank
+	]]>
+	</select>
+	
+	<insert id="createFavorite" parameterClass="favorite">
+		<selectKey resultClass="java.lang.String" keyProperty="id">
+		<![CDATA[
+			SELECT BASIS.BASIS_SEQ_FAVORITE.NEXTVAL AS id FROM dual
+		]]>
+		</selectKey>
+	<![CDATA[
+		insert into BASIS.basis_tb_favorite
+		  (ID,
+		   PID,
+		   NAME,
+		   URL,
+		   TARGET,
+		   RANK,
+		   CREATE_DATE,
+		   MODIFY_DATE,
+		   MODIFY_USER,
+		   REDIRECT_URL,
+		   USER_ID)
+		values
+		  (#id:VARCHAR#,
+		   #pid:VARCHAR#,
+		   #name:VARCHAR#,
+	]]>
+		<dynamic>
+			<isNotEmpty property="redirectUrl" >
+			<![CDATA[
+				   #url:VARCHAR# || #id:VARCHAR#,
+			]]>
+			</isNotEmpty>
+			<isEmpty property="redirectUrl" >
+			<![CDATA[
+				   #url:VARCHAR#,
+			]]>
+			</isEmpty>
+		</dynamic>
+	<![CDATA[
+		   #target:VARCHAR#,
+		   #rank:NUMBER#,
+		   sysdate,
+		   sysdate,
+		   #modifyUser:VARCHAR#,
+		   #redirectUrl:VARCHAR#,
+		   #userId:VARCHAR#)
+	]]>
+	</insert>
+	
+	<insert id="addFavorite" parameterClass="favorite">
+		<selectKey resultClass="java.lang.String" keyProperty="id">
+		<![CDATA[
+			SELECT BASIS.BASIS_SEQ_FAVORITE.NEXTVAL AS id FROM dual
+		]]>
+		</selectKey>
+	<![CDATA[
+		INSERT
+		INTO BASIS.basis_tb_favorite
+		  (
+			ID,
+			PID,
+			NAME,
+			URL,
+			TARGET,
+			RANK,
+			CREATE_DATE,
+			MODIFY_DATE,
+			MODIFY_USER,
+			REDIRECT_URL,
+			USER_ID
+		  )
+		  (SELECT #id#,
+			  #pid#,
+			  p.name,
+			  p.url,
+			  p.target,
+			  #rank#,
+			  sysdate,
+			  sysdate,
+			  #modifyUser#,
+			  p.redirect_url,
+			  #userId#
+			FROM basis.basis_tb_menu p
+			WHERE p.id = #menuId#
+		  )
+	]]>
+	</insert>
+	
+	<update id="updateFavorite" parameterClass="favorite">
+	<![CDATA[
+		UPDATE BASIS.basis_tb_favorite t
+		SET t.modify_date = sysdate,
+		  t.modify_user   = #modifyUser#
+	]]>
+		<dynamic>
+			<isNotEmpty property="name" prepend=",">
+			<![CDATA[ t.name          = #name# ]]>
+			</isNotEmpty>
+			<isNotEmpty property="pid" prepend=",">
+			<![CDATA[ t.pid           = #pid# ]]>
+			</isNotEmpty>
+			<isNotEmpty property="rank" prepend=",">
+			<![CDATA[ t.rank          = #rank# ]]>
+			</isNotEmpty>
+		</dynamic>
+	<![CDATA[
+		WHERE t.user_id   = #userId#
+		AND t.id          = #id#
+	]]>
+	</update>
+	
+	<delete id="deleteFavorite" parameterClass="favorite">
+	<![CDATA[
+		DELETE BASIS.basis_tb_favorite t
+		WHERE EXISTS
+		  (SELECT 1
+		  FROM BASIS.basis_tb_favorite p
+		  WHERE t.id              = p.id
+		  AND p.user_id           = #userId#
+			START WITH p.id       = #id#
+			CONNECT BY prior p.id = p.pid
+		  )
+	]]>
+	</delete>
+	
+	<select id="getFavorite" parameterClass="favorite" resultClass="favorite">
+	<![CDATA[
+		SELECT t.id, t.pid FROM BASIS.basis_tb_favorite t WHERE t.id = #id#
+	]]>
+	</select>
+	
+</sqlMap>

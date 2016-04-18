@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="GB2312"?>
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="item.file">
+	
+	<typeAlias alias="itemFile" type="com.kintiger.mall.api.item.bo.ItemFile" />
+	
+	<select id="getItemFileList" parameterClass="itemFile" resultClass="itemFile">
+	<![CDATA[
+		SELECT q.id,
+		  t.item_id   AS itemId,
+		  p.file_id   AS fileId,
+		  p.file_path AS filePath,
+		  p.file_type AS fileType
+		FROM MALL.MALL_TB_ITEM t,
+		  MALL.MALL_TB_FILE p,
+		  MALL.MALL_TB_ITEM_FILE q
+		WHERE t.item_id = q.item_id
+		AND p.file_id   = q.file_id
+		AND t.state     = 'U'
+		AND p.state     = 'U'
+		AND q.state     = 'U'
+		AND t.shop_id   = #shopId#
+		AND p.shop_id   = #shopId#
+	]]>
+		<dynamic>
+			<isNotEmpty property="itemId" prepend="and">
+			<![CDATA[ t.item_id   = #itemId# ]]>
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<update id="deleteItemFile" parameterClass="itemFile">
+	<![CDATA[
+		UPDATE MALL.MALL_TB_ITEM_FILE t
+		SET t.modify_date = sysdate,
+		  t.modify_user   = #modifyUser#,
+		  t.state         = 'D'
+		WHERE t.state     = 'U'
+		AND t.item_id     = #itemId#
+	]]>
+	</update>
+	
+	<insert id="createItemFile" parameterClass="itemFile">
+		<selectKey resultClass="java.lang.String" keyProperty="id">
+		<![CDATA[
+			SELECT MALL.MALL_SEQ_ITEM_FILE.NEXTVAL FROM DUAL
+		]]>
+		</selectKey>
+	<![CDATA[
+		INSERT
+		INTO MALL.MALL_TB_ITEM_FILE
+		  (
+			ID,
+			ITEM_ID,
+			FILE_ID,
+			STATE,
+			CREATE_DATE,
+			MODIFY_DATE,
+			MODIFY_USER
+		  )
+		  VALUES
+		  (
+			#id#,
+			#itemId#,
+			#fileId#,
+			'U',
+			sysdate,
+			sysdate,
+			#modifyUser#
+		  )
+	]]>
+	</insert>
+	
+</sqlMap>

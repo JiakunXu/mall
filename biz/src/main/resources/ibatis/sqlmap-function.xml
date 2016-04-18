@@ -1,0 +1,412 @@
+<?xml version="1.0" encoding="GB2312"?>
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="function">
+	<typeAlias alias="function" type="com.kintiger.mall.api.function.bo.Function" />
+	
+	<select id="getFunAction4RoleList" parameterClass="function" resultClass="function">
+	<![CDATA[
+		SELECT t.id,
+		  t.action_id   AS actionId,
+		  p.action_name AS actionName
+		FROM BASIS.basis_tb_role_action t,
+		  BASIS.basis_tb_function_action p
+		WHERE t.action_id = p.action_id
+		AND t.role_id     = #roleId#
+	]]>
+	</select>
+	
+	<insert id="createFunAction4Role1" parameterClass="function">
+		<selectKey resultClass="java.lang.String" keyProperty="id">
+		<![CDATA[
+			SELECT BASIS.BASIS_SEQ_ROLE_ACTION.nextval AS id FROM dual
+		]]>
+		</selectKey>
+	<![CDATA[
+		INSERT
+		INTO BASIS.basis_tb_role_action
+		  (
+			ID,
+			ROLE_ID,
+			ACTION_ID,
+			MODIFY_USER,
+			CREATE_DATE
+		  )
+		  VALUES
+		  (
+			#id#,
+			#roleId#,
+			#actionId#,
+			#modifyUser#,
+			sysdate
+		  )
+	]]>
+	</insert>
+	
+	<insert id="createFunAction4Role2" parameterClass="java.util.Map">
+	<![CDATA[
+		INSERT
+		INTO BASIS.basis_tb_role_action
+		  (
+			ID,
+			ROLE_ID,
+			ACTION_ID,
+			MODIFY_USER,
+			CREATE_DATE
+		  )
+		  (SELECT BASIS.BASIS_SEQ_ROLE_ACTION.nextval,
+			  #roleId#,
+			  t.action_id,
+			  #modifyUser#,
+			  sysdate
+			FROM BASIS.basis_tb_function_action t
+			WHERE t.defaults = 'Y'
+			AND t.state      = 'U'
+			AND t.fun_id     = #funId#
+		  )
+	]]>
+	</insert>
+	
+	<update id="updateFunAction4Role" parameterClass="function">
+	<![CDATA[
+		UPDATE BASIS.basis_tb_role_action t
+		SET t.modify_date = sysdate,
+		  t.modify_user   = #modifyUser#,
+		  t.action_id     = #actionId#
+		WHERE t.id        = #id#
+	]]>
+	</update>
+	
+	<delete id="deleteFunAction4Role" parameterClass="function">
+		<dynamic>
+			<isEmpty property="roleId">
+				<isNotEmpty property="codes">
+				<![CDATA[
+					DELETE BASIS.basis_tb_role_action t WHERE t.id IN
+				]]>
+					<iterate property="codes" open="(" close=")" conjunction=",">#codes[]#</iterate>
+				</isNotEmpty>
+				<isNotEmpty property="funId">
+				<![CDATA[
+					DELETE BASIS.basis_tb_role_action t
+					WHERE EXISTS
+					  (SELECT 1
+					  FROM BASIS.basis_tb_function_action p
+					  WHERE t.action_id = p.action_id
+					  AND p.fun_id      = #funId#
+					  )
+				]]>
+				</isNotEmpty>
+			</isEmpty>
+			<isNotEmpty property="roleId">
+				<isEmpty property="codes">
+				<![CDATA[
+					DELETE BASIS.basis_tb_role_action t WHERE t.role_id = #roleId#
+				]]>
+				</isEmpty>
+				<isNotEmpty property="codes">
+				<![CDATA[
+					DELETE BASIS.basis_tb_role_action t
+					WHERE t.role_id = #roleId#
+					AND EXISTS
+					  (SELECT 1
+					  FROM BASIS.basis_tb_function_action p
+					  WHERE t.action_id = p.action_id
+					  AND p.fun_id     IN
+				]]>
+					<iterate property="codes" open="(" close=")" conjunction=",">#codes[]#</iterate>
+				<![CDATA[
+					  )
+				]]>
+				</isNotEmpty>
+			</isNotEmpty>
+		</dynamic>
+	</delete>
+	
+	<select id="getFunActionCount" parameterClass="function" resultClass="java.lang.Integer">
+	<![CDATA[
+		SELECT COUNT(1)
+		FROM BASIS.basis_tb_function_action t,
+		  BASIS.basis_tb_menu p
+	]]>
+		<dynamic>
+			<isNotEmpty property="roleId" prepend=",">
+			<![CDATA[ BASIS.basis_tb_role_menu q ]]>
+			</isNotEmpty>
+		</dynamic>
+	<![CDATA[
+		WHERE t.fun_id = p.id
+	]]>
+		<dynamic>
+			<isNotEmpty property="roleId" prepend="and">
+			<![CDATA[ p.id       = q.menu_id ]]>
+			</isNotEmpty>
+		</dynamic>
+	<![CDATA[
+		AND t.state    = 'U'
+	]]>
+		<dynamic>
+			<isNotEmpty property="roleId" prepend="and">
+			<![CDATA[ q.role_id  = #roleId# ]]>
+			</isNotEmpty>
+			<isNotEmpty property="funId" prepend="and">
+			<![CDATA[ t.fun_id  = #funId# ]]>
+			</isNotEmpty>
+			<isNotEmpty property="search" prepend="and">
+			<![CDATA[
+				  ( t.action_name like upper(#search,handler=wildcard#) escape '\'
+				 or t.alias like #search,handler=wildcard# escape '\'
+				 or p.name like #search,handler=wildcard# escape '\' )
+			]]>
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<select id="getFunActionList" parameterClass="function" resultClass="function">
+		<include refid="global.paginationStart" />
+	<![CDATA[
+		SELECT t.action_id AS actionId,
+		  t.action_name    AS actionName,
+		  t.alias,
+		  p.name AS funName,
+		  t.remark,
+		  t.defaults,
+		  t.url
+		FROM BASIS.basis_tb_function_action t,
+		  BASIS.basis_tb_menu p
+	]]>
+		<dynamic>
+			<isNotEmpty property="roleId" prepend=",">
+			<![CDATA[ BASIS.basis_tb_role_menu q ]]>
+			</isNotEmpty>
+		</dynamic>
+	<![CDATA[
+		WHERE t.fun_id = p.id
+	]]>
+		<dynamic>
+			<isNotEmpty property="roleId" prepend="and">
+			<![CDATA[ p.id       = q.menu_id ]]>
+			</isNotEmpty>
+		</dynamic>
+	<![CDATA[
+		AND t.state    = 'U'
+	]]>
+		<dynamic>
+			<isNotEmpty property="roleId" prepend="and">
+			<![CDATA[ q.role_id  = #roleId# ]]>
+			</isNotEmpty>
+			<isNotEmpty property="funId" prepend="and">
+			<![CDATA[ t.fun_id  = #funId# ]]>
+			</isNotEmpty>
+			<isNotEmpty property="search" prepend="and">
+			<![CDATA[
+				  ( t.action_name like upper(#search,handler=wildcard#) escape '\'
+				 or t.alias like #search,handler=wildcard# escape '\'
+				 or p.name like #search,handler=wildcard# escape '\' )
+			]]>
+			</isNotEmpty>
+			<isEmpty property="sort">
+			<![CDATA[ order by t.modify_date desc ]]>
+			</isEmpty>
+		</dynamic>
+		<include refid="global.orderBy" />
+		<include refid="global.paginationEnd" />
+	</select>
+	
+	<insert id="createFunAction" parameterClass="function">
+		<selectKey resultClass="java.lang.String" keyProperty="actionId">
+		<![CDATA[
+			SELECT BASIS.BASIS_SEQ_FUNCTION_ACTION.nextval AS actionId FROM dual
+		]]>
+		</selectKey>
+	<![CDATA[
+		INSERT
+		INTO BASIS.basis_tb_function_action
+		  (
+			ACTION_ID,
+			ACTION_NAME,
+			ALIAS,
+			FUN_ID,
+			REMARK,
+			URL,
+			DEFAULTS,
+			STATE,
+			MODIFY_DATE,
+			MODIFY_USER,
+			CREATE_DATE
+		  )
+		  VALUES
+		  (
+			#actionId#,
+			#actionName#,
+			#alias#,
+			#funId#,
+			#remark#,
+			#url#,
+			#defaults#,
+			'U',
+			sysdate,
+			#modifyUser#,
+			sysdate
+		  )
+	]]>
+	</insert>
+	
+	<update id="updateFunAction" parameterClass="function">
+	<![CDATA[
+		UPDATE BASIS.basis_tb_function_action t
+		SET t.modify_date = sysdate,
+		  t.modify_user   = #modifyUser#,
+		  t.action_name   = #actionName#,
+		  t.alias         = #alias#,
+		  t.remark        = #remark#,
+		  t.url           = #url#,
+		  t.defaults      = #defaults#
+		WHERE t.action_id = #actionId#
+		AND t.state       = 'U'
+	]]>
+	</update>
+	
+	<update id="deleteFunAction" parameterClass="function">
+		<dynamic>
+			<isNotEmpty property="funId">
+			<![CDATA[
+				UPDATE BASIS.basis_tb_function_action t
+				SET t.modify_date = sysdate,
+				  t.modify_user   = #modifyUser#,
+				  t.state         = 'D'
+				WHERE t.fun_id    = #funId#
+				AND t.state       = 'U'
+			]]>
+			</isNotEmpty>
+		</dynamic>
+		<dynamic>
+			<isNotEmpty property="codes">
+			<![CDATA[
+				UPDATE BASIS.basis_tb_function_action t
+				SET t.modify_date = sysdate,
+				  t.modify_user   = #modifyUser#,
+				  t.state         = 'D'
+				WHERE t.state     = 'U'
+				AND t.action_id  IN
+			]]>
+				<iterate property="codes" open="(" close=")" conjunction=",">#codes[]#</iterate>	
+			</isNotEmpty>
+		</dynamic>
+	</update>
+	
+	<select id="getFunAction1" parameterClass="java.util.Map" resultClass="function">
+	<![CDATA[
+		SELECT aaa.alias
+		FROM BASIS.basis_tb_function_action aaa,
+		  BASIS.basis_tb_menu bbb,
+		  BASIS.basis_tb_role_action ccc,
+		  (SELECT t.role_id
+		  FROM BASIS.basis_tb_role t
+		  WHERE (EXISTS
+			(SELECT 1
+			FROM BASIS.basis_tb_user_station t1,
+			  BASIS.basis_tb_station_role t2
+			WHERE t1.sta_id = t2.sta_id
+			AND t1.USER_ID  = #userId#
+			AND t2.role_id  = t.role_id
+			)
+		  OR EXISTS
+			(SELECT 1
+			FROM BASIS.basis_tb_user_role t3
+			WHERE t3.expire_date > sysdate - 1
+			AND t3.USER_ID       = #userId#
+			AND t3.role_id       = t.role_id
+			)
+		  OR EXISTS
+			(SELECT 1
+			FROM BASIS.basis_tb_position_role t4,
+			  BASIS.basis_tb_user_position t5
+			WHERE t4.pos_id = t5.pos_id
+			AND t5.USER_ID  = #userId#
+			AND t4.role_id  = t.role_id
+			)
+		  OR EXISTS
+			(SELECT 1
+			FROM BASIS.basis_tb_station_role t6,
+			  BASIS.basis_tb_position t7,
+			  BASIS.basis_tb_user_position t8
+			WHERE t7.pos_id = t8.pos_id
+			AND t7.sta_id   = t6.sta_id
+			AND t8.USER_ID  = #userId#
+			AND t6.role_id  = t.role_id
+			)
+		  OR EXISTS
+			(SELECT 1
+			FROM BASIS.basis_tb_role t9
+			WHERE t.role_id = t9.role_id
+			AND t9.defaults = 'Y'
+			) )
+		  AND t.state = 'U'
+		  )ddd
+		WHERE aaa.fun_id  = bbb.id
+		AND aaa.action_id = ccc.action_id
+		AND ccc.role_id   = ddd.role_id
+		AND aaa.state     = 'U'
+		AND bbb.url       = #url#
+	]]>
+	</select>
+	
+	<select id="getFunAction2" parameterClass="java.util.Map" resultClass="java.lang.Integer">
+	<![CDATA[
+		SELECT COUNT(1)
+		FROM BASIS.basis_tb_function_action aaa,
+		  BASIS.basis_tb_role_action ccc,
+		  (SELECT t.role_id
+		  FROM BASIS.basis_tb_role t
+		  WHERE (EXISTS
+			(SELECT 1
+			FROM BASIS.basis_tb_user_station t1,
+			  BASIS.basis_tb_station_role t2
+			WHERE t1.sta_id = t2.sta_id
+			AND t1.USER_ID  = #userId#
+			AND t2.role_id  = t.role_id
+			)
+		  OR EXISTS
+			(SELECT 1
+			FROM BASIS.basis_tb_user_role t3
+			WHERE t3.expire_date > sysdate - 1
+			AND t3.USER_ID       = #userId#
+			AND t3.role_id       = t.role_id
+			)
+		  OR EXISTS
+			(SELECT 1
+			FROM BASIS.basis_tb_position_role t4,
+			  BASIS.basis_tb_user_position t5
+			WHERE t4.pos_id = t5.pos_id
+			AND t5.USER_ID  = #userId#
+			AND t4.role_id  = t.role_id
+			)
+		  OR EXISTS
+			(SELECT 1
+			FROM BASIS.basis_tb_station_role t6,
+			  BASIS.basis_tb_position t7,
+			  BASIS.basis_tb_user_position t8
+			WHERE t7.pos_id = t8.pos_id
+			AND t7.sta_id   = t6.sta_id
+			AND t8.USER_ID  = #userId#
+			AND t6.role_id  = t.role_id
+			)
+		  OR EXISTS
+			(SELECT 1
+			FROM BASIS.basis_tb_role t9
+			WHERE t.role_id = t9.role_id
+			AND t9.defaults = 'Y'
+			) )
+		  AND t.state = 'U'
+		  )ddd
+		WHERE aaa.action_id = ccc.action_id
+		AND ccc.role_id     = ddd.role_id
+		AND aaa.state       = 'U'
+		AND aaa.alias       = #alias#
+		AND aaa.url         = #actionName#
+	]]>
+	</select>
+	
+</sqlMap>

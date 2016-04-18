@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="GB2312"?>
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="item.sku">
+	
+	<typeAlias alias="itemSku" type="com.kintiger.mall.api.item.bo.ItemSku" />
+	
+	<insert id="createItemSku" parameterClass="itemSku">
+		<selectKey resultClass="java.lang.String" keyProperty="skuId">
+		<![CDATA[
+			SELECT MALL.MALL_SEQ_ITEM_SKU.NEXTVAL FROM DUAL
+		]]>
+		</selectKey>
+	<![CDATA[
+		INSERT
+		INTO MALL.MALL_TB_ITEM_SKU
+		  (
+			SKU_ID,
+			ITEM_ID,
+			PROPERTIES,
+			PROPERTIES_NAME,
+			STOCK,
+			PRICE,
+			DELIVERY_TIME,
+			STATE,
+			CREATE_DATE,
+			MODIFY_DATE,
+			MODIFY_USER,
+			ORIGIN,
+			VER_ID,
+			CODES
+		  )
+		  VALUES
+		  (
+			#skuId#,
+			#itemId#,
+			#properties#,
+			#propertiesName#,
+			#stock#,
+			#price#,
+			#deliveryTime#,
+			'U',
+			sysdate,
+			sysdate,
+			#modifyUser#,
+			#origin#,
+			#verId#,
+			#codes#
+		  )
+	]]>
+	</insert>
+	
+	<select id="getItemSku" parameterClass="itemSku" resultClass="itemSku">
+	<![CDATA[
+		SELECT t.sku_id AS skuId,
+		  t.properties,
+		  t.properties_name AS propertiesName,
+		  t.stock,
+		  t.price,
+		  t.origin
+		FROM MALL.MALL_TB_ITEM_SKU t,
+		  MALL.MALL_tb_ITEM p
+		WHERE t.item_id = p.item_id
+		AND t.state     = 'U'
+		AND p.state     = 'U'
+		AND p.shop_id   = #shopId#
+		AND t.item_id   = #itemId#
+		AND t.sku_id    = #skuId#
+	]]>
+	</select>
+	
+	<select id="getItemSkuList" parameterClass="itemSku" resultClass="itemSku">
+	<![CDATA[
+		SELECT t.sku_id AS skuId,
+		  t.properties,
+		  t.properties_name AS propertiesName,
+		  t.stock,
+		  t.price,
+		  t.origin,
+		  t.codes
+		FROM MALL.MALL_TB_ITEM_SKU t,
+		  MALL.MALL_tb_ITEM p
+		WHERE t.item_id = p.item_id
+		AND t.state     = 'U'
+		AND p.state     = 'U'
+		AND p.shop_id   = #shopId#
+		AND t.item_id   = #itemId#
+	]]>
+	</select>
+	
+	<update id="deleteItemSku" parameterClass="itemSku">
+	<![CDATA[
+		UPDATE MALL.MALL_TB_ITEM_SKU t
+		SET t.modify_date = sysdate,
+		  t.modify_user   = #modifyUser#,
+		  t.state         = 'D'
+		WHERE t.state     = 'U'
+		AND t.item_id     = #itemId#
+	]]>
+	</update>
+	
+	<update id="updateItemSku" parameterClass="itemSku">
+	<![CDATA[
+		UPDATE MALL.MALL_TB_ITEM_SKU t
+		SET t.modify_date = sysdate,
+		  t.modify_user   = #modifyUser#,
+		  t.stock         = #stock#
+		WHERE t.state     = 'U'
+		AND t.item_id     = #itemId#
+		AND t.sku_id      = #skuId#
+	]]>
+	</update>
+	
+</sqlMap>

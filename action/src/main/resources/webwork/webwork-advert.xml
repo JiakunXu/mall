@@ -1,0 +1,27 @@
+<!DOCTYPE xwork PUBLIC "-//OpenSymphony Group//XWork 1.1.1//EN" "http://www.opensymphony.com/xwork/xwork-1.1.1.dtd">
+<xwork>
+	<package name="{http://kmall}kmall$advert"
+		extends="{http://kmall}kmall$framework" namespace="/advert">
+		
+		<action name="index" class="advertAction" method="index">
+			<interceptor-ref name="authenticationStack" />
+			<result name="success">/kmall/advert/index.vm</result>
+		</action>
+		
+		<action name="advertAction" class="advertAction">
+			<interceptor-ref name="authenticationStack" />
+		</action>
+		
+		<action name="advertPointsAction" class="advertPointsAction">
+			<interceptor-ref name="authenticationStack" />
+		</action>
+		
+		<!-- mobile -->
+		<action name="click" class="advertAction" method="click">
+			<interceptor-ref name="shopInfo" />
+			<interceptor-ref name="authenticationStack" />
+			<result name="success" type="redirect">${url}</result>
+		</action>
+		
+	</package>
+</xwork>

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="GB2312"?>
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="file">
+	
+	<typeAlias alias="fileInfo" type="com.kintiger.mall.api.file.bo.FileInfo" />
+	
+	<select id="getFileInfo" parameterClass="fileInfo" resultClass="fileInfo">
+	<![CDATA[
+		SELECT t.file_id AS fileId,
+		  t.file_name    AS fileName,
+		  t.suffix,
+		  t.file_path AS filePath,
+		  t.file_type AS fileType
+		FROM MALL.MALL_TB_FILE t
+		WHERE t.state = 'U'
+		AND t.file_id = #fileId#
+		AND t.shop_id = #shopId#
+	]]>
+	</select>
+	
+	<insert id="createFileInfo" parameterClass="fileInfo">
+		<selectKey resultClass="java.lang.String" keyProperty="fileId">
+		<![CDATA[
+			SELECT MALL.MALL_SEQ_FILE.NEXTVAL FROM dual
+		]]>
+		</selectKey>
+	<![CDATA[
+		INSERT
+		INTO MALL.MALL_TB_FILE
+		  (
+			FILE_ID,
+			SHOP_ID,
+			FILE_NAME,
+			SUFFIX,
+			FILE_PATH,
+			STATE,
+			CREATE_DATE,
+			MODIFY_DATE,
+			MODIFY_USER,
+			FILE_TYPE
+		  )
+		  VALUES
+		  (
+			#fileId:VARCHAR#,
+			#shopId:VARCHAR#,
+			#fileName:VARCHAR#,
+			#suffix:VARCHAR#,
+			#filePath:VARCHAR#,
+			'U',
+			sysdate,
+			sysdate,
+			#modifyUser:VARCHAR#,
+			#fileType:VARCHAR#
+		  )
+	]]>
+	</insert>
+	
+	<select id="getFileCount" parameterClass="fileInfo" resultClass="java.lang.Integer">
+	<![CDATA[
+		SELECT COUNT(1)
+		FROM MALL.MALL_TB_FILE t
+		WHERE t.state = 'U'
+		AND t.shop_id = #shopId#
+	]]>
+		<dynamic>
+			<isNotEmpty property="fileName" prepend="and">
+			<![CDATA[ t.file_name like #fileName,handler=wildcard# escape '\' ]]>
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<select id="getFileList" parameterClass="fileInfo" resultClass="fileInfo">
+		<include refid="global.paginationStart" />
+	<![CDATA[
+		SELECT t.file_id AS fileId,
+		  t.file_name    AS fileName,
+		  t.suffix,
+		  t.file_path AS filePath,
+		  t.file_type AS fileType
+		FROM MALL.MALL_TB_FILE t
+		WHERE t.state = 'U'
+		AND t.shop_id = #shopId#
+	]]>
+		<dynamic>
+			<isNotEmpty property="fileName" prepend="and">
+			<![CDATA[ t.file_name like #fileName,handler=wildcard# escape '\' ]]>
+			</isNotEmpty>
+		</dynamic>
+		<include refid="global.orderBy" />
+		<include refid="global.paginationEnd" />
+	</select>
+	
+	<update id="deleteFile" parameterClass="fileInfo">
+	<![CDATA[
+		UPDATE MALL.MALL_TB_FILE t
+		SET t.modify_date = sysdate,
+		  t.modify_user   = #modifyUser#,
+		  t.state         = 'D'
+		WHERE t.state     = 'U'
+		AND t.shop_id     = #shopId#
+		AND t.file_id    IN
+	]]>
+		<iterate property="codes" open="(" close=")" conjunction=",">#codes[]#</iterate>
+	</update>
+	
+</sqlMap>

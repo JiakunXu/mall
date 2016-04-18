@@ -1,0 +1,12 @@
+<!DOCTYPE xwork PUBLIC "-//OpenSymphony Group//XWork 1.1.1//EN" "http://www.opensymphony.com/xwork/xwork-1.1.1.dtd">
+<xwork>
+	<package name="{http://kmall}kmall$company"
+		extends="{http://kmall}kmall$framework" namespace="/company">
+
+		<action name="register" class="companyAction" method="register">
+			<interceptor-ref name="authenticationStack" />
+			<result name="register">/kmall/company/register.vm</result>
+		</action>
+		
+	</package>
+</xwork>

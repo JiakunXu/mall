@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="GB2312"?>
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="spec">
+	
+	<typeAlias alias="specCat" type="com.kintiger.mall.api.spec.bo.SpecCat" />
+	<typeAlias alias="specItem" type="com.kintiger.mall.api.spec.bo.SpecItem" />
+	
+	<select id="getSpecCatList" parameterClass="specCat" resultClass="specCat">
+	<![CDATA[
+		SELECT t.spec_cid AS specCId,
+		  t.spec_cname    AS specCName
+		FROM MALL.MALL_TB_SPEC_CAT t
+		WHERE t.state = 'U'
+		AND t.shop_id = #shopId#
+	]]>
+		<dynamic>
+			<isNotEmpty property="codes" prepend="and">
+			<![CDATA[ t.spec_cid IN ]]>
+				<iterate property="codes" open="(" close=")" conjunction=",">#codes[]#</iterate>
+			</isNotEmpty>
+			<isEmpty property="codes">
+			<![CDATA[ ORDER BY t.spec_cname ]]>
+			</isEmpty>
+		</dynamic>
+	</select>
+	
+	<select id="getSpecItemList" parameterClass="specItem" resultClass="specItem">
+	<![CDATA[
+		SELECT t.spec_item_id AS specItemId,
+		  t.spec_item_value   AS specItemValue,
+		  t.spec_cid          AS specCid
+		FROM MALL.MALL_TB_SPEC_ITEM t
+		WHERE t.state = 'U'
+		AND t.shop_id = #shopId#
+	]]>
+		<dynamic>
+			<isNotEmpty property="specCId" prepend="and">
+			<![CDATA[ t.spec_cid = #specCId# ]]>
+			</isNotEmpty>
+			<isNotEmpty property="codes" prepend="and">
+			<![CDATA[ t.spec_item_id IN ]]>
+				<iterate property="codes" open="(" close=")" conjunction=",">#codes[]#</iterate>
+			</isNotEmpty>
+			<isEmpty property="codes">
+			<![CDATA[ ORDER BY t.spec_item_value ]]>
+			</isEmpty>
+		</dynamic>
+	</select>
+	
+	<insert id="createSpecItem" parameterClass="specItem">
+		<selectKey resultClass="java.lang.String" keyProperty="specItemId">
+		<![CDATA[
+			SELECT MALL.MALL_SEQ_SPEC_ITEM.nextval FROM dual
+		]]>
+		</selectKey>
+	<![CDATA[
+		INSERT
+		INTO MALL.MALL_TB_SPEC_ITEM
+		  (
+			SPEC_ITEM_ID,
+			SHOP_ID,
+			SPEC_CID,
+			SPEC_ITEM_VALUE,
+			STATE,
+			CREATE_DATE,
+			MODIFY_DATE,
+			MODIFY_USER
+		  )
+		  VALUES
+		  (
+			#specItemId:VARCHAR#,
+			#shopId:VARCHAR#,
+			#specCId:VARCHAR#,
+			#specItemValue:VARCHAR#,
+			'U',
+			sysdate,
+			sysdate,
+			#modifyUser:VARCHAR#
+		  )
+	]]>
+	</insert>
+
+</sqlMap>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>系统参数类型配置-修改</title>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		#ICON()
+		#CSSM(["ext", "bootstrap", "conflict"])
+		#UA()
+	</head>
+	<body>
+		<div class="container">
+			<div class="modal-header">
+				<h4 class="modal-title">系统参数类型修改</h4>
+			</div>
+			<form class="modal-body form-horizontal" role="form" method="post">
+				<div class="form-group">
+					<label class="col-xs-2 control-label text-right">类型名称</label>
+					<div class="col-xs-4">
+						<input type="hidden" id="dictTypeId" name="dictType.dictTypeId" value="$!{dictType.dictTypeId}" />
+						<input type="text" class="form-control" id="dictTypeName" name="dictType.dictTypeName" placeholder="必填" value="$!{dictType.dictTypeName}" />
+                    </div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-2 control-label text-right">类型值</label>
+    				<div class="col-xs-4">
+    					<input type="text" class="form-control" id='dictTypeValue' name="dictType.dictTypeValue" placeholder="必填" value="$!{dictType.dictTypeValue}" />
+                    </div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-2 control-label text-right">备注</label>
+    				<div class="col-xs-6">
+						<textarea class="form-control" rows="3" id='remark' name="dictType.remark">$!{dictType.remark}</textarea>
+                    </div>
+				</div>
+            </form>
+			<div class="modal-footer">
+				<a class="btn btn-primary" href="javascript:save();">保存</a>
+				<a class="btn btn-default" href="javascript:window.close();">关闭</a>
+			</div>
+        </div>
+		<iframe id="hideFrame" name="hideFrame" style="display:none"></iframe>
+		#JSM(["common", "ext", "jquery"])
+		#JS_ENV_VAL()
+		<script type="text/javascript" src="$!{env.imgUrl}/js/xplatform/dict/searchDictTypeDetail.js"></script>
+	</body>
+</html>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="notifyAction" class="com.kintiger.mall.notify.action.NotifyAction" scope="request" parent="baseAction">
+		<property name="notifyService" ref="notifyService" />
+	</bean>
+	
+	<bean id="notifyService" class="com.kintiger.mall.notify.service.impl.NotifyServiceImpl">
+		<property name="transactionTemplate" ref="transactionTemplate" />
+		<property name="memcachedCacheService" ref="memcachedCacheService" />
+		<property name="dictService" ref="dictService" />
+		<property name="userService" ref="userService" />
+		<property name="notifyDao" ref="notifyDao" />
+	</bean>
+
+	<bean id="notifyDao" class="com.kintiger.mall.notify.dao.impl.NotifyDaoImpl" parent="baseDao" />
+	
+</beans>

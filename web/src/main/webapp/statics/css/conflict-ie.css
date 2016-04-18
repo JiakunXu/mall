@@ -1,0 +1,29 @@
+/*! bootstrap for ie */
+.form-control {
+	padding: 6px 12px !important;
+}
+
+/*! ext grid for ie  */
+.x-grid3-hd-row td {
+	font-size: 12px;
+}
+
+/*! ext grid for ie  */
+.x-grid3-row td, .x-grid3-summary-row td {
+	font-size: 12px;
+}
+
+/*! ext tab for ie  */
+.x-tab-strip span.x-tab-strip-text {
+	font-size: 12px;
+}
+
+/*! ext panel for ie  */
+.x-panel-header {
+	font-size: 12px;
+}
+
+/*! ext tree for ie  */
+.x-tree-node {
+	font-size: 12px;
+}

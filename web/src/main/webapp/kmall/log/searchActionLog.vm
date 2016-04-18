@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+    <head>
+		<title>系统操作日志</title>
+        <meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		#ICON()
+        #CSSM(["ext", "bootstrap", "conflict"])
+		#UA()
+	</head>
+	<body>
+		<div class="container">
+			<div class="page-header-sm">
+				<h3>
+					<small>EXP系统操作日志</small>
+					<div class="pull-right">
+                    </div>
+				</h3>
+			</div>
+        	<form class="well well-sm" role="form" method="post">
+				<div class="row">
+					<label class="col-xs-1 text-right">开始时间</label>
+					<div class="col-xs-2">
+						<input type='text' id='gmtStart' value="$!{gmtStart}" />
+                    </div>
+					<label class="col-xs-1 text-right">结束时间</label>
+					<div class="col-xs-2">
+						<input type='text' id='gmtEnd' value="$!{gmtEnd}" />
+                    </div>
+					<div class="col-xs-3">
+						<a class="btn btn-primary btn-xs" href="javascript:search();">查询</a>
+						<a class="btn btn-default btn-xs" href="javascript:resets();">重置</a>
+						#if("$!{type}" != "i")
+						<a class="btn btn-default btn-xs" href="javascript:trigger();" id="trigger">更多条件</a>
+						#end
+                    </div>
+				</div>
+				#if("$!{type}" == "i")
+				<input type='hidden' id='passport' />
+				#else
+				<div class="row" id="more" style="display:none">
+					<label class="col-xs-1 text-right">操作人帐号</label>
+					<div class="col-xs-2">
+						<input type='text' id='passport' />
+                    </div>
+				</div>
+				#end
+            </form>
+			<div class="cent_border">
+				<div id="gridList" class="ext-grid-mask"></div>
+			</div>
+        </div>
+		#JSM(["common", "ext", "jquery"])
+        #JS_ENV_VAL()
+        <script type="text/javascript">
+        var store;
+		type = '$!{type}';
+		var gStart = '$!{gmtStart}';
+		var gEnd = '$!{gmtEnd}';
+        </script>
+        <script type="text/javascript" src="$!{env.imgUrl}/js/xplatform/log/searchActionLog.js"></script>
+	</body>
+</html>

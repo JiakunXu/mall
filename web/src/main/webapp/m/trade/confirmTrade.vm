@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+		<title>我要下单</title>
+		#ICON()
+        #CSSM(["messenger", "bootstrap"])
+		<style>
+		body { padding-top: 70px; padding-bottom: 70px; }
+		div { overflow: hidden; }
+		hr { margin-top: 10px; margin-bottom: 10px; }
+		input { border: 0px; }
+		p { margin: 0 0 3px; }
+		.col-xs-3, .col-xs-4, .col-xs-8, .col-xs-9 { padding-right: 5px; padding-left: 5px; }
+		</style>
+		#UA()
+	</head>
+	<body>
+		<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+			<a class="navbar-brand glyphicon glyphicon-chevron-left" href="javascript:history.go(-1);"></a>
+			<div class="navbar-brand pull-right">订单信息</div>
+        </nav>
+		
+		#if($!stringUtil.isEmpty($!{trade.receiverBackCode}))
+		<div id="step1">
+		#else
+		<div style="display: none;" id="step1">
+		#end
+			<div>
+				<div class="col-xs-12">
+					<label class="col-xs-3">收货人</label>
+                    <input class="col-xs-9" type="text" id="contactName" value="$!{trade.receiverName}" placeholder="名字" ></input>
+                </div>
+			</div>
+			<hr/>
+			<div>
+				<div class="col-xs-12" style="padding-right: 2px;">
+					<label style="padding-right: 5px; padding-left: 5px; float: left;">选择<br />地区</label>
+					<div class="col-xs-3"><select class="form-control small" style="width: 73px;" id="province" ></select></div>
+					<div class="col-xs-3"><select class="form-control small" style="width: 73px;" id="city" ></select></div>
+					<div class="col-xs-4"><select class="form-control small" id="area" ></select></div>
+                </div>
+			</div>
+			<hr />
+			<div>
+				<div class="col-xs-12">
+					<label class="col-xs-3">详细地址</label>
+                    <input class="col-xs-9" type="text" id="address" value="$!{trade.receiverAddress}" placeholder="街道门牌信息" ></input>
+                </div>
+			</div>
+			<hr />
+			<div>
+				<div class="col-xs-12">
+					<label class="col-xs-3">邮政编码</label>
+                    <input class="col-xs-9" type="text" id="postalCode" value="$!{trade.receiverZip}" placeholder="邮政编码" ></input>
+				</div>
+			</div>
+			<hr />
+			<div>
+				<div class="col-xs-12">
+					<label class="col-xs-3">联系电话</label>
+                    <input class="col-xs-9" type="text" id="tel" value="$!{trade.receiverTel}" placeholder="手机或固话" ></input>
+				</div>
+            </div>
+			<hr />
+    		<div class="col-xs-12 text-center">
+    			<a class="btn btn-success" style="width: 100px;" id="next" data-loading-text="正在处理..." href="javascript:next();">确认</a>
+				#if($!stringUtil.isNotEmpty($!{trade.receiverBackCode}))
+    			<a class="btn btn-warning" style="width: 100px;" href="javascript:cancel();">取消</a>
+				#end
+            </div>
+		</div>
+		
+		#if($!stringUtil.isEmpty($!{trade.receiverBackCode}))
+		<div style="display: none;" id="step2">
+		#else
+		<div id="step2">
+		#end
+			#foreach($order in $trade.orderList)
+			<div>
+        		<div class="col-xs-4">
+    				<a class="pull-right" href="#">
+    					#foreach($itemFile in $order.itemFileList)
+                        <img class="img-thumbnail lazy" data-original="$!{itemFile.filePath}" style="width: 100px; height: 80px;" ></img>
+    					#end
+    				</a>
+                </div>
+    			<div class="col-xs-8">
+    				<div style="height: 80px;">
+    					<p><strong>$!{order.itemName}</strong></p>
+						<div class="small">$!{order.propertiesName}</div>
+						#if($!{order.price} == '0')
+                        <div>积分 $!{order.points}</div>
+						#else
+						<div>￥ $!formatUtil.getAmountFormat($!{order.price})</div>
+						#end
+    					<div style="margin-left: 5px;">x $!{order.quantity}
+							<span class="small" style="margin-left: 5px;">（剩余库存：$!{order.stock}）</span>
+						</div>
+                    </div>
+                </div>
+            </div>
+			<hr />
+			#end
+			
+			<div>
+				<div class="col-xs-12">
+        			<label class="col-xs-3">商品总价</label>
+    				<div class="col-xs-9" style="color: #f60;">￥ $!formatUtil.getAmountFormat($!{trade.tradePrice})</div>
+                </div>
+            </div>
+			
+			<hr />
+			<div>
+				<div class="col-xs-12">
+        			<label class="col-xs-3">联系方式</label>
+    				<div class="col-xs-9">
+						<a class="btn btn-default btn-xs pull-right" href="javascript:edit();">
+							<span class="glyphicon glyphicon-edit"></span> 修改
+                        </a>
+						<address id="addr">
+                            <strong>$!{trade.receiverName} $!{trade.receiverTel}</strong><br />
+                            $!{trade.receiverProvince} $!{trade.receiverCity} $!{trade.receiverArea}<br />
+                            $!{trade.receiverAddress} $!{trade.receiverZip}<br />
+                        </address>
+                    </div>
+                </div>
+            </div>
+			
+			<hr />
+			<div>
+				<div class="col-xs-12 text-center">
+					￥ $!formatUtil.getAmountFormat($!{trade.tradePrice})
+					+$!formatUtil.getAmountFormat($!{trade.postage}) 运费
+					#if($!{trade.change} != '0')
+					$!formatUtil.getAmountFormat($!{trade.change}) 折扣
+					#end
+                    <p></p>
+					<div style="color: #f60; font-size: 16px;">
+						实付：￥ $!formatUtil.getAmountFormat($!{trade.price})
+    					#if($!{trade.tradePoints} != 0)
+    					+ 积分 $!{trade.tradePoints}
+    					#end
+                    </div>
+                </div>
+            </div>
+			<hr />
+			<br />
+			<div class="col-xs-12">
+				#if($!{trade.price} == 0)
+        		<a class="btn btn-success btn-block" id="pay" data-loading-text="正在处理..." href="javascript:pay('pay');">付 款</a>
+				#else
+					#if($!{trade.payType} == 'alipay')
+					<a class="btn btn-success btn-block" id="alipay" data-loading-text="正在处理..." href="javascript:pay('alipay');">支付宝付款</a>
+					#elseif($!{trade.payType} == 'wxap')
+					<a class="btn btn-success btn-block" id="wxap" data-loading-text="正在处理..." href="javascript:pay('wxap');">微信支付</a>
+					#else
+					<a class="btn btn-success btn-block" id="alipay" data-loading-text="正在处理..." href="javascript:pay('alipay');">支付宝付款</a>
+					<a class="btn btn-warning btn-block" style="margin-top: 10px;" id="wxap" data-loading-text="正在处理..." href="javascript:pay('wxap');">微信支付</a>
+					#end
+				#end
+            </div>
+		</div>
+		
+        <div id="3rd_pay"></div>
+		
+		#JSM(["jquery", "jquery.lazyload", "jquery.citytools", "messenger", "bootstrap"])
+		#JS_ENV_VAL()
+		<script type="text/javascript">
+		var backCode = '$!{trade.receiverBackCode}';
+		var tradeId = '$!{trade.tradeId}';
+        </script>
+		<script type="text/javascript" src="$!{env.imgUrl}/js/m/trade/confirmTrade.js?t=20140916"></script>
+		#HideWeixinJSBridge(["menu", "toolbar"])
+    </body>
+</html>

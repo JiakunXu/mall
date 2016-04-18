@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="GB2312"?>
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="advert.stats">
+	
+	<typeAlias alias="advertStats" type="com.kintiger.mall.api.advert.bo.AdvertStats" />
+	
+	<insert id="createAdvertStats" parameterClass="advertStats">
+		<selectKey resultClass="java.lang.String" keyProperty="id">
+		<![CDATA[
+			SELECT MALL.MALL_SEQ_ADVERT_STATS.NEXTVAL FROM DUAL
+		]]>
+		</selectKey>
+	<![CDATA[
+		INSERT
+		INTO MALL.MALL_TB_ADVERT_STATS
+		  (
+			ID,
+			ADVERT_ID,
+			USER_ID,
+			IP,
+			STATE,
+			CREATE_DATE,
+			MODIFY_DATE,
+			MODIFY_USER
+		  )
+		  VALUES
+		  (
+			#id#,
+			#advertId#,
+			#userId#,
+			#ip#,
+			'U',
+			TO_DATE(#createDate#, 'yyyy-mm-dd hh24:mi:ss'),
+			sysdate,
+			#modifyUser#
+		  )
+	]]>
+	</insert>
+	
+	<select id="getAdvertStats" parameterClass="advertStats" resultClass="advertStats">
+	<![CDATA[
+		SELECT TO_CHAR(t.create_date, 'yyyy-mm-dd') AS dates,
+		  COUNT(1)                                  AS pv ,
+		  COUNT(DISTINCT t.ip)                      AS uv
+		FROM MALL.MALL_TB_ADVERT_STATS t
+		WHERE t.state      = 'U'
+		AND t.advert_id    = #advertId#
+		AND t.create_date >= to_date(#gmtStart#, 'yyyy-mm-dd')
+		AND t.create_date  < to_date(#gmtEnd#, 'yyyy-mm-dd') + 1
+		GROUP BY TO_CHAR(t.create_date, 'yyyy-mm-dd')
+		ORDER BY dates ASC
+	]]>
+	</select>
+
+</sqlMap>

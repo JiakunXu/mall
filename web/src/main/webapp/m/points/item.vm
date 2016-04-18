@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+		<title>商品信息</title>
+		#ICON()
+        #CSSM(["messenger", "bootstrap"])
+		<style>
+		body { padding-top: 70px; padding-bottom: 70px; }
+		div { overflow: hidden; }
+		hr { margin-top: 10px; margin-bottom: 10px; }
+		.minus, .plus, .text { height: 29px; background-color: #fff; border: 1px solid #999; }
+		</style>
+		#UA()
+	</head>
+	<body>
+		<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+			<a class="navbar-brand glyphicon glyphicon-chevron-left" href="$!{env.appUrl}/points/mall.htm?alias=$!{uuid}"></a>
+			<div class="navbar-brand pull-right">商品信息</div>
+        </nav>
+            
+		<div>
+			<div style="margin: -20px 0 20px 0;">
+				<div class="media">
+					#foreach($itemFile in $item.itemFileList)
+					<img class="media-object" src="$!{itemFile.filePath}" style="width: 100%; height: 250px;" />
+    				#end
+    			</div>
+            </div>
+			
+			<div style="margin-top: -15px;">
+				<div class="col-xs-12">
+					<h4>$!{item.itemName}</h4>
+                    <span style="color: #f60; font-size: 20px;">积分 $!{points}</span>
+                </div>
+            </div>
+			<hr />
+			<div>
+				<div class="col-xs-12">
+					<label style="font-size: 17px;">数量</label>
+					<div style="height: 29px; float: right;">
+						<span class="small" style="margin-right: 10px;" id="stock">库存：$!{item.stock}</span>
+						<input class="minus" style="border-radius: 2px 0 0 2px; width: 37px; margin-right: -3px; position: relative;" type="button" id="minus" value="-" ></input>
+                        <input class="text" style="width: 43px; border-width: 1px 0 1px 0; padding: 10px; margin: -10px -4px -10px -4px;" type="text" id="text" value="1"></input>
+						<input class="plus" style="border-radius: 0 2px 2px 0; width: 37px; margin-left: -3px; position: relative;" type="button" id="plus" value="+"></input>
+                    </div>
+                </div>
+            </div>
+			<hr />
+			<div>
+				<div class="col-xs-12">
+					$!esc.htmlText($!{item.remark})
+                </div>
+            </div>
+			
+    		<nav class="navbar navbar-default navbar-fixed-bottom text-center" role="navigation">
+				<div style="margin: 10px;">
+					<a class="btn btn-success" style="width: 100px;" id="btn1" data-loading-text="正在处理..."  href="javascript:exchange('1');">立即兑换</a>
+					<a class="btn btn-warning" style="width: 100px;" id="btn2" data-loading-text="正在处理..."  href="javascript:exchange('0');">加入购物车</a>
+                </div>
+            </nav>
+		</div>
+		
+		<input type="hidden" id="pointsId" value="$!{pointsId}" ></input>
+		<input type="hidden" id="itemId" value="$!{itemId}" ></input>
+		<input type="hidden" id="skuId" value="$!{skuId}" ></input>
+		
+		#JSM(["jquery", "messenger", "bootstrap"])
+		#JS_ENV_VAL()
+		<script type="text/javascript">
+		var stock  = '$!{item.stock}';
+		var uuid = '$!{uuid}';
+        </script>
+		<script type="text/javascript" src="$!{env.imgUrl}/js/m/points/item.js"></script>
+		#ShowWeixinJSBridge(["menu", "toolbar"])
+    </body>
+</html>

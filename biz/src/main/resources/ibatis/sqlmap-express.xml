@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="GB2312"?>
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="express">
+	
+	<typeAlias alias="express" type="com.kintiger.mall.api.express.bo.Express" />
+	
+	<select id="getExpressList" resultClass="express">
+	<![CDATA[
+		SELECT t.eps_id AS epsId,
+		  t.eps_name    AS epsName
+		FROM MALL.MALL_TB_EXPRESS t
+		WHERE t.state = 'U'
+		ORDER BY t.eps_name
+	]]>		
+	</select>
+
+</sqlMap>

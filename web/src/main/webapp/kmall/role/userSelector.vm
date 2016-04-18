@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+		<title>角色人员配置</title>
+        <meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		#ICON()
+        #CSSM(["ext"])
+		#UA()
+	</head>
+	<body>
+		<div class="container">
+        	<form class="form-horizontal" role="form" method="post">
+				<input type="hidden" id="userIds" name="userIds" />
+				<input type="hidden" name="roleId" value="$!{roleId}" />
+				<input type="hidden" id="expireDate" name="expireDate" />
+            </form>
+			<input type="hidden" id="jsonList" name="jsonList" value='$!{jsonList}' />
+			<div style="margin-top:15px;" id="itemselector" class="cent_border" align=center>
+    			角色人员配置过期日期：<input type="text" id="date" value="$!{expireDate}" />
+    		</div>
+    		<iframe id="hideFrame" name="hideFrame" style="display:none"></iframe>
+        </div>
+		#JSM(["common", "ext", "jquery"])
+        #JS_ENV_VAL()
+        <script type="text/javascript">
+        var store;
+		var gmtStart = '$!{gmtStart}';
+        </script>
+		<script type="text/javascript" src="$!{env.imgUrl}/js/xplatform/role/userSelector.js"></script>
+    </body>
+</html>

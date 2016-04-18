@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>注册 - Kmall在线商城</title>
+		#ICON()
+		#CSSM(["ext", "nav", "bootstrap", "pnotify", "conflict"])
+		#UA()
+	</head>
+	<body>
+		<div class="global-reset global-container global-type-global">
+    		#parse("/kmall/framework/top.vm")
+			<div class="global-common-a">
+				<div class="global">
+					<div class="global-header fn-clear">
+						<div class="global-header-content">
+							<div class="global-logo">
+                                <a herf="#"></a>
+                            </div>
+                            <div class="global-logo-neighbor"></div>
+							<ul class="global-nav">
+								<li class="global-nav-item global-nav-item-current"><a href="#">注册用户</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+			</div>
+        </div>
+		
+		<div class="container">
+			<div class="modal-dialog">
+    			<div class="modal-content">
+        			<div class="modal-header">
+        				<h4 class="modal-title">请填写基本信息</h4>
+        			</div>
+					<div class="modal-body">
+            			<form class="form-horizontal" role="form" method="post">
+    						<div class="form-group">
+    							<label class="col-md-3 control-label">手机号码</label>
+            					<div class="col-md-6">
+            						<input type="text" class="form-control" id="mobile" name="mobile" placeholder="必填" />
+                                </div>
+                            </div>
+    						<div class="form-group">
+    							<label class="col-md-3 control-label">密码</label>
+            					<div class="col-md-6">
+            						<input type="password" class="form-control" id="J_Pwd" name="password" placeholder="密码长度在6~20个字符" />
+                                </div>
+                            </div>
+    						<div class="form-group">
+    							<label class="col-md-3 control-label">确认密码</label>
+            					<div class="col-md-6">
+            						<input type="password" class="form-control" id="J_RePwd" placeholder="请确认两次输入的密码相同" />
+                                </div>
+                            </div>
+            				<div class="form-group">
+            					<label class="col-md-3 control-label">姓名</label>
+            					<div class="col-md-6">
+            						<input type="text" class="form-control" id="userName" name="userName" placeholder="" />
+                                </div>
+    						</div>
+                        </form>
+                    </div>
+        			<div class="modal-footer">
+        				<a class="btn btn-primary" href="javascript:save();">确认注册</a>
+        			</div>
+                </div>
+          	</div>
+        </div>
+		#parse("/kmall/framework/footer.vm")
+		<iframe id="hideFrame" name="hideFrame" style="display:none"></iframe>
+		#JSM(["ext", "jquery", "jquery.cookie", "pnotify"])
+		<script>
+    	var appName = '$!{env.appName}';
+		var domain = '$!{env.domain}';
+		var appUrl = '$!{env.appUrl}';
+        </script>
+		<script type="text/javascript" src="$!{env.imgUrl}/js/kmall/portal/register.js"></script>
+	</body>
+</html>

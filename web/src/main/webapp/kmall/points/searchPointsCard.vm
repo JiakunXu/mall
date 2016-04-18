@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>积分充值 － Kmall</title>
+		#ICON()
+        #CSSM(["ext", "nav", "bootstrap.docs", "bootstrap", "pnotify", "conflict"])
+		<style>
+		.form-group { padding-right: 5px; padding-left: 5px; }
+		.form-inline .form-control { height: 26px; }
+		</style>
+		#UA()
+	</head>
+	<body>
+		<div class="global-reset global-container global-type-global">
+    		#parse("/kmall/framework/top.vm")
+            <div class="global-common-a">
+				<div class="global">
+					<div class="global-header fn-clear">
+						<div class="global-header-content">
+							<div class="global-logo">
+                                <a herf="#"></a>
+                            </div>
+                            <div class="global-logo-neighbor"></div>
+							<ul class="global-nav">
+								<li class="global-nav-item"><a href="$!{env.appUrl}/shop/index.htm">店铺管理</a></li>
+                                <li class="global-nav-item"><a href="$!{env.appUrl}/item/index.htm">商品管理</a></li>
+                                <li class="global-nav-item"><a href="$!{env.appUrl}/trade/index.htm">交易管理</a></li>
+								<li class="global-nav-item global-nav-item-current">
+									<a href="$!{env.appUrl}/market/index.htm">市场营销</a>
+									<span class="global-nav-item-arrow">◆</span>
+									<span class="global-nav-item-arrow global-nav-item-arrow-border">◆</span>
+								</li>
+								<li class="global-nav-item"><a href="$!{env.appUrl}/member/index.htm">会员管理</a></li>
+                            </ul>
+                        </div>
+                    </div>
+					<div class="global-subheader">
+                        <ul class="global-subnav">
+							<li class="global-subnav-item"><a href="$!{env.appUrl}/market/index.htm">营销概况</a></li>
+							<li class="global-subnav-item"><a href="$!{env.appUrl}/points/pointsMall.htm">积分商城</a></li>
+							<li class="global-subnav-item global-subnav-item-current"><a href="$!{env.appUrl}/points/pointsCard.htm">积分充值</a></li>
+							<li class="global-subnav-item"><a href="$!{env.appUrl}/advert/index.htm">广告投放</a></li>
+						</ul>
+                    </div>
+                </div>
+			</div>
+        </div>
+		
+		<div class="container">
+			<div class="col-md-3">
+				<div class="panel panel-default">
+    				<div class="panel-heading">
+    					<h3 class="panel-title">关键指标</h3>
+    				</div>
+    				<div class="panel-body">
+						<ul class="nav nav-pills nav-stacked">
+							<li>
+								<a href="$!{env.appUrl}/points/pointsCard.htm?isUsed=N">
+									<span class="badge pull-right">$!{countOfNotUsed}</span>
+									未兑换积分卡
+								</a>
+							</li>
+							<li>
+								<a href="$!{env.appUrl}/points/pointsCard.htm?isUsed=Y">
+									<span class="badge pull-right">$!{countOfUsed}</span>
+									已兑换积分卡
+								</a>
+							</li>
+						</ul>
+    				</div>
+    			</div>
+				<div class="panel panel-default">
+    				<div class="panel-body">
+						<div id="chart" style="height: 166px;" ></div>
+    				</div>
+    			</div>
+				<div class="panel panel-default">
+    				<div class="panel-body">
+						<ul class="nav nav-pills nav-stacked">
+							<li>
+								<a href="#" data-toggle="modal" data-target="#createPointsCard">
+                                    <span class="glyphicon glyphicon-plus"></span>
+									创建积分卡
+								</a>
+							</li>
+							<li>
+								<a href="javascript:exportPointsCardData();">
+									<span class="glyphicon glyphicon-cloud-download"></span>
+									导出积分卡
+								</a>
+							</li>
+						</ul>
+    				</div>
+    			</div>
+            </div>
+			
+			<div class="col-md-9">
+    			<div class="panel panel-default">
+    				<div class="panel-body">
+            			<div class="bs-callout bs-callout-info">
+							<form class="form-inline" role="form" method="post">
+                				<div class="form-group">
+                					<label>积分卡号</label>
+                					<input class="form-control" style="width: 130px;" type='text' id='cardNo' />
+								</div>
+                                <div class="form-group">
+                					<label>充值人</label>
+                					<input class="form-control" style="width: 130px;" type='text' id='userName' />
+                                </div>
+                                <div class="form-group">
+									<label>是否充值</label>
+									<select class="form-control" id="isUsed" style="height: 27px;">
+										<option value='Y'>已充值</option>
+										<option value='N'>未充值</option>
+									</select>
+                                </div>
+								<div class="form-group">
+									<a class="btn btn-primary btn-xs" href="javascript:search();">查询</a>
+            						<a class="btn btn-default btn-xs" href="javascript:resets();">重置</a>
+                                </div>
+                            </form>
+                        </div>
+            			
+            			<div class="cent_border">
+            				<div id="gridList" class="ext-grid-mask"></div>
+            			</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+		#parse("/kmall/framework/footer.vm")
+		
+		<!-- create PointsCard -->
+        <div class="modal fade" id="createPointsCard" tabindex="-1" role="dialog" aria-labelledby="createPointsCardLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+						<h4 class="modal-title" id="createPointsCardLabel">
+							批量创建积分卡
+						</h4>
+					</div>
+					<div class="modal-body">
+    					<form class="form-horizontal" role="form" method="post">
+    						<div class="form-group">
+    							<label class="col-md-3 control-label">积分值</label>
+            					<div class="col-md-3">
+            						<input class="form-control" type="text" id="points" name="pointsCard.points" placeholder="必填" />
+                                </div>
+                            </div>
+							<div class="form-group">
+    							<label class="col-md-3 control-label">发行数量</label>
+            					<div class="col-md-3">
+            						<input class="form-control" type="text" id="quantity" name="quantity" placeholder="必填" />
+                                </div>
+                            </div>
+    						<div class="form-group">
+    							<label class="col-md-3 control-label">过期日期</label>
+								<div class="col-md-3" style="padding-top: 7px;">
+                                    <input type="text" id="expireDate" name="pointsCard.expireDate" placeholder="必填" readonly="true"/>
+                                </div>
+                            </div>
+                        </form>
+					</div>
+					<div class="modal-footer">
+						<a type="button" class="btn btn-default" data-dismiss="modal">取消</a>
+						<a type="button" class="btn btn-primary" id="btn" data-loading-text="正在处理..." href="javascript:createPointsCard();">确认创建</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<iframe id="hideFrame" name="hideFrame" style="display:none"></iframe>
+		#JSM(["ext", "jquery", "echarts", "pnotify", "bootstrap", "top"])
+		#JS_ENV_VAL()
+		<script type="text/javascript">
+		var store;
+		var gmtStart = '${gmtStart}';
+		var isUsed = '$!{isUsed}';
+		var countOfNotUsed = '$!{countOfNotUsed}';
+		var countOfUsed = '$!{countOfUsed}';
+        </script>
+       	<script type="text/javascript" src="$!{env.imgUrl}/js/kmall/points/searchPointsCard.js"></script>
+	</body>
+</html>

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="GB2312"?>
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="member.info">
+	
+	<typeAlias alias="memberInfo" type="com.kintiger.mall.api.member.bo.MemberInfo" />
+	
+	<select id="getMemberInfo" parameterClass="memberInfo" resultClass="memberInfo">
+	<![CDATA[
+		SELECT q.USER_ID AS userId,
+		  p.MEM_ID       AS memId,
+		  q.USER_NAME    AS userName,
+		  q.MOBILE,
+		  t.ID,
+		  t.SEX,
+		  TO_CHAR(t.BIRTHDAY, 'yyyy-mm-dd') AS birthday,
+		  t.ADDRESS,
+		  t.POSTAL_CODE AS postalCode,
+		  t.PROFESSION,
+		  t.EDUCATION,
+		  t.MARITAL_STATUS                     AS maritalStatus,
+		  TO_CHAR(t.WEDDING_DAY, 'yyyy-mm-dd') AS weddingDay,
+		  t.MEM_POINTS_ID                      AS memPointsId
+		FROM MALL.MALL_TB_USER q,
+		  MALL.MALL_TB_MEMBER p,
+		  (SELECT tt.ID,
+			tt.MEM_ID,
+			tt.SEX,
+			tt.BIRTHDAY,
+			tt.ADDRESS,
+			tt.POSTAL_CODE,
+			tt.PROFESSION,
+			tt.EDUCATION,
+			tt.MARITAL_STATUS,
+			tt.WEDDING_DAY,
+			tt.MEM_POINTS_ID
+		  FROM MALL.MALL_TB_MEMBER_INFO tt
+		  WHERE tt.STATE = 'U'
+		  ) t
+		WHERE q.USER_ID = p.USER_ID
+		AND p.MEM_ID    = t.MEM_ID(+)
+		AND q.STATE     = 'U'
+		AND p.STATE     = 'U'
+		AND p.MEM_ID    = #memId#
+	]]>		
+	</select>
+	
+	<insert id="createMemberInfo" parameterClass="memberInfo">
+		<selectKey resultClass="java.lang.String" keyProperty="id">
+		<![CDATA[
+			SELECT MALL.MALL_SEQ_MEMBER_INFO.NEXTVAL FROM DUAL
+		]]>
+		</selectKey>
+	<![CDATA[
+		INSERT
+		INTO MALL.MALL_TB_MEMBER_INFO
+		  (
+			ID,
+			MEM_ID,
+			SEX,
+			BIRTHDAY,
+			ADDRESS,
+			POSTAL_CODE,
+			PROFESSION,
+			EDUCATION,
+			MARITAL_STATUS,
+			WEDDING_DAY,
+			STATE,
+			CREATE_DATE,
+			MODIFY_DATE,
+			MODIFY_USER,
+			MEM_POINTS_ID
+		  )
+		  VALUES
+		  (
+			#id#,
+			#memId#,
+			#sex#,
+			TO_DATE(#birthday#, 'yyyy-mm-dd'),
+			#address#,
+			#postalCode#,
+			#profession#,
+			#education#,
+			#maritalStatus#,
+			TO_DATE(#weddingDay#, 'yyyy-mm-dd'),
+			'U',
+			sysdate,
+			sysdate,
+			#memId#,
+			#memPointsId#
+		  )
+	]]>
+	</insert>
+	
+	<update id="updateMemberInfo" parameterClass="memberInfo">
+	<![CDATA[
+		UPDATE MALL.MALL_TB_MEMBER_INFO t
+		SET t.modify_date  = sysdate,
+		  t.modify_user    = #memId#,
+		  t.SEX            = #sex#,
+		  t.BIRTHDAY       = to_date(#birthday#,'yyyy-mm-dd'),
+		  t.ADDRESS        = #address#,
+		  t.POSTAL_CODE    = #postalCode#,
+		  t.PROFESSION     = #profession#,
+		  t.EDUCATION      = #education#,
+		  t.MARITAL_STATUS = #maritalStatus#,
+		  t.WEDDING_DAY    = to_date(#weddingDay#,'yyyy-mm-dd'),
+		  t.MEM_POINTS_ID  = #memPointsId#
+		WHERE t.state      = 'U'
+		AND t.id           = #id#
+	]]>
+	</update>
+	
+</sqlMap>

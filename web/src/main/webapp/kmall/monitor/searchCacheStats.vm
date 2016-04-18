@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+    <head>
+		<title>cache监控</title>
+        <meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		#ICON()
+        #CSSM(["ext", "bootstrap", "conflict"])
+		#UA()
+	</head>
+	<body>
+		<div class="container">
+			<div class="page-header-sm">
+				<h3>
+					<small>cache状态监控</small>
+					<div class="pull-right">
+						<a class="btn btn-primary btn-xs" href="javascript:config();">配置</a>
+                    </div>
+				</h3>
+			</div>
+			<p class="lead" />
+			<div class="cent_border">
+				<div id="gridList" class="ext-grid-mask"></div>
+			</div>
+        </div>
+		#JSM(["common", "ext", "jquery"])
+        #JS_ENV_VAL()
+        <script type="text/javascript">
+        var store;
+        </script>
+        <script type="text/javascript" src="$!{env.imgUrl}/js/xplatform/monitor/searchCacheStats.js"></script>
+	</body>
+</html>

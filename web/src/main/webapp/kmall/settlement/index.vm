@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>我的收入 － Kmall</title>
+		#ICON()
+        #CSSM(["ext", "nav", "bootstrap.docs", "bootstrap.datepicker", "bootstrap", "pnotify", "conflict"])
+		<style>
+		.form-group { padding-right: 5px; padding-left: 5px; }
+		.form-inline .form-control { height: 26px; }
+		</style>
+		#UA()
+	</head>
+	<body>
+		<div class="global-reset global-container global-type-global">
+    		#parse("/kmall/framework/top.vm")
+            <div class="global-common-a">
+				<div class="global">
+					<div class="global-header fn-clear">
+						<div class="global-header-content">
+							<div class="global-logo">
+                                <a herf="#"></a>
+                            </div>
+                            <div class="global-logo-neighbor"></div>
+							<ul class="global-nav">
+								<li class="global-nav-item"><a href="$!{env.appUrl}/shop/index.htm">店铺管理</a></li>
+                                <li class="global-nav-item"><a href="$!{env.appUrl}/item/index.htm">商品管理</a></li>
+                                <li class="global-nav-item global-nav-item-current">
+									<a href="$!{env.appUrl}/trade/index.htm">交易管理</a>
+									<span class="global-nav-item-arrow">◆</span>
+									<span class="global-nav-item-arrow global-nav-item-arrow-border">◆</span>
+								</li>
+								<li class="global-nav-item"><a href="$!{env.appUrl}/market/index.htm">市场营销</a></li>
+								<li class="global-nav-item"><a href="$!{env.appUrl}/member/index.htm">会员管理</a></li>
+                            </ul>
+                        </div>
+                    </div>
+					<div class="global-subheader">
+                        <ul class="global-subnav">
+							<li class="global-subnav-item"><a href="$!{env.appUrl}/trade/index.htm">订单概况</a></li>
+							<li class="global-subnav-item"><a href="$!{env.appUrl}/trade/tradeAction!searchTrade.htm">所有订单</a></li>
+							<li class="global-subnav-item"><a href="$!{env.appUrl}/trade/tradeAction!searchTrade.htm?type=feedback">维权订单</a></li>
+							<li class="global-subnav-item"><a href="$!{env.appUrl}/trade/tradeAction!searchTrade.htm?shipment=N">到店自提订单</a></li>
+                            <li class="global-subnav-item"><a href="$!{env.appUrl}/trade/tradeAction!searchTrade.htm?type=star">加星订单</a></li>
+							<li class="global-subnav-item global-subnav-item-current"><a href="$!{env.appUrl}/settlement/index.htm">我的收入</a></li>
+						</ul>
+                    </div>
+                </div>
+			</div>
+        </div>
+		
+		<div class="container">
+			<div class="col-md-3">
+				<div class="panel panel-default">
+    				<div class="panel-heading">
+    					<h3 class="panel-title">关键指标</h3>
+    				</div>
+    				<div class="panel-body">
+						<ul class="nav nav-pills nav-stacked">
+							<li>
+								<a href="$!{env.appUrl}/settlement/index.htm">
+									#if("" == "$!{payType}")
+                                    <span class="glyphicon glyphicon-chevron-right"></span>
+									#end
+									七天已付款
+									<span class="badge pull-right">￥ $!{totalFee}</span>
+								</a>
+							</li>
+							<li>
+								<a href="$!{env.appUrl}/settlement/index.htm?payType=alipay">
+									#if("alipay" == "$!{payType}")
+									<span class="glyphicon glyphicon-chevron-right"></span>
+        							#end
+									七天支付宝
+									<span class="badge pull-right">￥ $!{totalFeeAli}</span>
+								</a>
+							</li>
+							<li>
+								<a href="$!{env.appUrl}/settlement/index.htm?payType=wx">
+									#if("wx" == "$!{payType}")
+									<span class="glyphicon glyphicon-chevron-right"></span>
+        							#end
+									七天微信支付
+									<span class="badge pull-right">￥ $!{totalFeeWx}</span>
+								</a>
+							</li>
+						</ul>
+    				</div>
+    			</div>
+				<div class="panel panel-default">
+    				<div class="panel-body">
+						<div id="chart" style="height: 258px;" ></div>
+    				</div>
+    			</div>
+            </div>
+			
+			<div class="col-md-9">
+    			<div class="panel panel-default">
+    				<div class="panel-body">
+            			<div class="bs-callout bs-callout-info">
+							<form class="form-inline" role="form" method="post">
+                				<div class="form-group input-daterange">
+									<label style="float:left; margin: 2px 5px 0 0;">收款日期</label>
+									<input type="text" class="form-control input-sm" style="width: 130px; float: left;" name="start" id='gmtStart' value="$!{gmtStart}" placeholder="开始日期" />
+                                    <span class="form-control input-group-addon" style="width: 35px; float: left; padding: 2px 5px;">至</span>
+                                    <input type="text" class="form-control input-sm" style="width: 130px; float: left;" name="end" id='gmtEnd' value="$!{gmtEnd}" placeholder="结束日期" />
+								</div>
+								<div class="form-group">
+									<a class="btn btn-primary btn-xs" href="javascript:search();">查询</a>
+            						<a class="btn btn-default btn-xs" href="javascript:resets();">重置</a>
+                                </div>
+                            </form>
+                        </div>
+            			
+            			<div class="cent_border">
+            				<div id="gridList" class="ext-grid-mask"></div>
+            			</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+		#parse("/kmall/framework/footer.vm")
+		
+		#JSM(["ext", "jquery", "echarts", "bootstrap.datepicker", "bootstrap", "pnotify", "top"])
+		#JS_ENV_VAL()
+		<script type="text/javascript">
+		var store;
+		var gStart = '$!{gmtStart}';
+		var gEnd = '$!{gmtEnd}';
+		var totalAli = '$!{totalAli}';
+		var totalWx = '$!{totalWx}';
+		var payType = '$!{payType}';
+        </script>
+       	<script type="text/javascript" src="$!{env.imgUrl}/js/kmall/settlement/index.js"></script>
+	</body>
+</html>

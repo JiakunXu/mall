@@ -1,0 +1,38 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.kintiger</groupId>
+		<artifactId>kmall</artifactId>
+		<version>1.0</version>
+	</parent>
+	<artifactId>kmall-web</artifactId>
+	<name>web</name>
+	<packaging>war</packaging>
+
+	<build>
+		<finalName>kmall</finalName>
+	</build>
+
+	<dependencies>
+		<!-- module action -->
+		<dependency>
+			<groupId>com.kintiger</groupId>
+			<artifactId>kmall-action</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<!-- module task -->
+		<dependency>
+			<groupId>com.kintiger</groupId>
+			<artifactId>kmall-task</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<!-- druid -->
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>druid</artifactId>
+		</dependency>
+	</dependencies>
+</project>

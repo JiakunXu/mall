@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+		<title>我的购物车</title>
+		#ICON()
+        #CSSM(["icheck", "messenger", "bootstrap"])
+		<style>
+		body { padding-top: 70px; padding-bottom: 70px; }
+		div { overflow: hidden; }
+		hr { margin-top: 10px; margin-bottom: 10px; }
+		p { margin: 0 0 3px; }
+		.col-xs-1 { padding-right: 2px; padding-left: 4px; }
+		.col-xs-4, .col-xs-7 { padding-right: 5px; padding-left: 5px; }
+		</style>
+		#UA()
+	</head>
+	<body>
+		<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+			<a class="navbar-brand glyphicon glyphicon-home" href="$!{env.appUrl}/shop/homepage.htm?alias=$!{uuid}"></a>
+            <a class="navbar-brand pull-right" id="edit2topay" href="javascript:edit('y');">编辑</a>
+			<a class="navbar-brand pull-right" style="display: none;" id="edit2cancel" href="javascript:edit('n');">完成</a>
+        </nav>
+		
+		#if($!{cartList} == [])
+		<div class="container">
+			<blockquote>
+				<p>你的购物车还是空的！</p>
+            </blockquote>
+			<a class="btn btn-success btn-block" href="$!{env.appUrl}/shop/homepage.htm?alias=$!{uuid}">去首页逛逛</a>
+        </div>
+			
+		#else
+		<form role="form" method="post">
+    		#foreach($cart in $cartList)
+    		<div>
+    			<div class="col-xs-1" style="margin-top: 30px;">
+    				<input type="checkbox" name="cartId" value="$!{cart.cartId}" />
+                </div>
+        		<div class="col-xs-4">
+    				<a class="pull-right" href="#">
+    					#foreach($itemFile in $cart.itemFileList)
+                        <img class="img-thumbnail lazy" data-original="$!{itemFile.filePath}" style="width: 100px; height: 80px;" ></img>
+    					#end
+    				</a>
+                </div>
+    			<div class="col-xs-7">
+					<div style="height: 80px;">
+    					<p><strong>$!{cart.itemName}</strong></p>
+						<div class="small">$!{cart.propertiesName}</div>
+						#if($!{cart.pointsId} == '0')
+                        <div style="color: #f60;">￥ $!formatUtil.getAmountFormat($!{cart.price})</div>
+						<input type="hidden" id="price$!{cart.cartId}" value="$!{cart.price}" />
+						<input type="hidden" id="points$!{cart.cartId}" value="0" />
+						#else
+						<div style="color: #f60;">积分 $!{cart.points}</div>
+						<input type="hidden" id="price$!{cart.cartId}" value="0" />
+						<input type="hidden" id="points$!{cart.cartId}" value="$!{cart.points}" />
+						#end
+    					<div style="margin-left: 5px;">x $!{cart.quantity}</div>
+						<input type="hidden" id="quantity$!{cart.cartId}" value="$!{cart.quantity}" />
+                    </div>
+                </div>
+            </div>
+    		<hr />
+    		#end
+		</form>
+		#end
+    
+		<nav class="navbar navbar-default navbar-fixed-bottom" role="navigation">
+			<div id="topay">
+    			<div class="pull-left" style="margin: 10px;">
+    				<a class="btn btn-default" href="javascript:checkAll();"><span class="glyphicon glyphicon-check"></span> 全选</a>
+                </div>
+    			<div class="col-xs-4 small" style="color: #f60; margin-top: 11px; padding: 0;">
+    				合计 <span id="total">0</span> 元 + <span id="points">0</span> 积分
+                </div>
+    			<div class="pull-right" style="margin: 10px;">
+    				<a class="btn btn-success" id="btn1" data-loading-text="正在处理..." href="javascript:confirm();"><span class="glyphicon glyphicon-tags"></span> 结算<span id="count"></span></a>
+                </div>
+            </div>
+			<div style="display: none;" id="cancel">
+    			<div class="pull-left" style="margin: 10px;">
+    				<a class="btn btn-default" href="javascript:checkAll();"><span class="glyphicon glyphicon-check"></span> 全选</a>
+                </div>
+    			<div style="display: none;">
+    				合计 <span id="total">0</span> 元 + <span id="points">0</span> 积分
+                </div>
+    			<div class="pull-right" style="margin: 10px;">
+    				<a class="btn btn-danger" id="btn2" data-loading-text="正在处理..." href="javascript:cancel();"><span class="glyphicon glyphicon-trash"></span> 删除<span id="count1"></span></a>
+                </div>
+            </div>
+        </nav>
+		
+		<iframe id="hideFrame" name="hideFrame" style="display:none"></iframe>
+		#JSM(["common", "jquery", "jquery.lazyload", "icheck", "messenger", "bootstrap"])
+		#JS_ENV_VAL()
+		<script type="text/javascript" src="$!{env.imgUrl}/js/m/cart/index.js"></script>
+		#HideWeixinJSBridge(["menu", "toolbar"])
+    </body>
+</html>

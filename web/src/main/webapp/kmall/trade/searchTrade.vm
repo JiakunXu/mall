@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>交易管理 － Kmall</title>
+		#ICON()
+        #CSSM(["ext", "nav", "bootstrap.docs", "jquery.raty", "bootstrap", "pnotify", "conflict"])
+		<style>
+		.form-group { padding-right: 5px; padding-left: 5px; }
+		.form-inline .form-control { height: 26px; }
+		</style>
+		#UA()
+	</head>
+	<body>
+		<div class="global-reset global-container global-type-global">
+    		#parse("/kmall/framework/top.vm")
+            <div class="global-common-a">
+				<div class="global">
+					<div class="global-header fn-clear">
+						<div class="global-header-content">
+							<div class="global-logo">
+                                <a herf="#"></a>
+                            </div>
+                            <div class="global-logo-neighbor"></div>
+							<ul class="global-nav">
+								<li class="global-nav-item"><a href="$!{env.appUrl}/shop/index.htm">店铺管理</a></li>
+                                <li class="global-nav-item"><a href="$!{env.appUrl}/item/index.htm">商品管理</a></li>
+                                <li class="global-nav-item global-nav-item-current">
+									<a href="$!{env.appUrl}/trade/index.htm">交易管理</a>
+									<span class="global-nav-item-arrow">◆</span>
+									<span class="global-nav-item-arrow global-nav-item-arrow-border">◆</span>
+								</li>
+								<li class="global-nav-item"><a href="$!{env.appUrl}/market/index.htm">市场营销</a></li>
+								<li class="global-nav-item"><a href="$!{env.appUrl}/member/index.htm">会员管理</a></li>
+                            </ul>
+                        </div>
+                    </div>
+					<div class="global-subheader">
+                        <ul class="global-subnav">
+							<li class="global-subnav-item"><a href="$!{env.appUrl}/trade/index.htm">订单概况</a></li>
+							#if("N" == "$!{shipment}")
+							<li class="global-subnav-item"><a href="$!{env.appUrl}/trade/tradeAction!searchTrade.htm">所有订单</a></li>
+							<li class="global-subnav-item"><a href="$!{env.appUrl}/trade/tradeAction!searchTrade.htm?type=feedback">维权订单</a></li>
+							<li class="global-subnav-item global-subnav-item-current"><a href="$!{env.appUrl}/trade/tradeAction!searchTrade.htm?shipment=N">到店自提订单</a></li>
+                            <li class="global-subnav-item"><a href="$!{env.appUrl}/trade/tradeAction!searchTrade.htm?type=star">加星订单</a></li>
+							#elseif($!stringUtil.isBlank($!{type}) || "topay" == "$!{type}" || "tosend" == "$!{type}" || "send" == "$!{type}" || "sign" == "$!{type}" || "cancel" == "$!{type}")
+                            <li class="global-subnav-item global-subnav-item-current"><a href="$!{env.appUrl}/trade/tradeAction!searchTrade.htm">所有订单</a></li>
+							<li class="global-subnav-item"><a href="$!{env.appUrl}/trade/tradeAction!searchTrade.htm?type=feedback">维权订单</a></li>
+							<li class="global-subnav-item"><a href="$!{env.appUrl}/trade/tradeAction!searchTrade.htm?shipment=N">到店自提订单</a></li>
+							<li class="global-subnav-item"><a href="$!{env.appUrl}/trade/tradeAction!searchTrade.htm?type=star">加星订单</a></li>
+							#elseif($!stringUtil.isBlank($!{type}) || "feedback" == "$!{type}")
+                            <li class="global-subnav-item"><a href="$!{env.appUrl}/trade/tradeAction!searchTrade.htm">所有订单</a></li>
+							<li class="global-subnav-item global-subnav-item-current"><a href="$!{env.appUrl}/trade/tradeAction!searchTrade.htm?type=feedback">维权订单</a></li>
+							<li class="global-subnav-item"><a href="$!{env.appUrl}/trade/tradeAction!searchTrade.htm?shipment=N">到店自提订单</a></li>
+							<li class="global-subnav-item"><a href="$!{env.appUrl}/trade/tradeAction!searchTrade.htm?type=star">加星订单</a></li>
+							#else
+							<li class="global-subnav-item"><a href="$!{env.appUrl}/trade/tradeAction!searchTrade.htm">所有订单</a></li>
+							<li class="global-subnav-item"><a href="$!{env.appUrl}/trade/tradeAction!searchTrade.htm?type=feedback">维权订单</a></li>
+							<li class="global-subnav-item"><a href="$!{env.appUrl}/trade/tradeAction!searchTrade.htm?shipment=N">到店自提订单</a></li>
+                            <li class="global-subnav-item global-subnav-item-current"><a href="$!{env.appUrl}/trade/tradeAction!searchTrade.htm?type=star">加星订单</a></li>
+							#end
+							<li class="global-subnav-item"><a href="$!{env.appUrl}/settlement/index.htm">我的收入</a></li>
+						</ul>
+                    </div>
+                </div>
+			</div>
+        </div>
+		
+		<div class="container">
+			<div class="col-md-2">
+				#if("N" == "$!{shipment}")
+				<div class="panel panel-default">
+    				<div class="panel-body">
+						<span class="glyphicon glyphicon-paperclip"></span><small> 到店自提订单：买家到店提取商品，无需物流配送</small>
+    				</div>
+    			</div>
+				#elseif("star" == "$!{type}")
+				<div class="panel panel-default">
+    				<div class="panel-body">
+						<span class="glyphicon glyphicon-paperclip"></span><small> 通过加星可对订单进行分类</small>
+    				</div>
+    			</div>
+				#else
+				<div class="panel panel-default">
+					<div class="panel-heading">
+    					<h3 class="panel-title">订单类型</h3>
+    				</div>
+    				<div class="panel-body">
+						<ul class="nav nav-pills nav-stacked">
+							#if("feedback" == "$!{type}" || "feedbacked" == "$!{type}")
+							<li>
+								<a href="$!{env.appUrl}/trade/tradeAction!searchTrade.htm?type=feedback">
+									维权订单
+    								#if("feedback" == "$!{type}")
+    								<span class="glyphicon glyphicon-chevron-right pull-right"></span>
+    								#end
+								</a>
+							</li>
+							<li>
+    							<a href="$!{env.appUrl}/trade/tradeAction!searchTrade.htm?type=feedbacked">
+									已处理订单
+        							#if("feedbacked" == "$!{type}")
+        							<span class="glyphicon glyphicon-chevron-right pull-right"></span>
+        							#end
+    							</a>
+							</li>
+							#else
+							<li>
+								<a href="$!{env.appUrl}/trade/tradeAction!searchTrade.htm">
+									所有订单
+    								#if($!stringUtil.isBlank($!{type}))
+    								<span class="glyphicon glyphicon-chevron-right pull-right"></span>
+    								#end
+								</a>
+							</li>
+							<li>
+    							<a href="$!{env.appUrl}/trade/tradeAction!searchTrade.htm?type=topay">
+									待付款
+        							#if("topay" == "$!{type}")
+        							<span class="glyphicon glyphicon-chevron-right pull-right"></span>
+        							#end
+    							</a>
+							</li>
+							<li>
+    							<a href="$!{env.appUrl}/trade/tradeAction!searchTrade.htm?type=tosend">
+									待发货
+        							#if("tosend" == "$!{type}")
+        							<span class="glyphicon glyphicon-chevron-right pull-right"></span>
+        							#end
+    							</a>
+							</li>
+							<li>
+    							<a href="$!{env.appUrl}/trade/tradeAction!searchTrade.htm?type=send">
+									已发货
+        							#if("send" == "$!{type}")
+        							<span class="glyphicon glyphicon-chevron-right pull-right"></span>
+        							#end
+    							</a>
+							</li>
+							<li>
+								<a href="$!{env.appUrl}/trade/tradeAction!searchTrade.htm?type=sign">
+									标记签收
+        							#if("sign" == "$!{type}")
+        							<span class="glyphicon glyphicon-chevron-right pull-right"></span>
+        							#end
+    							</a>
+							</li>
+							<li>
+    							<a href="$!{env.appUrl}/trade/tradeAction!searchTrade.htm?type=cancel">
+									已关闭
+        							#if("cancel" == "$!{type}")
+        							<span class="glyphicon glyphicon-chevron-right pull-right"></span>
+        							#end
+    							</a>
+							</li>
+							<li>
+    							<a href="$!{env.appUrl}/trade/tradeAction!searchTrade.htm?type=check">
+									临时单
+        							#if("check" == "$!{type}")
+        							<span class="glyphicon glyphicon-chevron-right pull-right"></span>
+        							#end
+    							</a>
+							</li>
+							#end
+						</ul>
+    				</div>
+    			</div>
+				
+				#if("feedback" == "$!{type}" || "feedbacked" == "$!{type}")
+				<div class="panel panel-default">
+					<ul class="list-group">
+                        <li class="list-group-item"><span class="glyphicon glyphicon-paperclip"></span><small> 买家申请退货订单</small></li>
+                        <li class="list-group-item"><span class="glyphicon glyphicon-paperclip"></span><small> 校验：处理维权订单时，存在扣除购买时赠送积分情况</small></li>
+					</ul>
+    			</div>
+				#else
+				<div class="panel panel-default">
+    				<div class="panel-body">
+						<span class="glyphicon glyphicon-paperclip"></span><small> 临时单：买家点击支付，但尚未确认付款</small>
+    				</div>
+    			</div>
+				#end
+				
+				#end
+            </div>
+			
+			<div class="col-md-10">
+    			<div class="panel panel-default">
+    				<div class="panel-body">
+            			<div class="bs-callout bs-callout-info">
+                        	<form class="form-inline" role="form" method="post">
+                				<div class="form-group">
+                					<label>订单号</label>
+                					<input class="form-control" style="width: 130px;" type='text' id='tradeNo' />
+                                </div>
+								<div class="form-group">
+            						<label>收货人</label>
+									<input class="form-control" style="width: 130px;" type='text' id='receiverName' />
+                                </div>
+								<div class="form-group">
+            						<label>联系方式</label>
+									<input class="form-control" style="width: 130px;" type='text' id='receiverTel' />
+                				</div>
+								<div class="form-group">
+									<a class="btn btn-primary btn-xs" href="javascript:search();">查询</a>
+            						<a class="btn btn-default btn-xs" href="javascript:resets();">重置</a>
+                                </div>
+                            </form>
+                        </div>
+            			
+            			<div class="cent_border">
+            				<div id="gridList" class="ext-grid-mask"></div>
+            			</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+		#parse("/kmall/framework/footer.vm")
+		
+		<!-- sendTrade -->
+        <div class="modal fade" id="sendTrade" tabindex="-1" role="dialog" aria-labelledby="sendTradeLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+						<h4 class="modal-title" id="sendTradeLabel">
+							发货
+						</h4>
+					</div>
+					<div class="modal-body">
+    					<form class="form-horizontal" role="form" method="post">
+							<div class="form-group">
+    							<label class="col-md-3 control-label">订单号</label>
+            					<div class="col-md-3" style="padding-top: 7px;">
+									<div id="no"></div>
+            						<input type="hidden" id="tradeId" />
+                                </div>
+                            </div>
+    						<div class="form-group">
+    							<label class="col-md-3 control-label">发货方式</label>
+            					<div class="col-md-6">
+            						<div class="radio radioItem" style="margin-top: 0; margin-bottom: 0;">
+            							<label><input type="radio" name="shipment" value="Y" checked />需要物流</label>
+            							<label><input type="radio" name="shipment" value="N" />无需物流</label>
+                                    </div>
+                                </div>
+                            </div>
+							<div id="express-section">
+    							<div class="form-group">
+        							<label class="col-md-3 control-label">物流公司</label>
+                					<div class="col-md-3">
+                						<select class="form-control small" id="epsId" >
+    										#foreach($express in $expressList)
+                							<option value ="$!{express.epsId}">$!{express.epsName}</option>
+    										#end
+                						</select>
+                                    </div>
+                                </div>
+        						<div class="form-group">
+        							<label class="col-md-3 control-label">快递单号</label>
+    								<div class="col-md-4">
+    									<input class="form-control" type="text" id="epsNo" placeholder="必填" />
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+					</div>
+					<div class="modal-footer">
+						<a type="button" class="btn btn-default" data-dismiss="modal">取消</a>
+						<a type="button" class="btn btn-primary" id="btn" data-loading-text="正在处理..." href="javascript:sendTrade();">确认发货</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		#JSM(["jquery", "jquery.raty", "pnotify", "ext", "bootstrap", "top"])
+        #JS_ENV_VAL()
+		<script type="text/javascript">
+		var store;
+		var type = '$!{type}';
+		var shipment = '$!{shipment}';
+        </script>
+       	<script type="text/javascript" src="$!{env.imgUrl}/js/kmall/trade/searchTrade.js?t=20141027"></script>
+	</body>
+</html>

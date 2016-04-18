@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="GB2312"?>
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="pageview">
+	
+	<typeAlias alias="pageview" type="com.kintiger.mall.api.pageview.bo.Pageview" />
+	
+	<insert id="createPageview" parameterClass="pageview">
+		<selectKey resultClass="java.lang.String" keyProperty="id">
+		<![CDATA[
+			SELECT MALL.MALL_SEQ_MONITOR_ACTION.nextval FROM dual
+		]]>
+		</selectKey>
+	<![CDATA[
+		INSERT
+		INTO MALL.MALL_TB_PAGEVIEW
+		  (
+			ID,
+			ACTION_NAME,
+			PARAMETER,
+			IP,
+			STATE,
+			CREATE_DATE,
+			MODIFY_DATE,
+			MODIFY_USER,
+			SHOP_ID
+		  )
+		  VALUES
+		  (
+			#id:VARCHAR#,
+			#actionName:VARCHAR#,
+			#parameter:VARCHAR#,
+			#ip:VARCHAR#,
+			'U',
+			TO_DATE(#createDate#,'yyyy-mm-dd hh24:mi:ss'),
+			sysdate,
+			#modifyUser#,
+			#shopId#
+		  )
+	]]>
+	</insert>
+	
+	<select id="getPageviewStats" parameterClass="pageview" resultClass="pageview">
+		<isNotEmpty property="actionName">
+		<![CDATA[ SELECT * FROM ( ]]>
+		</isNotEmpty>
+	<![CDATA[
+		SELECT COUNT(1)        AS pv,
+		  COUNT(DISTINCT t.ip) AS uv
+	]]>
+		<dynamic>
+			<isNotEmpty property="actionName" prepend=",">
+			<![CDATA[ t.parameter AS parameter ]]>
+			</isNotEmpty>
+			<isEmpty property="actionName" prepend=",">
+			<![CDATA[ '' AS parameter ]]>
+			</isEmpty>
+		</dynamic>
+	<![CDATA[
+		FROM MALL.MALL_TB_PAGEVIEW t
+		WHERE t.state     = 'U'
+		AND t.shop_id     = #shopId#
+	]]>
+		<dynamic>
+			<isNotEmpty property="gmtStart" prepend="and">
+			<![CDATA[ t.create_date >= to_date(#gmtStart#, 'yyyy-mm-dd') ]]>
+			</isNotEmpty>
+			<isNotEmpty property="gmtEnd" prepend="and">
+			<![CDATA[ t.create_date < to_date(#gmtEnd#, 'yyyy-mm-dd') + 1 ]]>
+			</isNotEmpty>
+			<isNotEmpty property="actionName" prepend="and">
+			<![CDATA[ t.action_name = #actionName# ]]>
+			</isNotEmpty>
+			<isNotEmpty property="actionName">
+			<![CDATA[ GROUP BY t.parameter ]]>
+			</isNotEmpty>
+			<isNotEmpty property="actionName">
+			<![CDATA[ ORDER BY pv DESC ]]>
+			</isNotEmpty>
+			<isNotEmpty property="actionName">
+			<![CDATA[ ) WHERE rownum < 6 ]]>
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+</sqlMap>

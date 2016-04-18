@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>广告投放 － Kmall</title>
+		#ICON()
+        #CSSM(["nav", "bootstrap", "pnotify"])
+		#UA()
+	</head>
+	<body>
+		<div class="global-reset global-container global-type-global">
+    		#parse("/kmall/framework/top.vm")
+            <div class="global-common-a">
+				<div class="global">
+					<div class="global-header fn-clear">
+						<div class="global-header-content">
+							<div class="global-logo">
+                                <a herf="#"></a>
+                            </div>
+                            <div class="global-logo-neighbor"></div>
+							<ul class="global-nav">
+								<li class="global-nav-item"><a href="$!{env.appUrl}/shop/index.htm">店铺管理</a></li>
+                                <li class="global-nav-item"><a href="$!{env.appUrl}/item/index.htm">商品管理</a></li>
+                                <li class="global-nav-item"><a href="$!{env.appUrl}/trade/index.htm">交易管理</a></li>
+								<li class="global-nav-item global-nav-item-current">
+									<a href="$!{env.appUrl}/market/index.htm">市场营销</a>
+									<span class="global-nav-item-arrow">◆</span>
+									<span class="global-nav-item-arrow global-nav-item-arrow-border">◆</span>
+								</li>
+								<li class="global-nav-item"><a href="$!{env.appUrl}/member/index.htm">会员管理</a></li>
+                            </ul>
+                        </div>
+                    </div>
+					<div class="global-subheader">
+                        <ul class="global-subnav">
+							<li class="global-subnav-item"><a href="$!{env.appUrl}/market/index.htm">营销概况</a></li>
+							<li class="global-subnav-item"><a href="$!{env.appUrl}/points/pointsMall.htm">积分商城</a></li>
+							<li class="global-subnav-item"><a href="$!{env.appUrl}/points/pointsCard.htm">积分充值</a></li>
+							<li class="global-subnav-item global-subnav-item-current"><a href="$!{env.appUrl}/advert/index.htm">广告投放</a></li>
+						</ul>
+                    </div>
+                </div>
+			</div>
+        </div>
+		
+		<div class="container">
+			<div class="col-md-4">
+				<div class="panel panel-default">
+                    <div class="panel-heading">
+						<h3 class="panel-title">广告</h3>
+					</div>
+					<div class="panel-body">
+						<table class="table table-condensed table-hover">
+							<thead>
+                                <tr><th>#</th><th>广告名称</th><th>赠积分</th><th>统计周期</th><th>操作</th></tr>
+    						</thead>
+							<tbody>
+								#foreach($advert in $advertList)
+								<tr>
+    								<td>$velocityCount</td>
+    								<td>$!{advert.advertName}</td>
+    								<td>$!{advert.points}</td>
+    								<td>$!{advert.cycle} 天</td>
+									<td>
+										<a class="btn btn-primary btn-sm" style="height: 25px; padding: 0 6px;" href="javascript:getAdvertStats('$!{advert.advertId}', '$!{advert.advertName}');">统计</a>
+										<a class="btn btn-default btn-sm" style="height: 25px; padding: 0 6px;" id="copy-button$velocityCount" data-clipboard-text="$!{env.appUrl}/advert/click.htm?alias=$!{uuid}&advertId=$!{advert.advertId}">复制链接</a>
+                                    </td>
+								</tr>
+								#end
+							</tbody>
+						</table>
+					</div>
+    			</div>
+				<div class="panel panel-default">
+    				<div class="panel-body">
+						<ul class="nav nav-pills nav-stacked">
+							<li>
+								<a href="javascript:exportAdvertPointsData();">
+									<span class="glyphicon glyphicon-cloud-download"></span>
+									导出点击广告赠送积分
+								</a>
+							</li>
+                        </ul>
+    				</div>
+    			</div>
+            </div>
+			
+			<div class="col-md-8">
+				<div class="panel panel-default">
+					<div class="panel-body">
+                        <div id="chart" style="height: 362px;" ></div>
+                    </div>
+				</div>
+			</div>
+        </div>
+		#parse("/kmall/framework/footer.vm")
+		
+		#JSM(["jquery", "echarts", "pnotify", "bootstrap", "top", "zeroclipboard"])
+		#JS_ENV_VAL()
+		<script type="text/javascript">
+		var size = $advertList.size();
+        </script>
+       	<script type="text/javascript" src="$!{env.imgUrl}/js/kmall/advert/index.js"></script>
+	</body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+    <head>
+		<title>角色配置</title>
+        <meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		#ICON()
+        #CSSM(["ext", "bootstrap", "conflict"])
+		#UA()
+	</head>
+	<body>
+		<div class="container">
+			<div class="page-header-sm">
+				<h3>
+					<small>角色配置</small>
+					<div class="pull-right">
+						<a class="btn btn-primary btn-xs" href="javascript:window.close();">关闭</a>
+                    </div>
+				</h3>
+			</div>
+        	<form role="form" method="post">
+				<div class="well well-sm" style="margin-bottom: 10px;">
+					#if($!stringUtil.isNotEmpty($!{staId}))
+					<label class="col-xs-1 text-right">岗位名称</label>
+             		<div class="col-xs-5">
+						$!{staName}
+						<input type="hidden" id="staName" value='$!{staName}' />
+						<input type='hidden' id='staId' name='staId' value='$!{staId}' />
+					</div>
+					#end
+					#if($!stringUtil.isNotEmpty($!{posId}))
+					<label class="col-xs-1 text-right">编制名称</label>
+             		<div class="col-xs-5">
+						$!{posName}
+						<input type="hidden" id="posName" value='$!{posName}' />
+						<input type='hidden' id='posId' name='posId' value='$!{posId}' />
+					</div>
+					#end
+				</div>
+				<div class="well well-sm" style="margin-bottom: 5px;">
+					<label class="col-xs-1 text-right">新增角色</label>
+					<div class="col-xs-3">
+						<input type='text' id='roleIds' name="roleIds" size='60' />
+                    </div>
+					<div class="col-xs-1 col-xs-offset-3">
+						<a class="btn btn-primary btn-xs" href="javascript:selectRole();">保存角色</a>
+                    </div>
+                </div>
+				#if($!stringUtil.isNotEmpty($!{staId}))
+				<div class="well well-sm" style="margin-bottom: 10px;">
+					<label class="col-xs-1 text-right">选择岗位</label>
+					<div class="col-xs-3">
+						<input type='text' id='staNames' size='60' />
+						<input type='hidden' id='staIds' name="staIds" />
+                    </div>
+					<div class="col-xs-1 col-xs-offset-3">
+						<a class="btn btn-primary btn-xs" href="javascript:selectStationRole();">复制岗位角色</a>
+                    </div>
+                </div>
+				#end
+				<div class="well well-sm" style="margin-bottom: 10px;">
+					<label class="col-xs-1 text-right">角色编号</label>
+					<div class="col-xs-2">
+						<input type="text" id="roleId" />
+                    </div>
+					<label class="col-xs-1 text-right">角色名称</label>
+					<div class="col-xs-2">
+						<input type='text' id='roleName' />
+                    </div>
+					<div class="pull-right">
+						<a class="btn btn-primary btn-xs" href="javascript:search();">查询</a>
+						<a class="btn btn-default btn-xs" href="javascript:resets();">重置</a>
+    					<a class="btn btn-danger btn-xs" href="javascript:deleteRole();">批量删除角色</a>
+                    </div>
+				</div>
+				<input type='hidden' id='roleList' name='roleList' />
+            </form>
+			<div class="cent_border">
+				<div id="gridList" class="ext-grid-mask"></div>
+			</div>
+        </div>
+		<iframe id="hideFrame" name="hideFrame" style="display:none"></iframe>
+		#JSM(["common", "ext", "jquery"])
+        #JS_ENV_VAL()
+        <script type="text/javascript">
+        var store;
+        var staId = '$!{staId}';
+        var posId = '$!{posId}';
+        </script>
+        <script type="text/javascript" src="$!{env.imgUrl}/js/xplatform/role/searchSelectedRole.js"></script>
+	</body>
+</html>

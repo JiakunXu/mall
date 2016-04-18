@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="GB2312"?>
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="ip">
+	
+	<typeAlias alias="ip" type="com.kintiger.mall.api.ip.bo.IP" />
+	
+	<insert id="createIP" parameterClass="ip">
+		<selectKey resultClass="java.lang.String" keyProperty="id">
+		<![CDATA[
+			SELECT MALL.MALL_SEQ_IP.NEXTVAL FROM DUAL
+		]]>
+		</selectKey>
+	<![CDATA[
+		INSERT
+		INTO MALL.MALL_TB_IP
+		  (
+			ID,
+			COUNTRY,
+			COUNTRY_ID,
+			AREA,
+			AREA_ID,
+			REGION,
+			REGION_ID,
+			CITY,
+			CITY_ID,
+			COUNTY,
+			COUNTY_ID,
+			ISP,
+			ISP_ID,
+			IP,
+			CREATE_DATE,
+			MODIFY_DATE,
+			MODIFY_USER,
+			STATE
+		  )
+		  VALUES
+		  (
+			#id#,
+			#country#,
+			#countryId#,
+			#area#,
+			#areaId#,
+			#region#,
+			#regionId#,
+			#city#,
+			#cityId#,
+			#county#,
+			#countyId#,
+			#isp#,
+			#ispId#,
+			#ip#,
+			sysdate,
+			sysdate,
+			#modifyUser#,
+			'U'
+		  )
+	]]>
+	</insert>
+	
+	<select id="getIPCount" parameterClass="ip" resultClass="java.lang.Integer">
+	<![CDATA[
+		SELECT COUNT(1) FROM MALL.MALL_TB_IP t WHERE t.state = 'U' AND t.ip = #ip#
+	]]>		
+	</select>
+	
+</sqlMap>

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="GB2312"?>
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="pay.ali">
+	
+	<typeAlias alias="aliCallback" type="com.kintiger.mall.api.pay.bo.AliCallback" />
+	<typeAlias alias="aliNotify" type="com.kintiger.mall.api.pay.bo.AliNotify" />
+	
+	<insert id="createAliCallback" parameterClass="aliCallback">
+		<selectKey resultClass="java.lang.String" keyProperty="id">
+		<![CDATA[
+			SELECT MALL.MALL_SEQ_PAY_ALI_CALLBACK.NEXTVAL FROM DUAL
+		]]>
+		</selectKey>
+	<![CDATA[
+		INSERT
+		INTO MALL.MALL_TB_PAY_ALI_CALLBACK
+		  (
+			ID,
+			SIGN,
+			TRADE_NO,
+			RESULT,
+			OUT_TRADE_NO,
+			REQUEST_TOKEN,
+			STATE,
+			CREATE_DATE,
+			MODIFY_DATE,
+			MODIFY_USER
+		  )
+		  VALUES
+		  (
+			#id#,
+			#sign#,
+			#tradeNo#,
+			#result#,
+			#outTradeNo#,
+			#requestToken#,
+			'U',
+			sysdate,
+			sysdate,
+			#modifyUser#
+		  )
+	]]>
+	</insert>
+	
+	<insert id="createAliNotify" parameterClass="aliNotify">
+		<selectKey resultClass="java.lang.String" keyProperty="id">
+		<![CDATA[
+			SELECT MALL.MALL_SEQ_PAY_ALI_NOTIFY.NEXTVAL FROM DUAL
+		]]>
+		</selectKey>
+	<![CDATA[
+		INSERT
+		INTO MALL.MALL_TB_PAY_ALI_NOTIFY
+		  (
+			ID,
+			SERVICE,
+			V,
+			SEC_ID,
+			SIGN,
+			PAYMENT_TYPE,
+			SUBJECT,
+			TRADE_NO,
+			BUYER_EMAIL,
+			GMT_CREATE,
+			NOTIFY_TYPE,
+			QUANTITY,
+			OUT_TRADE_NO,
+			NOTIFY_TIME,
+			SELLER_ID,
+			TRADE_STATUS,
+			IS_TOTAL_FEE_ADJUST,
+			TOTAL_FEE,
+			GMT_PAYMENT,
+			SELLER_EMAIL,
+			GMT_CLOSE,
+			PRICE,
+			BUYER_ID,
+			NOTIFY_ID,
+			USE_COUPON,
+			STATE,
+			CREATE_DATE,
+			MODIFY_DATE,
+			MODIFY_USER
+		  )
+		  VALUES
+		  (
+			#id#,
+			#service#,
+			#v#,
+			#secId#,
+			#sign#,
+			#paymentType#,
+			#subject#,
+			#tradeNo#,
+			#buyerEmail#,
+			#gmtCreate#,
+			#notifyType#,
+			#quantity#,
+			#outTradeNo#,
+			#notifyTime#,
+			#sellerId#,
+			#tradeStatus#,
+			#isTotalFeeAdjust#,
+			#totalFee#,
+			#gmtPayment#,
+			#sellerEmail#,
+			#gmtClose#,
+			#price#,
+			#buyerId#,
+			#notifyId#,
+			#useCoupon#,
+			'U',
+			sysdate,
+			sysdate,
+			#modifyUser#
+		  )
+	]]>
+	</insert>
+	
+</sqlMap>

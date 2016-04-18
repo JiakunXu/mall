@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>会员管理 － Kmall</title>
+		#ICON()
+        #CSSM(["nav", "bootstrap.docs", "bootstrap", "pnotify"])
+		#UA()
+	</head>
+	<body>
+		<div class="global-reset global-container global-type-global">
+    		#parse("/kmall/framework/top.vm")
+            <div class="global-common-a">
+				<div class="global">
+					<div class="global-header fn-clear">
+						<div class="global-header-content">
+							<div class="global-logo">
+                                <a herf="#"></a>
+                            </div>
+                            <div class="global-logo-neighbor"></div>
+							<ul class="global-nav">
+								<li class="global-nav-item"><a href="$!{env.appUrl}/shop/index.htm">店铺管理</a></li>
+                                <li class="global-nav-item"><a href="$!{env.appUrl}/item/index.htm">商品管理</a></li>
+                                <li class="global-nav-item"><a href="$!{env.appUrl}/trade/index.htm">交易管理</a></li>
+								<li class="global-nav-item"><a href="$!{env.appUrl}/market/index.htm">市场营销</a></li>
+								<li class="global-nav-item global-nav-item-current">
+									<a href="$!{env.appUrl}/member/index.htm">会员管理</a>
+									<span class="global-nav-item-arrow">◆</span>
+									<span class="global-nav-item-arrow global-nav-item-arrow-border">◆</span>
+								</li>
+                            </ul>
+                        </div>
+                    </div>
+					<div class="global-subheader">
+                        <ul class="global-subnav">
+                            <li class="global-subnav-item global-subnav-item-current"><a href="$!{env.appUrl}/member/index.htm">会员概况</a></li>
+							<li class="global-subnav-item"><a href="$!{env.appUrl}/member/memberAction!searchMember.htm">会员详细信息</a></li>
+						</ul>
+                    </div>
+                </div>
+			</div>
+        </div>
+		
+		<div class="container">
+			<div class="col-md-3">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+                        <h3 class="panel-title">今日新增会员<span class="badge pull-right">$!{total0}</span></h3>
+					</div>
+                </div>
+				<div class="panel panel-default">
+					<div class="panel-heading">
+                        <h3 class="panel-title">累计新增会员<span class="badge pull-right">$!{total}</span></h3>
+					</div>
+					<div class="panel-body">
+                        <p>&nbsp;&nbsp;1天新增/累计会员<span class="glyphicon glyphicon-arrow-up" style="margin-left: 10px; margin-right: 3px; color: #44b549;"></span> $!{total1}%</p>
+						<p>&nbsp;&nbsp;7天新增/累计会员<span class="glyphicon glyphicon-arrow-up" style="margin-left: 10px; margin-right: 3px; color: #44b549;"></span> $!{total7}%</p>
+						<p>30天新增/累计会员<span class="glyphicon glyphicon-arrow-up" style="margin-left: 10px; margin-right: 3px; color: #44b549;"></span> $!{total30}%</p>
+					</div>
+                </div>
+				<div class="panel panel-default">
+    				<div class="panel-body">
+						<span class="glyphicon glyphicon-paperclip"></span><small> 累积新增会员：当前关注的用户总数</small>
+    				</div>
+    			</div>
+            </div>
+			
+			<div class="col-md-9">
+				<div class="panel panel-default">
+					<div class="panel-body">
+                        <div id="chart" style="height: 370px;" ></div>
+                    </div>
+				</div>
+            </div>
+        </div>
+		#parse("/kmall/framework/footer.vm")
+		
+		#JSM(["jquery", "echarts", "bootstrap", "pnotify", "top"])
+		#JS_ENV_VAL()
+		<script type="text/javascript">
+        </script>
+       	<script type="text/javascript" src="$!{env.imgUrl}/js/kmall/member/index.js"></script>
+	</body>
+</html>

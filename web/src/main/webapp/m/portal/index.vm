@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+		<title>会员登录</title>
+		#ICON()
+        #CSSM(["bootstrap"])
+		<style>
+		body { padding-top: 70px; }
+		</style>
+		#UA()
+	</head>
+	<body onload="setPassport();">
+		<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+			#if($!{uuid})
+			<a class="navbar-brand glyphicon glyphicon-home" href="$!{env.appUrl}/shop/homepage.htm?alias=$!{uuid}"></a>
+			#end
+			<div class="navbar-brand pull-right">会员登录</div>
+        </nav>
+		
+		<div class="container">
+			<div class="modal-body">
+  				<form class="form-horizontal" role="form" action="$!{env.appUrl}/mlogin.htm" method="post">
+					<input type="hidden" id="goto" name="goto" value="$!{goto}" />
+					#if($!stringUtil.isNotEmpty($!{failMessage}))
+					<div class="form-group" style="margin-bottom: 0;">
+        				<div class="alert alert-danger alert-dismissible" style="padding: 5px 28px 5px 15px;" role="alert">
+    						<button type="button" class="close" data-dismiss="alert">
+    							<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+    						</button>
+    						$!{failMessage}
+    					</div>
+                    </div>
+					#end
+					<div class="form-group">
+						<div class="input-group">
+							<div class="input-group-addon">
+								<i class="glyphicon glyphicon-user"></i>
+							</div>
+							<input type="passport" class="form-control" id="passport" name='passport' autocomplete="on" placeholder="账户名" />
+                        </div>
+					</div>
+					<div class="form-group">
+						<div class="input-group">
+							<div class="input-group-addon">
+								<i class="glyphicon glyphicon-lock"></i>
+                            </div>
+							<input type="password" class="form-control" id="password" name='password' autocomplete="off" placeholder="登录密码" />
+						</div>
+					</div>
+					<div class="form-group" style="margin-bottom: 0;">
+						<p class="pull-right">
+							<a class="textlink forgot" style="font-size:12px" href="javascript:forgetPassword();">忘记登录密码？</a>
+						</p>
+					</div>
+					<div class="form-group">
+						<a class="btn btn-primary btn-block" id="btn" data-loading-text="正在登录..." href="javascript:submit();">登  录</a>
+                    </div>
+					<p class="pull-right">
+    					<a class="textlink" style="font-size:12px" href="javascript:register();">免费注册</a>
+    				</p>
+      			</form>
+            </div>
+		</div>
+		
+		#JSM(["jquery", "jquery.cookie", "bootstrap"])
+		<script>
+		var appUrl = '$!{env.appUrl}';
+    	var appName = '$!{env.appName}';
+		var domain = '$!{env.domain}';
+        </script>
+		<script type="text/javascript" src="$!{env.imgUrl}/js/m/portal/index.js?t=201408210"></script>
+    </body>
+</html>

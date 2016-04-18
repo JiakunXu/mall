@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>会员管理 － Kmall</title>
+		#ICON()
+        #CSSM(["ext", "nav", "bootstrap.docs", "bootstrap", "pnotify", "conflict"])
+		<style>
+		.form-group { padding-right: 5px; padding-left: 5px; }
+		.form-inline .form-control { height: 26px; }
+		</style>
+		#UA()
+	</head>
+	<body>
+		<div class="global-reset global-container global-type-global">
+    		#parse("/kmall/framework/top.vm")
+            <div class="global-common-a">
+				<div class="global">
+					<div class="global-header fn-clear">
+						<div class="global-header-content">
+							<div class="global-logo">
+                                <a herf="#"></a>
+                            </div>
+                            <div class="global-logo-neighbor"></div>
+							<ul class="global-nav">
+								<li class="global-nav-item"><a href="$!{env.appUrl}/shop/index.htm">店铺管理</a></li>
+                                <li class="global-nav-item"><a href="$!{env.appUrl}/item/index.htm">商品管理</a></li>
+                                <li class="global-nav-item"><a href="$!{env.appUrl}/trade/index.htm">交易管理</a></li>
+								<li class="global-nav-item"><a href="$!{env.appUrl}/market/index.htm">市场营销</a></li>
+								<li class="global-nav-item global-nav-item-current">
+									<a href="$!{env.appUrl}/member/index.htm">会员管理</a>
+									<span class="global-nav-item-arrow">◆</span>
+									<span class="global-nav-item-arrow global-nav-item-arrow-border">◆</span>
+								</li>
+                            </ul>
+                        </div>
+                    </div>
+					<div class="global-subheader">
+                        <ul class="global-subnav">
+                            <li class="global-subnav-item"><a href="$!{env.appUrl}/member/index.htm">会员概况</a></li>
+							<li class="global-subnav-item global-subnav-item-current"><a href="$!{env.appUrl}/member/memberAction!searchMember.htm">会员详细信息</a></li>
+						</ul>
+                    </div>
+                </div>
+			</div>
+        </div>
+		
+		<div class="container">
+			<div class="col-md-3">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title">会员等级</h3>
+					</div>
+					<div class="panel-body">
+						<table class="table table-condensed table-hover small">
+							<thead>
+								<tr><th>等级</th><th>积分范围</th><th>赠积分</th><th>折扣%</th></tr>
+    						</thead>
+							<tbody>
+								#foreach($memberLevel in $memLevelList)
+								<tr>
+    								<td>$!{memberLevel.levelName}</td>
+    								<td>$!{memberLevel.startPoints}~<br />$!{memberLevel.endPoints}</td>
+    								<td>$!{memberLevel.points}</td>
+    								<td>$!{memberLevel.discount}</td>
+								</tr>
+								#end
+							</tbody>
+						</table>
+					</div>
+    			</div>
+				<div class="panel panel-default">
+    				<div class="panel-body">
+						<ul class="nav nav-pills nav-stacked">
+							<li>
+								<a href="javascript:exportMemberData();">
+									<span class="glyphicon glyphicon-cloud-download"></span>
+									导出会员信息
+								</a>
+							</li>
+                        </ul>
+    				</div>
+    			</div>
+            </div>
+			
+			<div class="col-md-9">
+    			<div class="panel panel-default">
+    				<div class="panel-body">
+            			<div class="bs-callout bs-callout-info">
+							<form class="form-inline" role="form" method="post">
+                				<div class="form-group">
+                					<label>会员姓名</label>
+                					<input class="form-control" style="width: 130px;" type='text' id='userName' />
+                                </div>
+								<div class="form-group">
+            						<label>会员等级</label>
+									<select class="form-control small" id="levelId" >
+            							<option value ="">所有等级</option>
+										#foreach($memberLevel in $memLevelList)
+            							<option value ="$!{memberLevel.levelId}">$!{memberLevel.levelName}</option>
+										#end
+            						</select>
+                                </div>
+								<div class="form-group">
+									<a class="btn btn-primary btn-xs" href="javascript:search();">查询</a>
+            						<a class="btn btn-default btn-xs" href="javascript:resets();">重置</a>
+                                </div>
+                            </form>
+                        </div>
+            			
+            			<div class="cent_border">
+            				<div id="gridList" class="ext-grid-mask"></div>
+            			</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+		#parse("/kmall/framework/footer.vm")
+		
+		#JSM(["ext", "jquery", "bootstrap", "pnotify", "top"])
+		#JS_ENV_VAL()
+		<script type="text/javascript">
+		var store;
+        </script>
+       	<script type="text/javascript" src="$!{env.imgUrl}/js/kmall/member/searchMember.js"></script>
+	</body>
+</html>

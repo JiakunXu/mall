@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="GB2312"?>
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="coupon">
+	
+	<typeAlias alias="coupon" type="com.kintiger.mall.api.coupon.bo.Coupon" />
+	
+	<insert id="createCoupon" parameterClass="coupon">
+		<selectKey resultClass="java.lang.String" keyProperty="couponId">
+		<![CDATA[
+			SELECT MALL.MALL_SEQ_COUPON.NEXTVAL FROM DUAL
+		]]>
+		</selectKey>
+	<![CDATA[
+		INSERT
+		INTO MALL.MALL_TB_COUPON
+		  (
+		    COUPON_ID,
+		    COUPON_NAME,
+		    SHOP_ID,
+		    VALUE,
+		    LEVEL_ID,
+		    QUOTA,
+		    AT_LEAST,
+		    TOTAL,
+		    START_DATE,
+		    END_DATE,
+		    EXPIRE_NOTICE,
+		    REMARK,
+		    STATE,
+		    MODIFY_USER
+		  )
+		  VALUES
+		  (
+		    #couponId#,
+		    #couponName#,
+		    #shopId#,
+		    #value#,
+		    #levelId#,
+		    #quota#,
+		    #atLeast#,
+		    #total#,
+		    #startDate#,
+		    #endDate#,
+		    #expireNotice#,
+		    #remark#,
+		    #state#,
+		    #modifyUser#
+		  )
+	]]>
+	</insert>
+	
+	
+
+</sqlMap>

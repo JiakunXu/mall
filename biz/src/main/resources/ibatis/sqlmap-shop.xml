@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="GB2312"?>
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="shop">
+	
+	<typeAlias alias="shop" type="com.kintiger.mall.api.shop.bo.Shop" />
+	
+	<select id="getShopList" parameterClass="shop" resultClass="shop">
+	<![CDATA[
+		SELECT t.shop_id AS shopId,
+		  t.shop_name    AS shopName,
+		  t.company_id   AS companyId
+		FROM MALL.MALL_TB_SHOP t
+		WHERE t.state     = 'U'
+		AND t.company_id IN
+	]]>
+		<iterate property="codes" open="(" close=")" conjunction=",">#codes[]#</iterate>
+	</select>
+	
+	<select id="getShop" parameterClass="shop" resultClass="shop">
+	<![CDATA[
+		SELECT t.shop_id AS shopId,
+		  t.shop_name    AS shopName,
+		  t.uuid,
+		  t.company_id AS companyId,
+		  t.file_id    AS fileId
+		FROM MALL.MALL_TB_SHOP t
+		WHERE t.state = 'U'
+	]]>
+		<dynamic>
+			<isNotEmpty property="shopId" prepend="and">
+			<![CDATA[ t.shop_id = #shopId# ]]>
+			</isNotEmpty>
+			<isEmpty property="shopId" prepend="and">
+			<![CDATA[ t.uuid = #uuid# ]]>
+			</isEmpty>
+		</dynamic>
+	</select>
+	
+	<insert id="createShop" parameterClass="shop">
+		<selectKey resultClass="java.lang.String" keyProperty="shopId">
+		<![CDATA[
+			SELECT MALL.MALL_SEQ_SHOP.NEXTVAL FROM DUAL
+		]]>
+		</selectKey>
+	<![CDATA[
+		INSERT
+		INTO MALL.MALL_TB_SHOP
+		  (
+			SHOP_ID,
+			SHOP_NAME,
+			COMPANY_ID,
+			CONTACT_NAME,
+			MOBILE,
+			uuid,
+			STATE,
+			CREATE_DATE,
+			MODIFY_DATE,
+			MODIFY_USER
+		  )
+		  VALUES
+		  (
+			#shopId#,
+			#shopName#,
+			#companyId#,
+			#contactName#,
+			#mobile#,
+			#uuid#,
+			'U',
+			sysdate,
+			sysdate,
+			#modifyUser#
+		  )
+	]]>
+	</insert>
+
+</sqlMap>

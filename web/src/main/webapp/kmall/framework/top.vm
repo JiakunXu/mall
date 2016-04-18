@@ -1,0 +1,112 @@
+<div class="global-top-a">
+	<div class="global-top">
+		<div class="global-top-container">
+			<ul class="global-top-right">
+				#if($!stringUtil.isEmpty($!{globalUser.userId}))
+				<li class="global-top-item">
+					<a href="$!{env.appUrl}" target="_self" class="global-top-link">登录</a>
+                </li>
+				<em class="global-top-item global-top-seperator">-</em>
+				<li class="global-top-item">
+					<a href="$!{env.appUrl}/register/index.htm" target="_blank" class="global-top-link">注册</a>
+                </li>
+				#else
+				<li class="global-top-item">您好,</li>
+                <li class="global-top-item">
+                    <a href="#" class="global-top-link" data-toggle="modal" data-target="#account" id="uname">$!{globalUser.userName}</a>
+				</li>
+				<li class="global-top-item">
+					<a href="$!{env.appUrl}/logout.htm" target="_self" class="global-top-link">退出</a>
+                </li>
+				<em class="global-top-item global-top-seperator">|</em>
+				<li class="global-top-item">
+					<a href="javascript:notify();" class="global-top-link">
+						消息中心
+						<span class="badge" id="notify"></span>
+					</a>
+                </li>
+				#end
+                <em class="global-top-item global-top-seperator">|</em>
+				<li class="global-top-item">
+					<a href="$!{env.appUrl}/help/helpAction!index.htm" target="_blank" class="global-top-link">帮助中心</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- account -->
+#if($!stringUtil.isNotEmpty($!{globalUser.userId}))
+<div class="modal fade" id="account" tabindex="-1" role="dialog" aria-labelledby="accountLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header" style="border-bottom: 0px solid #e5e5e5; padding-bottom: 0;">
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				<ul class="nav nav-tabs" role="tablist" id="myTab">
+					<li class="active"><a href="#updateAccount" role="tab" data-toggle="tab">用户信息</a></li>
+					<li><a href="#resetPassword" role="tab" data-toggle="tab">修改密码</a></li>
+                </ul>
+			</div>
+			<!-- tab-content -->
+			<div class="tab-content">
+    			<!-- updateAccount -->
+    			<div class="tab-pane active" id="updateAccount">
+        			<div class="modal-body">
+        				<div class="form-horizontal" role="form">
+        					<div class="form-group">
+        						<label class="col-md-3 control-label">姓名</label>
+            					<div class="col-md-5">
+            						<input class="form-control" type="text" id="globalUserName" value="$!{globalUser.userName}" placeholder="" />
+                                </div>
+                            </div>
+        					<div class="form-group">
+        						<label class="col-md-3 control-label">邮箱地址</label>
+        						<div class="col-md-5">
+        							<input class="form-control" type="text" id="globalEmail" value="$!{globalUser.email}" placeholder="" />
+                                </div>
+                            </div>
+                        </div>
+        			</div>
+        			<div class="modal-footer">
+        				<a type="button" class="btn btn-primary" id="btn0" data-loading-text="正在处理..." href="javascript:updateAccount();">修改信息</a>
+        			</div>
+                </div>
+    			<!-- resetPassword -->
+    			<div class="tab-pane" id="resetPassword">
+        			<div class="modal-body">
+        				<div class="form-horizontal" role="form">
+        					<div class="form-group">
+        						<label class="col-md-3 control-label">原密码</label>
+            					<div class="col-md-5">
+            						<input type="password" class="form-control" id='O_Pwd' placeholder="必填" />
+                                </div>
+                            </div>
+        					<div class="form-group">
+        						<label class="col-md-3 control-label">密码</label>
+            					<div class="col-md-5">
+            						<input type="password" class="form-control" id="J_Pwd" placeholder="密码长度在6~20个字符" />
+                                </div>
+                            </div>
+        					<div class="form-group">
+        						<label class="col-md-3 control-label">确认密码</label>
+            					<div class="col-md-5">
+            						<input type="password" class="form-control" id="J_RePwd" placeholder="请确认两次输入的密码相同" />
+                                </div>
+                            </div>
+                        </div>
+        			</div>
+        			<div class="modal-footer">
+        				<a type="button" class="btn btn-primary" id="btn1" data-loading-text="正在处理..." href="javascript:resetPassword();">修改密码</a>
+        			</div>
+                </div>
+			</div>
+			<!-- tab-content -->
+		</div>
+		<!-- modal-content -->
+	</div>
+	<!-- modal-dialog -->
+</div>
+<script>
+var appUrl = '$!{env.appUrl}';
+</script>
+#end

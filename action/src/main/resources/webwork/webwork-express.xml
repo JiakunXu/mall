@@ -1,0 +1,11 @@
+<!DOCTYPE xwork PUBLIC "-//OpenSymphony Group//XWork 1.1.1//EN" "http://www.opensymphony.com/xwork/xwork-1.1.1.dtd">
+<xwork>
+	<package name="{http://kmall}kmall$express"
+		extends="{http://kmall}kmall$framework" namespace="/express">
+
+		<action name="expressAction" class="expressAction">
+			<interceptor-ref name="authenticationStack" />
+		</action>
+		
+	</package>
+</xwork>

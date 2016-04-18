@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="marketAction" class="com.kintiger.mall.market.action.MarketAction" parent="baseAction" scope="request">
+		<property name="pointsCardService" ref="pointsCardService" />
+		<property name="itemService" ref="itemService" />
+		<property name="advertService" ref="advertService" />
+	</bean>
+	
+</beans>

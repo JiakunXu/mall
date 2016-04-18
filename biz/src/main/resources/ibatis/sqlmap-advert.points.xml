@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="GB2312"?>
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="advert.points">
+	
+	<typeAlias alias="advertPoints" type="com.kintiger.mall.api.advert.bo.AdvertPoints" />
+	
+	<select id="getAdvertPoints" parameterClass="advertPoints" resultClass="advertPoints">
+	<![CDATA[
+		SELECT t.ID,
+		  TO_CHAR(t.points_date, 'yyyy-mm-dd hh24:mi:ss') AS pointsDate
+		FROM MALL.MALL_TB_ADVERT_POINTS t
+		WHERE t.state   = 'U'
+		AND t.advert_id = #advertId#
+		AND t.user_id   = #userId#
+		AND t.is_latest = #isLatest#
+	]]>
+	</select>
+	
+	<insert id="createAdvertPoints" parameterClass="advertPoints">
+		<selectKey resultClass="java.lang.String" keyProperty="id">
+		<![CDATA[
+			SELECT MALL.MALL_SEQ_ADVERT_POINTS.NEXTVAL FROM DUAL
+		]]>
+		</selectKey>
+	<![CDATA[
+		INSERT
+		INTO MALL.MALL_TB_ADVERT_POINTS
+		  (
+			ID,
+			ADVERT_ID,
+			USER_ID,
+			IS_LATEST,
+			STATE,
+			CREATE_DATE,
+			MODIFY_DATE,
+			MODIFY_USER,
+			MEM_POINTS_ID,
+			POINTS_DATE
+		  )
+		  VALUES
+		  (
+			#id#,
+			#advertId#,
+			#userId#,
+			#isLatest#,
+			'U',
+			sysdate,
+			sysdate,
+			#modifyUser#,
+			#memPointsId#,
+			TO_DATE(#pointsDate#, 'yyyy-mm-dd hh24:mi:ss')
+		  )
+	]]>
+	</insert>
+	
+	<update id="updateAdvertPoints" parameterClass="advertPoints">
+	<![CDATA[
+		UPDATE MALL.MALL_TB_ADVERT_POINTS t
+		SET t.modify_date = sysdate,
+		  t.modify_user   = #modifyUser#,
+		  t.is_latest     = 'N'
+		WHERE t.state     = 'U'
+		AND t.is_latest   = 'Y'
+		AND t.advert_id   = #advertId#
+		AND t.user_id     = #userId#
+		AND t.id         <> #code#
+	]]>
+	</update>
+	
+	<select id="getAdvertStats" parameterClass="advertPoints" resultClass="advertPoints">
+	<![CDATA[
+		SELECT TO_CHAR(t.points_date, 'yyyy-mm-dd') AS dates,
+		  SUM(p.points)                             AS points
+		FROM MALL.MALL_TB_ADVERT_POINTS t,
+		  MALL.MALL_TB_MEMBER_POINTS p
+		WHERE t.mem_points_id = p.id
+		AND t.state           = 'U'
+		AND p.state           = 'U'
+		AND t.advert_id       = #advertId#
+		AND t.points_date    >= to_date(#gmtStart#, 'yyyy-mm-dd')
+		AND t.points_date     < to_date(#gmtEnd#, 'yyyy-mm-dd') + 1
+		GROUP BY TO_CHAR(t.points_date, 'yyyy-mm-dd')
+		ORDER BY dates ASC
+	]]>
+	</select>
+	
+	<select id="getAdvertPointsList" parameterClass="advertPoints" resultClass="advertPoints">
+	<![CDATA[
+		SELECT t.id,
+		  q.advert_name                        AS advertName,
+		  TO_CHAR(t.points_date, 'yyyy-mm-dd') AS pointsDate,
+		  k.user_name                          AS userName,
+		  k.mobile,
+		  p.points
+		FROM MALL.MALL_TB_ADVERT_POINTS t,
+		  MALL.MALL_TB_MEMBER_POINTS p,
+		  MALL.MALL_TB_ADVERT q,
+		  MALL.MALL_TB_USER k
+		WHERE t.mem_points_id = p.id
+		AND t.advert_id       = q.advert_id
+		AND t.user_id         = k.user_id
+		AND t.state           = 'U'
+		AND p.state           = 'U'
+		AND t.points_date    >= to_date(#gmtStart#, 'yyyy-mm-dd')
+		AND t.points_date     < to_date(#gmtEnd#, 'yyyy-mm-dd') + 1
+		ORDER BY q.advert_name ASC,
+		  t.points_date DESC
+	]]>
+	</select>
+
+</sqlMap>

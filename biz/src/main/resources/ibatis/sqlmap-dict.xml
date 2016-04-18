@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="GB2312"?>
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="dict">
+	
+	<typeAlias alias="dict" type="com.kintiger.mall.api.dict.bo.Dict" />
+	<typeAlias alias="dictType" type="com.kintiger.mall.api.dict.bo.DictType" />
+	
+	<!-- dict_type -->
+	
+	<select id="getDictTypeCount" parameterClass="dictType" resultClass="java.lang.Integer">
+	<![CDATA[
+		SELECT COUNT(1) FROM BASIS.basis_tb_dict_type e WHERE e.state ='U'
+	]]>
+		<dynamic>
+			<isNotEmpty property="dictTypeName" prepend="and">
+			<![CDATA[ e.dict_type_name like #dictTypeName,handler=wildcard# escape '\' ]]>
+			</isNotEmpty>
+			<isNotEmpty property="dictTypeValue" prepend="and">
+			<![CDATA[ e.dict_type_value like #dictTypeValue,handler=wildcard# escape '\' ]]>
+			</isNotEmpty>
+			<isNotEmpty property="remark" prepend="and">
+			<![CDATA[ e.remark like #remark,handler=wildcard# escape '\' ]]>
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<select id="getDictTypeList" parameterClass="dictType" resultClass="dictType">
+		<include refid="global.paginationStart" /> 
+	<![CDATA[
+		SELECT e.dict_type_id AS dictTypeId,
+		  e.dict_type_name    AS dictTypeName,
+		  e.dict_type_value   AS dictTypeValue,
+		  e.remark,
+		  e.modify_date AS modifyDate
+		FROM BASIS.basis_tb_dict_type e
+		WHERE e.state ='U'
+	]]>
+		<dynamic>
+			<isNotEmpty property="dictTypeName" prepend="and">
+			<![CDATA[ e.dict_type_name like #dictTypeName,handler=wildcard# escape '\' ]]>
+			</isNotEmpty>
+			<isNotEmpty property="dictTypeValue" prepend="and">
+			<![CDATA[ e.dict_type_value like #dictTypeValue,handler=wildcard# escape '\' ]]>
+			</isNotEmpty>
+			<isNotEmpty property="remark" prepend="and">
+			<![CDATA[ e.remark like #remark,handler=wildcard# escape '\' ]]>
+			</isNotEmpty>
+		</dynamic>
+		<include refid="global.orderBy" />
+		<include refid="global.paginationEnd" /> 
+	</select>
+	
+	<select id="getDictType" parameterClass="dictType" resultClass="dictType">
+	<![CDATA[
+		SELECT e.dict_type_id AS dictTypeId,
+		  e.dict_type_name    AS dictTypeName,
+		  e.dict_type_value   AS dictTypeValue,
+		  e.remark,
+		  e.modify_date       AS modifyDate
+		FROM BASIS.basis_tb_dict_type e
+		WHERE e.state ='U'
+	]]>
+		<dynamic>
+			<isNotEmpty property="dictTypeId" prepend="and">
+			<![CDATA[ e.dict_type_id = #dictTypeId# ]]>
+			</isNotEmpty>
+			<isNotEmpty property="dictTypeValue" prepend="and">
+			<![CDATA[ e.dict_type_value = #dictTypeValue# ]]>
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<!-- dict -->
+	
+	<select id="getDict" parameterClass="dict" resultClass="dict">
+	<![CDATA[
+		SELECT e.dict_id AS dictId ,
+		  e.dict_type_id AS dictTypeId,
+		  e.dict_name    AS dictName,
+		  e.dict_value   AS dictValue,
+		  e.remark,
+		  e.modify_date AS modifyDate
+		FROM BASIS.basis_tb_dict e,
+		  BASIS.basis_tb_dict_type p
+		WHERE e.dict_type_id = p.dict_type_id
+		AND e.state          = 'U'
+		AND p.state          = 'U'
+		AND e.dict_id        = #dictId#
+	]]>
+	</select>
+	            
+	<select id="getDictCount" parameterClass="dict" resultClass="java.lang.Integer">
+	<![CDATA[
+		SELECT COUNT(1)
+		FROM BASIS.basis_tb_dict t,
+		  BASIS.basis_tb_dict_type p
+		WHERE t.dict_type_id = p.dict_type_id
+		AND p.state          = 'U'
+		AND t.state          = 'U'
+	]]>
+		<dynamic>
+			<isNotEmpty property="dictTypeId" prepend="and">
+			<![CDATA[ p.dict_type_id = #dictTypeId# ]]>
+			</isNotEmpty>
+			<isNotEmpty property="dictTypeValue" prepend="and">
+			<![CDATA[ p.dict_type_value = #dictTypeValue# ]]>
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	          
+	<select id="getDictList" parameterClass="dict" resultClass="dict">
+		<include refid="global.paginationStart" /> 
+	<![CDATA[
+		SELECT t.dict_id AS dictId,
+		  t.dict_type_id AS dictTypeId,
+		  t.dict_name    AS dictName,
+		  t.dict_value   AS dictValue,
+		  t.remark       AS remark,
+		  t.modify_date  AS modifyDate
+		FROM BASIS.basis_tb_dict t,
+		  BASIS.basis_tb_dict_type p
+		WHERE t.dict_type_id = p.dict_type_id
+		AND p.state          = 'U'
+		AND t.state          = 'U'
+	]]>
+		<dynamic>
+			<isNotEmpty property="dictTypeId" prepend="and">
+			<![CDATA[ p.dict_type_id = #dictTypeId# ]]>
+			</isNotEmpty>
+			<isNotEmpty property="dictTypeValue" prepend="and">
+			<![CDATA[ p.dict_type_value = #dictTypeValue# ]]>
+			</isNotEmpty>
+			<isEmpty property="sort">
+			<![CDATA[ order by t.dict_id desc ]]>
+			</isEmpty>
+			<isNotEmpty property="sort">
+				<include refid="global.orderBy" />
+			</isNotEmpty>
+		</dynamic>
+		<include refid="global.paginationEnd" /> 
+	</select>
+	
+	<select id="getDicts" parameterClass="dict" resultClass="dict">
+	<![CDATA[
+		SELECT t.dict_id AS dictId,
+		  t.dict_name    AS dictName,
+		  t.dict_value   AS dictValue
+		FROM BASIS.basis_tb_dict t,
+		  BASIS.basis_tb_dict_type p
+		WHERE t.dict_type_id = p.dict_type_id
+		AND p.state          = 'U'
+		AND t.state          = 'U'
+	]]>
+		<dynamic>
+			<isNotEmpty property="dictTypeValue" prepend="and">
+			<![CDATA[ p.dict_type_value = #dictTypeValue# ]]>
+			</isNotEmpty>
+			<isNotEmpty property="dictName" prepend="and">
+			<![CDATA[ t.dict_name = #dictName# ]]>
+			</isNotEmpty>
+			<isNotEmpty property="dictValue" prepend="and">
+			<![CDATA[ t.dict_value = #dictValue# ]]>
+			</isNotEmpty>
+			<isEmpty property="sort">
+			<![CDATA[ order by t.dict_id desc ]]>
+			</isEmpty>
+			<isNotEmpty property="sort">
+				<include refid="global.orderBy" />
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<!-- dict_type -->
+	
+	<insert id="createDictType" parameterClass="dictType" >
+		<selectKey resultClass="java.lang.String" keyProperty="dictTypeId">
+		<![CDATA[
+			SELECT BASIS.BASIS_SEQ_DICT_TYPE.NEXTVAL AS dictTypeId FROM dual
+		]]>
+		</selectKey>
+	<![CDATA[
+		INSERT
+		INTO BASIS.basis_tb_dict_type
+		  (
+			DICT_TYPE_ID,
+			DICT_TYPE_NAME,
+			DICT_TYPE_VALUE,
+			REMARK,
+			STATE,
+			MODIFY_DATE,
+			MODIFY_USER,
+			CREATE_DATE
+		  )
+		  VALUES
+		  (
+			#dictTypeId:VARCHAR#,
+			#dictTypeName:VARCHAR#,
+			#dictTypeValue:VARCHAR#,
+			#remark:VARCHAR#,
+			'U',
+			sysdate,
+			#modifyUser#,
+			sysdate
+		  )
+	]]>
+	</insert>
+	
+	<update  id="updateDictType" parameterClass="dictType">
+	<![CDATA[
+		UPDATE BASIS.basis_tb_dict_type t
+		SET t.modify_date = sysdate,
+		  t.modify_user   = #modifyUser#
+	]]>
+		<dynamic>
+			<isNotEmpty property="dictTypeName" prepend=",">
+			<![CDATA[ t.DICT_TYPE_NAME = #dictTypeName# ]]>
+			</isNotEmpty>
+			<isNotEmpty property="dictTypeValue" prepend=",">
+			<![CDATA[ t.DICT_TYPE_VALUE = #dictTypeValue# ]]>
+			</isNotEmpty>
+			<isNotEmpty property="state" prepend=",">
+			<![CDATA[ t.STATE = #state# ]]>
+			</isNotEmpty>
+			<isNotNull property="remark" prepend=",">
+			<![CDATA[ t.REMARK = #remark# ]]>
+			</isNotNull>
+		</dynamic>
+	<![CDATA[
+		WHERE t.dict_type_id  = #dictTypeId#
+		AND t.state = 'U' 
+	]]>
+	</update>
+	
+	<!-- dict -->
+	
+	<insert id="createDict" parameterClass="dict">
+		<selectKey resultClass="java.lang.String" keyProperty="dictId">
+		<![CDATA[
+			SELECT BASIS.BASIS_SEQ_DICT.NEXTVAL AS dictId FROM dual
+		]]>
+		</selectKey>
+	<![CDATA[
+		INSERT
+		INTO BASIS.basis_tb_dict
+		  (
+			DICT_ID,
+			DICT_TYPE_ID,
+			DICT_NAME,
+			DICT_VALUE,
+			STATE,
+			MODIFY_DATE,
+			MODIFY_USER,
+			CREATE_DATE,
+			REMARK
+		  )
+		  VALUES
+		  (
+			#dictId:VARCHAR#,
+			#dictTypeId:VARCHAR#,
+			#dictName:VARCHAR#,
+			#dictValue:VARCHAR#,
+			'U',
+			sysdate,
+			#modifyUser#,
+			sysdate,
+			#remark#
+		  )
+	]]>
+	</insert>
+	
+	<update id="updateDict" parameterClass="dict">
+	<![CDATA[
+		UPDATE BASIS.basis_tb_dict t
+		SET t.modify_date = sysdate,
+		  t.modify_user   = #modifyUser#
+	]]>
+		<dynamic>
+			<isNotEmpty property="dictName" prepend=",">
+			<![CDATA[ t.DICT_NAME = #dictName# ]]>
+			</isNotEmpty>
+			<isNotEmpty property="dictValue" prepend=",">
+			<![CDATA[ t.DICT_VALUE = #dictValue# ]]>
+			</isNotEmpty>
+			<isNotEmpty property="state" prepend=",">
+			<![CDATA[ t.STATE = #state# ]]>
+			</isNotEmpty>
+			<isNotNull property="remark" prepend=",">
+			<![CDATA[ t.REMARK = #remark# ]]>
+			</isNotNull>
+		</dynamic>
+	<![CDATA[
+		WHERE t.state  = 'U'
+	]]>
+		<dynamic>
+			<isNotEmpty property="dictId" prepend="AND">
+			<![CDATA[ t.dict_id   = #dictId# ]]>
+			</isNotEmpty>
+			<isEmpty property="dictId" prepend="AND">
+			<![CDATA[ t.dict_type_id = #dictTypeId# ]]>
+			</isEmpty>
+		</dynamic>
+	</update>
+	
+	<!-- dict_type -->
+	
+	<delete id="deleteDictType" parameterClass="dictType">
+	<![CDATA[
+		DELETE BASIS.basis_tb_dict_type t WHERE t.dict_type_id = #dictTypeId#
+	]]>
+	</delete>
+	
+	<!-- dict -->
+	
+	<delete id="deleteDict" parameterClass="dict">
+	<![CDATA[
+		DELETE BASIS.basis_tb_dict t
+	]]>
+		<dynamic prepend="WHERE">
+			<isNotEmpty property="dictTypeId" prepend="AND">
+			<![CDATA[ t.dict_type_id = #dictTypeId# ]]>
+			</isNotEmpty>
+			<isEmpty property="dictTypeId" prepend="AND">
+			<![CDATA[ t.dict_id = #dictId# ]]>
+			</isEmpty>
+		</dynamic>
+	</delete>
+	
+</sqlMap>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+		<title>积分账单</title>
+		#ICON()
+        #CSSM(["messenger", "bootstrap"])
+		<style>
+		body { padding-top: 70px; }
+		div { overflow: hidden; }
+		hr { margin-top: 10px; margin-bottom: 10px; }
+		.nav>li>a { padding: 0; }
+		.col-xs-8 { padding-right: 5px; padding-left: 5px; }
+		</style>
+		#UA()
+	</head>
+	<body>
+		<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+			<a class="navbar-brand glyphicon glyphicon-chevron-left" href="javascript:history.go(-1);"></a>
+			<div class="navbar-brand pull-right">积分账单</div>
+        </nav>
+		
+		#if($!{memberPointsList} == [])
+		<div class="container">
+			<blockquote>
+				<p>我还没有积分账单！</p>
+            </blockquote>
+			<a class="btn btn-success btn-block" href="$!{env.appUrl}/shop/homepage.htm?alias=$!{uuid}">去首页逛逛</a>
+        </div>
+		#else
+		<div class="panel-body" style="padding: 0 10px 10px 10px;">
+			<ul class="nav nav-pills nav-stacked">
+				#set($co = 0)
+				#set($cd = '')
+				#foreach($memberPoints in $memberPointsList)
+        		<li>
+					#if($cd != $!{memberPoints.createDate})
+    					#if($co == 1)
+    				<hr />
+    					#else
+    					#set($co = 1)
+    					#end
+					<div>
+    					<div class="col-xs-12">
+    					$!{memberPoints.createDate}
+                        </div>
+                    </div>
+					
+					#set($cd = $!{memberPoints.createDate})
+					#end
+					<div>
+						<hr style="margin: 5px 0 5px 30px;" />
+    					<div class="col-xs-8 col-xs-offset-1 small">
+							#if($!{memberPoints.points} > 0)
+    						积分来源：<span style="color: green;">$!{memberPoints.pointsSource}</span>
+							#else
+							积分来源：<span style="color: #f60;">$!{memberPoints.pointsSource}#if($!{memberPoints.type} == 'topay')(交易冻结)#end</span>
+							#end
+                        </div>
+    					<div class="col-xs-3 pull-left">
+							#if($!{memberPoints.points} > 0)
+							+$!{memberPoints.points}
+							#else
+							$!{memberPoints.points}
+							#end
+                        </div>
+                    </div>
+                </li>
+        		#end
+            </ul>
+        </div>
+		#end
+		
+		#HideWeixinJSBridge(["menu", "toolbar"])
+    </body>
+</html>

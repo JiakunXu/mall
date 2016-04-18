@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>商品管理 － Kmall</title>
+		#ICON()
+        #CSSM(["ext", "nav", "bootstrap.docs", "bootstrap", "pnotify", "conflict"])
+		#UA()
+	</head>
+	<body>
+		<div class="global-reset global-container global-type-global">
+    		#parse("/kmall/framework/top.vm")
+            <div class="global-common-a">
+				<div class="global">
+					<div class="global-header fn-clear">
+						<div class="global-header-content">
+							<div class="global-logo">
+                                <a herf="#"></a>
+                            </div>
+                            <div class="global-logo-neighbor"></div>
+							<ul class="global-nav">
+								<li class="global-nav-item"><a href="$!{env.appUrl}/shop/index.htm">店铺管理</a></li>
+                                <li class="global-nav-item global-nav-item-current">
+									<a href="$!{env.appUrl}/item/index.htm">商品管理</a>
+									<span class="global-nav-item-arrow">◆</span>
+									<span class="global-nav-item-arrow global-nav-item-arrow-border">◆</span>
+								</li>
+                                <li class="global-nav-item"><a href="$!{env.appUrl}/trade/index.htm">交易管理</a></li>
+								<li class="global-nav-item"><a href="$!{env.appUrl}/market/index.htm">市场营销</a></li>
+								<li class="global-nav-item"><a href="$!{env.appUrl}/member/index.htm">会员管理</a></li>
+                            </ul>
+                        </div>
+                    </div>
+					<div class="global-subheader">
+                        <ul class="global-subnav">
+							<li class="global-subnav-item global-subnav-item-current"><a href="$!{env.appUrl}/item/index.htm">商品概况</a></li>
+							<li class="global-subnav-item"><a href="$!{env.appUrl}/item/itemAction!searchItem.htm">出售中的商品</a></li>
+							<li class="global-subnav-item"><a href="$!{env.appUrl}/item/itemAction!searchItem.htm?type=soldout&isDisplay=Y">已售罄的商品</a></li>
+							<li class="global-subnav-item"><a href="$!{env.appUrl}/item/itemAction!searchItem.htm?isDisplay=N">仓库中的商品</a></li>
+							<li class="global-subnav-item"><a href="$!{env.appUrl}/item/itemAction!createItemPrepare.htm#item">发布商品</a></li>
+						</ul>
+                    </div>
+                </div>
+			</div>
+        </div>
+		
+		<div class="container">
+			<div class="col-md-3">
+				<div class="panel panel-default">
+    				<div class="panel-heading">
+    					<h3 class="panel-title">关键指标</h3>
+    				</div>
+    				<div class="panel-body">
+						<ul class="nav nav-pills nav-stacked">
+							<li>
+								<a href="$!{env.appUrl}/item/itemAction!searchItem.htm">
+									<span class="badge pull-right">$!{countOfSold}</span>
+									出售中的商品
+								</a>
+							</li>
+							<li>
+								<a href="$!{env.appUrl}/item/itemAction!searchItem.htm?type=soldout&isDisplay=Y">
+									<span class="badge pull-right">$!{countOfSoldout}</span>
+									已售罄的商品
+								</a>
+							</li>
+							<li>
+								<a href="$!{env.appUrl}/item/itemAction!searchItem.htm?isDisplay=N">
+									<span class="badge pull-right">$!{countOfStock}</span>
+									仓库中的商品
+								</a>
+							</li>
+						</ul>
+    				</div>
+    			</div>
+            </div>
+			
+			<div class="col-md-9">
+    			<div class="panel panel-default">
+    				<div class="panel-body">
+    					<div class="col-md-4">
+    						<div class="panel panel-success">
+    							<div class="panel-heading">七天售出商品排名</div>
+								<div class="panel-body">
+    								<table class="table table-hover">
+    									<thead>
+    										<tr><th>#</th><th>商品</th><th>销量</th></tr>
+    									</thead>
+    									<tbody class="small">
+											#foreach($item in $itemStats4Sold)
+											<tr><td>$velocityCount</td><td>$!{item.itemName}</td><td>$!{item.count}</td></tr>
+											#end
+    									</tbody>
+    								</table>
+                                </div>
+                            </div>
+                        </div>
+    					<div class="col-md-4">
+    						<div class="panel panel-info">
+    							<div class="panel-heading">七天搜索商品排名</div>
+            					<div class="panel-body">
+    								<table class="table table-hover">
+										<thead>
+    										<tr><th>#</th><th>商品</th><th>UV/PV</th></tr>
+    									</thead>
+    									<tbody class="small">
+											#foreach($item in $itemStats4Search)
+											<tr><td>$velocityCount</td><td>$!{item.itemName}</td><td>$!{item.uv}/$!{item.pv}</td></tr>
+											#end
+    									</tbody>
+    								</table>
+            					</div>
+                            </div>
+                        </div>
+    					<div class="col-md-4">
+    						<div class="panel panel-danger">
+    							<div class="panel-heading">商品库存排名</div>
+            					<div class="panel-body">
+    								<table class="table table-hover">
+    									<thead>
+    										<tr><th>#</th><th>商品</th><th>库存</th></tr>
+    									</thead>
+    									<tbody class="small">
+											#foreach($item in $itemStats4Stock)
+											<tr><td>$velocityCount</td><td>$!{item.itemName}</td><td>$!{item.stock}</td></tr>
+											#end
+    									</tbody>
+    								</table>
+            					</div>
+                            </div>
+                        </div>
+    				</div>
+    			</div>
+            </div>
+        </div>
+		#parse("/kmall/framework/footer.vm")
+		
+		#JSM(["jquery", "bootstrap", "pnotify", "top"])
+	</body>
+</html>

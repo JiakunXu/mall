@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html>
+    <head>
+		<title>帮助中心-首页</title>
+        <meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		#ICON()
+        #CSSM(["bootstrap.docs", "bootstrap"])
+		#UA()
+    </head>
+    <body>
+		<header class="navbar navbar-static-top bs-docs-nav" id="top" role="banner">
+			<div class="container">
+				<div class="navbar-header">
+					<a href="#" class="navbar-brand">帮助中心</a>
+				</div>
+			</div>
+		</header>
+		<div class="container bs-docs-container">
+			<div class="row">
+				<div class="col-md-9" role="main">
+					<div class="bs-docs-section">
+						<h1 id="overview" class="page-header">简介</h1>
+						<p>EXP是一个基础平台，包括人员，权限管理，提供统一的单点登录，提供统一的对外接口管理</p>
+                    </div>
+					<div class="bs-docs-section">
+						<h1 id="auth" class="page-header">系统配置中心</h1>
+						<img data-original="$!{env.imgUrl}/image/help/auth.png" alt="" class="img-thumbnail lazy" style="height: 450px;" />
+					</div>
+					<div class="bs-docs-section">
+						<h1 id="auth-menu" class="page-header">菜单配置</h1>
+						<p>左侧是完整的菜单数，单击节点，查看该节点下级菜单的详细信息；右侧是菜单的详细信息列表；菜单目标：工作台显示，或者以弹出窗口方式显示</p>
+						<img data-original="$!{env.imgUrl}/image/help/auth-menu.png" alt="" class="img-thumbnail lazy" style="height: 450px;" />
+						<h3 id="auth-menu-create">菜单创建</h3>
+						<img data-original="$!{env.imgUrl}/image/help/auth-menu-create.png" alt="" class="img-thumbnail lazy" style="height: 350px;" />
+						<div class="bs-callout bs-callout-info">
+							<p>选择所属模块：基础平台，市场管理平台等；显示顺序：相同父级节点的菜单先后顺序</p>
+                        </div>
+						<div class="bs-callout bs-callout-warning">
+                            <p>菜单地址：不必填写完整路径，只需<code>/namespace/action name</code></p>
+                        </div>
+						<h3 id="auth-menu-action">菜单维护action</h3>
+						<img data-original="$!{env.imgUrl}/image/help/auth-menu-action.png" alt="" class="img-thumbnail lazy" style="height: 400px;" />
+						<div class="bs-callout bs-callout-info">
+							<p>action：该菜单页面上存在的url请求；默认：当新增角色维护这个菜单时，该角色自动拥有这些action的执行权限</p>
+                        </div>
+					</div>
+					<div class="bs-docs-section">
+						<h1 id="auth-role" class="page-header">角色配置</h1>
+						<img data-original="$!{env.imgUrl}/image/help/auth-role.png" alt="" class="img-thumbnail lazy" style="height: 450px;" />
+						<h3 id="auth-role-create">角色创建</h3>
+						<img data-original="$!{env.imgUrl}/image/help/auth-role-create.png" alt="" class="img-thumbnail lazy" style="height: 350px;" />
+						<div class="bs-callout bs-callout-info">
+                            <p>默认角色：系统内所有用户都将拥有该角色及角色相关菜单的所有权限</p>
+                        </div>
+						<h3 id="auth-role-menu">角色菜单配置</h3>
+						<img data-original="$!{env.imgUrl}/image/help/auth-role-menu.png" alt="" class="img-thumbnail lazy" style="height: 400px;" />
+						<h3 id="auth-role-fun">角色权限点配置</h3>
+						<img data-original="$!{env.imgUrl}/image/help/auth-role-fun.png" alt="" class="img-thumbnail lazy" style="height: 400px;" />
+						<div class="bs-callout bs-callout-info">
+                            <p><code>功能操作描述</code>下拉框中列出了该角色对应菜单的所有action；用户拥有A角色，即可以访问A角色对应的菜单，但是只有拥有了action，才能执行菜单上的相应操作</p>
+                        </div>
+						<h3 id="auth-role-user">角色人员配置</h3>
+						<img data-original="$!{env.imgUrl}/image/help/auth-role-user.png" alt="" class="img-thumbnail lazy" style="height: 400px;" />
+					</div>
+					<div class="bs-docs-section">
+						<h1 id="auth-dict" class="page-header">系统参数配置</h1>
+						<img data-original="$!{env.imgUrl}/image/help/auth-dict.png" alt="" class="img-thumbnail lazy" style="height: 450px;" />
+						<div class="bs-callout bs-callout-info">
+                            <p>系统所有可配置的参数维护</p>
+                        </div>
+					</div>
+					<div class="bs-docs-section">
+						<h1 id="auth-station" class="page-header">岗位配置</h1>
+						<img data-original="$!{env.imgUrl}/image/help/auth-station.png" alt="" class="img-thumbnail lazy" style="height: 450px;" />
+						<h3 id="auth-station-create">岗位创建</h3>
+						<img data-original="$!{env.imgUrl}/image/help/auth-station-create.png" alt="" class="img-thumbnail lazy" style="height: 350px;" />
+						<div class="bs-callout bs-callout-info">
+                            <p>所属组织非必填项；如果启用职位模块，岗位的所属组织建议不填</p>
+                        </div>
+						<h3 id="auth-station-role">岗位角色配置</h3>
+						<img data-original="$!{env.imgUrl}/image/help/auth-station-role.png" alt="" class="img-thumbnail lazy" style="height: 450px;" />
+						<div class="bs-callout bs-callout-info">
+                            <p>系统支持通过复制其他岗位来维护角色</p>
+                        </div>
+						<h3 id="auth-station-user">岗位人员配置</h3>
+						<img data-original="$!{env.imgUrl}/image/help/auth-station-user.png" alt="" class="img-thumbnail lazy" style="height: 450px;" />
+					</div>
+					<div class="bs-docs-section">
+						<h1 id="auth-position" class="page-header">编制配置</h1>
+						<img data-original="$!{env.imgUrl}/image/help/auth-position.png" alt="" class="img-thumbnail lazy" style="height: 450px;" />
+						<h3 id="auth-position-create">编制创建</h3>
+						<img data-original="$!{env.imgUrl}/image/help/auth-position-create.png" alt="" class="img-thumbnail lazy" style="height: 400px;" />
+						<div class="bs-callout bs-callout-info">
+                            <p>编制的所属组织为必填项；数量即当前编制包含的用户数</p>
+                        </div>
+						<h3 id="auth-position-role">编制角色配置</h3>
+						<img data-original="$!{env.imgUrl}/image/help/auth-position-role.png" alt="" class="img-thumbnail lazy" style="height: 400px;" />
+						<h3 id="auth-position-user">编制人员配置</h3>
+						<img data-original="$!{env.imgUrl}/image/help/auth-position-user.png" alt="" class="img-thumbnail lazy" style="height: 400px;" />
+					</div>
+					<div class="bs-docs-section">
+						<h1 id="user" class="page-header">用户管理</h1>
+						<img data-original="$!{env.imgUrl}/image/help/user.png" alt="" class="img-thumbnail lazy" style="height: 450px;" />
+						<h3 id="user-create">用户创建</h3>
+						<img data-original="$!{env.imgUrl}/image/help/user-create.png" alt="" class="img-thumbnail lazy" style="height: 400px;" />
+						<h3 id="user-role">用户角色配置</h3>
+						<img data-original="$!{env.imgUrl}/image/help/user-role.png" alt="" class="img-thumbnail lazy" style="height: 450px;" />
+						<div class="bs-callout bs-callout-info">
+                            <p>临时角色：当某一个用户角色超过了有效时期，即用户和这个角色的关系自动取消；系统提供了三种方式维护用户角色关系</p>
+                        </div>
+					</div>
+					<div class="bs-docs-section">
+						<h1 id="monitor" class="page-header">系统监控中心</h1>
+						<img data-original="$!{env.imgUrl}/image/help/monitor.png" alt="" class="img-thumbnail lazy" style="height: 350px;" />
+						<h3 id="monitor-action-log">系统操作日志</h3>
+						<img data-original="$!{env.imgUrl}/image/help/monitor-action-log.png" alt="" class="img-thumbnail lazy" style="height: 400px;" />
+						<div class="bs-callout bs-callout-info">
+                            <p>系统操作日志：所有用户的操作系统</p>
+                        </div>
+						<div class="bs-callout bs-callout-warning">
+                            <p>日志显示有延时</p>
+                        </div>
+						<h3 id="monitor-error-log">系统错误日志</h3>
+						<img data-original="$!{env.imgUrl}/image/help/monitor-error-log.png" alt="" class="img-thumbnail lazy" style="height: 400px;" />
+						<div class="bs-callout bs-callout-info">
+                            <p>系统错误日志：通过LOG.ERROR方式记录的信息</p>
+                        </div>
+						<div class="bs-callout bs-callout-warning">
+                            <p>日志显示有延时</p>
+                        </div>
+						<h3 id="monitor-method">系统接口监控</h3>
+						<img data-original="$!{env.imgUrl}/image/help/monitor-method.png" alt="" class="img-thumbnail lazy" style="height: 400px;" />
+						<div class="bs-callout bs-callout-info">
+                            <p>系统接口监控：所有配置<code>@Profiler</code>接口方法的执行情况信息；点击方法名，可查看当前并发请求次数</p>
+                        </div>
+						<h3 id="monitor-cache">系统缓存监控</h3>
+						<img data-original="$!{env.imgUrl}/image/help/monitor-cache.png" alt="" class="img-thumbnail lazy" style="height: 350px;" />
+						<div class="bs-callout bs-callout-info">
+                            <p>系统缓存监控：实时缓存状态信息</p>
+                        </div>
+					</div>
+					<div class="bs-docs-section">
+						<h1 id="notify" class="page-header">消息中心</h1>
+						<img data-original="$!{env.imgUrl}/image/help/notify.png" alt="" class="img-thumbnail lazy" style="height: 400px;" />
+						<div class="bs-callout bs-callout-info">
+                            <p>消息中心：系统发送消息（例如：流程处理完成或作废，发送消息给事务发起人）</p>
+                        </div>
+					</div>
+					<div class="bs-docs-section">
+						<h1 id="workflow" class="page-header">流程配置中心</h1>
+						<img data-original="$!{env.imgUrl}/image/help/workflow.png" alt="" class="img-thumbnail lazy" style="height: 350px;" />
+					</div>
+					<div class="bs-docs-section">
+						<h1 id="workflow-proc" class="page-header">流程配置</h1>
+						<img data-original="$!{env.imgUrl}/image/help/workflow-proc.png" alt="" class="img-thumbnail lazy" style="height: 400px;" />
+						<div class="bs-callout bs-callout-info">
+                            <p>同步流程环节：将Cordys流程引擎中环节定义同步到EXP平台，并且可以维护环节的自定义属性</p>
+                        </div>
+						<h3 id="workflow-proc-create">流程创建</h3>
+						<img data-original="$!{env.imgUrl}/image/help/workflow-proc-create.png" alt="" class="img-thumbnail lazy" style="height: 350px;" />
+						<div class="bs-callout bs-callout-info">
+                            <p>流程目录：Cordys流程引擎中的文件路径；流程别名：程序中指定的名称（唯一）；类型：固定流程和任意流程，任意流程用户可自行决定事务下一处理人</p>
+                        </div>
+						<h3 id="workflow-proc-act">流程环节配置</h3>
+						<img data-original="$!{env.imgUrl}/image/help/workflow-proc-act.png" alt="" class="img-thumbnail lazy" style="height: 400px;" />
+						<div class="bs-callout bs-callout-info">
+                            <p>流程环节编号和环节名称同步至Cordys流程引擎；维护某一个环节是否允许修改或禁止修改</p>
+                        </div>
+					</div>
+					<div class="bs-docs-section">
+						<h1 id="workflow-mod" class="page-header">自定义事务模板配置</h1>
+						<img data-original="$!{env.imgUrl}/image/help/workflow-mod.png" alt="" class="img-thumbnail lazy" style="height: 400px;" />
+						<h3 id="workflow-mod-create">事务模板创建</h3>
+						<img data-original="$!{env.imgUrl}/image/help/workflow-mod-create.png" alt="" class="img-thumbnail lazy" style="height: 400px;" />
+						<div class="bs-callout bs-callout-info">
+                            <p>自定义事务模板，可任意添加属性；鼠标点住某行，可拖拽来维护属性展现顺序</p>
+                        </div>
+					</div>
+					<div class="bs-docs-section">
+						<h1 id="workflow-inst" class="page-header">事务管理中心</h1>
+						<img data-original="$!{env.imgUrl}/image/help/workflow-inst.png" alt="" class="img-thumbnail lazy" style="height: 350px;" />
+						<h3 id="workflow-inst-start">事务发起</h3>
+						<img data-original="$!{env.imgUrl}/image/help/workflow-inst-start.png" alt="" class="img-thumbnail lazy" style="height: 450px;" />
+						<div class="bs-callout bs-callout-info">
+                            <p>首先选择事务模板，系统再自动展现相应自定义事务模板</p>
+                        </div>
+						<h3 id="workflow-inst-process">待办事务</h3>
+						<img data-original="$!{env.imgUrl}/image/help/workflow-inst-process.png" alt="" class="img-thumbnail lazy" style="height: 400px;" />
+						<h3 id="workflow-inst-perform">事务处理</h3>
+						<img data-original="$!{env.imgUrl}/image/help/workflow-inst-perform.png" alt="" class="img-thumbnail lazy" style="height: 450px;" />
+						<h3 id="workflow-inst-processed">已办事务</h3>
+						<img data-original="$!{env.imgUrl}/image/help/workflow-inst-processed.png" alt="" class="img-thumbnail lazy" style="height: 400px;" />
+						<div class="bs-callout bs-callout-info">
+                            <p>已办事务：展现我处理过的事务，同时可以授权其他人查看该事务</p>
+                        </div>
+						<h3 id="workflow-inst-cc">抄送我的事务</h3>
+						<img data-original="$!{env.imgUrl}/image/help/workflow-inst-cc.png" alt="" class="img-thumbnail lazy" style="height: 400px;" />
+						<div class="bs-callout bs-callout-info">
+                            <p>抄送我的事务：可以在流程环节中添加我的审批意见，但不影响事务处理</p>
+                        </div>
+						<h3 id="workflow-inst-delegate">我的授权</h3>
+						<img data-original="$!{env.imgUrl}/image/help/workflow-inst-delegate.png" alt="" class="img-thumbnail lazy" style="height: 400px;" />
+						<div class="bs-callout bs-callout-info">
+                            <p>我的授权：包含三部分，事务自动授权（即在某一段时间内，我的事务都交由其他人处理）；事务转办（即某一条事务交由其他人处理）；事务授权查看（即授权他人查看事务，事务审批意见）</p>
+                        </div>
+					</div>
+                </div>
+				<div class="col-md-3">
+					<div class="bs-docs-sidebar hidden-print">
+						<ul class="nav bs-docs-sidenav">
+							<li><a href="#overview">简介</a></li>
+                            <li><a href="#auth">系统配置中心</a></li>
+							<li><a href="#auth-menu">菜单配置</a></li>
+							<li>
+								<ul class="nav">
+									<li><a href="#auth-menu-create">菜单创建</a></li>
+                                    <li><a href="#auth-menu-action">菜单维护action</a></li>
+								</ul>
+							</li>
+							<li><a href="#auth-role">角色配置</a></li>
+							<li>
+								<ul class="nav">
+									<li><a href="#auth-role-create">角色创建</a></li>
+                                    <li><a href="#auth-role-menu">角色菜单配置</a></li>
+									<li><a href="#auth-role-fun">角色权限点配置</a></li>
+									<li><a href="#auth-role-user">角色人员配置</a></li>
+								</ul>
+							</li>
+							<li><a href="#auth-dict">系统参数配置</a></li>
+							<li><a href="#auth-station">岗位配置</a></li>
+							<li>
+								<ul class="nav">
+									<li><a href="#auth-station-create">岗位创建</a></li>
+                                    <li><a href="#auth-station-role">岗位角色配置</a></li>
+									<li><a href="#auth-station-user">岗位人员配置</a></li>
+								</ul>
+							</li>
+							<li><a href="#auth-position">编制配置</a></li>
+							<li>
+								<ul class="nav">
+									<li><a href="#auth-position-create">编制创建</a></li>
+                                    <li><a href="#auth-position-role">编制角色配置</a></li>
+									<li><a href="#auth-position-user">编制人员配置</a></li>
+								</ul>
+							</li>
+							<li><a href="#user">用户管理</a></li>
+							<li>
+								<ul class="nav">
+									<li><a href="#user-create">用户创建</a></li>
+									<li><a href="#user-role">用户角色配置</a></li>
+								</ul>
+							</li>
+							<li><a href="#monitor">系统监控中心</a></li>
+							<li>
+								<ul class="nav">
+									<li><a href="#monitor-action-log">系统操作日志</a></li>
+                                    <li><a href="#monitor-error-log">系统错误日志</a></li>
+									<li><a href="#monitor-method">系统接口监控</a></li>
+									<li><a href="#monitor-cache">系统缓存监控</a></li>
+								</ul>
+							</li>
+							<li><a href="#notify">消息中心</a></li>
+							<li><a href="#workflow">流程配置中心</a></li>
+							<li><a href="#workflow-proc">流程配置</a></li>
+							<li>
+								<ul class="nav">
+									<li><a href="#workflow-proc-create">流程创建</a></li>
+                                    <li><a href="#workflow-proc-act">流程环节配置</a></li>
+								</ul>
+							</li>
+							<li><a href="#workflow-mod">事务模板配置</a></li>
+							<li>
+								<ul class="nav">
+									<li><a href="#workflow-mod-create">事务模板创建</a></li>
+								</ul>
+							</li>
+							<li><a href="#workflow-inst">事务管理中心</a></li>
+							<li>
+								<ul class="nav">
+									<li><a href="#workflow-inst-start">事务发起</a></li>
+                                    <li><a href="#workflow-inst-process">待办事务</a></li>
+									<li><a href="#workflow-inst-perform">事务处理</a></li>
+									<li><a href="#workflow-inst-processed">已办事务</a></li>
+									<li><a href="#workflow-inst-cc">抄送我的事务</a></li>
+									<li><a href="#workflow-inst-delegate">我的授权</a></li>
+								</ul>
+							</li>
+						</ul>
+                        <a class="back-to-top glyphicon glyphicon-hand-up" href="#top" style="font-size: 25px;"></a>
+					</div>
+				</div>
+			</div>
+		</div>
+		#JSM(["jquery", "bootstrap", "bootstrap.docs", "jquery.lazyload"])
+		<script type="text/javascript">
+        $(function() {
+        			$("img.lazy").lazyload({
+        						threshold : 200,
+								effect : "fadeIn"
+        					});
+        		});
+        </script>
+    </body>
+</html>

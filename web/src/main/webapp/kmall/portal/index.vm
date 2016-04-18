@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>Kmall在线商城</title>
+		<meta name="keywords" content="Kmall在线商城">
+		<meta name="description" content="Kmall在线商城">
+		#ICON()
+		#CSSM(["nav", "bootstrap"])
+		<link href="$!{env.imgUrl}/css/portal/index.css" type="text/css" rel="stylesheet" />
+		#UA()
+	</head>
+	#if($!stringUtil.isNotEmpty($!{s}))
+	<body>
+	#else
+	<body onload="setPassport();">
+	#end
+		<div class="global-reset global-container global-type-global">
+    		#parse("/kmall/framework/top.vm")
+			<div class="global-common-a">
+				<div class="global">
+					<div class="global-header fn-clear">
+						<div class="global-header-content">
+							<div class="global-logo">
+                                <a herf="#"></a>
+                            </div>
+                            <div class="global-logo-neighbor"></div>
+							<ul class="global-nav">
+								<li class="global-nav-item global-nav-item-current"><a href="#">首页</a></li>
+                                <li class="global-nav-item"><a href="#">帮助中心</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+			</div>
+        </div>
+		
+		<div class="container login-modern">
+	        <div class="login-aside" id="login-iframe">
+				#if($!stringUtil.isNotEmpty($!{s}))
+				<div class="modal-header">
+    				<h4 class="modal-title ui-form-title">欢迎使用 Kmall 商城！</h4>
+    			</div>
+				<div class="modal-body">
+    				<form class="form-horizontal" role="form" method="post">
+    					<div class="form-group">
+    						<p>您当前正在使用的账户是：</p>
+    						<p class="">$!{passport}</p>
+    						<a class="btn btn-primary btn-block" href="$!{env.appUrl}/shop/index.htm" target="_self">进入我的账户</a>	
+    					</div>
+    				</form>
+                </div>
+				#else
+				<div class="modal-header">
+    				<h4 class="modal-title ui-form-title">登录商城</h4>
+    			</div>
+				<div class="modal-body">
+      				<form class="form-horizontal" role="form" action="$!{env.appUrl}/login.htm" method="post">
+    					<input type="hidden" name="goto" value="$!{goto}" />
+    					#if($!stringUtil.isNotEmpty($!{failMessage}))
+    					<div class="form-group" style="margin-bottom: 0;">
+            				<div class="alert alert-danger alert-dismissible" style="padding: 5px 28px 5px 15px;" role="alert">
+        						<button type="button" class="close" data-dismiss="alert">
+        							<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+        						</button>
+        						$!{failMessage}
+        					</div>
+                        </div>
+    					#end
+    					<div class="form-group">
+    						<div class="input-group">
+    							<div class="input-group-addon">
+    								<i class="glyphicon glyphicon-user"></i>
+    							</div>
+    							<input type="passport" class="form-control" id="passport" name='passport' autocomplete="on" placeholder="账户名" />
+                            </div>
+    					</div>
+    					<div class="form-group">
+    						<div class="input-group">
+    							<div class="input-group-addon">
+    								<i class="glyphicon glyphicon-lock"></i>
+                                </div>
+    							<input type="password" class="form-control" id="password" name='password' autocomplete="off" placeholder="登录密码" />
+    						</div>
+    					</div>
+    					<div class="form-group">
+    						<p class="pull-right">
+    							<a class="textlink forgot" style="font-size:12px" href="javascript:forgetPasswd();">忘记登录密码？</a>
+    						</p>
+    					</div>
+    					<div class="form-group">
+    						<a class="btn btn-primary btn-block" id="btn" data-loading-text="正在登录..." href="javascript:submit();">登  录</a>
+                        </div>
+    					<p class="pull-right">
+    						<a class="textlink" style="font-size:12px" href="$!{env.appUrl}/register/index.htm" target="_blank">免费注册</a>
+    					</p>
+          			</form>
+                </div>
+				#end
+      		</div>
+      	</div>
+    
+        <div id="myCarousel" class="carousel slide" data-ride="carousel">
+			<ol class="carousel-indicators">
+				<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+				<li data-target="#myCarousel" data-slide-to="1"></li>
+			</ol>
+			<div class="carousel-inner">
+				<div class="item active">
+					<img src="$!{env.imgUrl}/image/portal/book.jpg" alt="First slide" />
+					<div class="container">
+						<div class="carousel-caption">
+							<h1></h1>
+							<p></p>
+							<p><a class="btn btn-default" href="$!{env.appUrl}/register/index.htm" target="_blank">免费注册</a></p>
+						</div>
+					</div>
+				</div>
+				<div class="item">
+					<img src="$!{env.imgUrl}/image/portal/bike.jpg" alt="Second slide" />
+					<div class="container">
+						<div class="carousel-caption">
+							<h1></h1>
+							<p></p>
+							<p></p>
+						</div>
+					</div>
+				</div>
+			</div>
+        </div>
+    
+        <div class="container marketing">
+			<div class="row">
+				<div class="col-lg-4">
+					<h2>我的店铺</h2>
+					<p></p>
+					<p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+				</div>
+				<div class="col-lg-4">
+					<h2>我的交易</h2>
+					<p></p>
+					<p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+				</div>
+				<div class="col-lg-4">
+					<h2>我的会员</h2>
+					<p></p>
+					<p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+				</div>
+			</div>
+        </div>
+		#parse("/kmall/framework/footer.vm")
+    
+		#JSM(["jquery", "jquery.cookie", "bootstrap"])
+		<script>
+    	var appName = '$!{env.appName}';
+		var domain = '$!{env.domain}';
+		var appUrl = '$!{env.appUrl}';
+        </script>
+		<script type="text/javascript" src="$!{env.imgUrl}/js/kmall/portal/index.js"></script>
+	</body>
+</html>

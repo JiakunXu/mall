@@ -1,0 +1,64 @@
+<!DOCTYPE xwork PUBLIC "-//OpenSymphony Group//XWork 1.1.1//EN" "http://www.opensymphony.com/xwork/xwork-1.1.1.dtd">
+<xwork>
+	<package name="{http://kmall}kmall$trade"
+		extends="{http://kmall}kmall$framework" namespace="/trade">
+
+		<action name="index" class="tradeAction" method="index">
+			<interceptor-ref name="authenticationStack" />
+			<result name="success">/kmall/trade/index.vm</result>
+		</action>
+		
+		<action name="tradeAction" class="tradeAction">
+			<interceptor-ref name="authenticationStack" />
+			<result name="searchTrade">/kmall/trade/searchTrade.vm</result>
+			<result name="searchTradeDetail">/kmall/trade/searchTradeDetail.vm</result>
+			<result name="success" type="redirect">${env.appUrl}/trade/confirm.htm?tradeNo=${tradeNo}</result>
+			<result name="error" type="redirect-action">
+				<param name="namespace">/cart</param>
+				<param name="actionName">index</param>
+			</result>
+		</action>
+		
+		<!-- mobile -->
+		<action name="trade" class="tradeAction" method="trade">
+			<interceptor-ref name="shopInfo" />
+			<interceptor-ref name="authenticationStack" />
+			<result name="success">/m/trade/index.vm</result>
+		</action>
+		
+		<!-- mobile -->
+		<action name="searchTrade" class="tradeAction" method="searchITrade">
+			<interceptor-ref name="shopInfo" />
+			<interceptor-ref name="authenticationStack" />
+			<result name="success">/m/trade/searchTrade.vm</result>
+		</action>
+		
+		<!-- mobile -->
+		<action name="confirm" class="tradeAction" method="confirm">
+			<interceptor-ref name="shopInfo" />
+			<interceptor-ref name="authenticationStack" />
+			<result name="success">/m/trade/confirmTrade.vm</result>
+		</action>
+		
+		<!-- mobile -->
+		<action name="detail" class="tradeAction" method="detail">
+			<interceptor-ref name="shopInfo" />
+			<interceptor-ref name="authenticationStack" />
+			<result name="success">/m/trade/searchTradeDetail.vm</result>
+		</action>
+		
+		<!-- alipay callback -->
+		<action name="callback" class="tradeAction" method="callbackTrade">
+			<result name="success">/m/trade/callbackTrade.vm</result>
+		</action>
+		
+		<!-- wxap rights -->
+		<action name="rights" class="tradeAction" method="rightsTrade">
+		</action>
+		
+		<!-- wxap notify -->
+		<action name="notify" class="tradeAction" method="notifyTrade">
+		</action>
+		
+	</package>
+</xwork>

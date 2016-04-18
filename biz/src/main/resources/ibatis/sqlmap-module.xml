@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="GB2312"?>
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="module">
+	
+	<typeAlias alias="module" type="com.kintiger.mall.api.module.bo.Module" />
+	
+	<select id="getModuleCount" parameterClass="module" resultClass="java.lang.Integer">
+	<![CDATA[
+		SELECT COUNT(1)
+		FROM BASIS.basis_tb_module t
+		WHERE t.state = 'U'
+	]]>
+		<dynamic>
+			<isNotEmpty property="display" prepend="and">
+			<![CDATA[ t.display = #display# ]]>
+			</isNotEmpty>
+			<isNotEmpty property="modPid" prepend="and">
+			<![CDATA[ t.mod_pid = #modPid# ]]>
+			</isNotEmpty>
+			<isNotEmpty property="search" prepend="and">
+			<![CDATA[
+				  ( t.mod_name like #search,handler=wildcard# escape '\'
+				 or t.domain like #search,handler=wildcard# escape '\' )
+			]]>
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<select id="getModuleList" parameterClass="module" resultClass="module">
+		<include refid="global.paginationStart" />
+	<![CDATA[
+		SELECT t.mod_id AS modId,
+		  t.mod_name    AS modName,
+		  t.domain,
+		  t.type
+		FROM BASIS.basis_tb_module t
+		WHERE t.state = 'U'
+	]]>
+		<dynamic>
+			<isNotEmpty property="display" prepend="and">
+			<![CDATA[ t.display = #display# ]]>
+			</isNotEmpty>
+			<isNotEmpty property="modPid" prepend="and">
+			<![CDATA[ t.mod_pid = #modPid# ]]>
+			</isNotEmpty>
+			<isNotEmpty property="search" prepend="and">
+			<![CDATA[
+				  ( t.mod_name like #search,handler=wildcard# escape '\'
+				 or t.domain like #search,handler=wildcard# escape '\' )
+			]]>
+			</isNotEmpty>
+		</dynamic>
+		<include refid="global.orderBy" />
+		<include refid="global.paginationEnd" />
+	</select>
+	
+</sqlMap>

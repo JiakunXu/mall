@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="alipayService" class="com.kintiger.mall.pay.service.impl.AlipayServiceImpl">
+		<property name="payService" ref="payService" />
+		<property name="notifyUrl">
+			<value>${alipay.notify.url}</value>
+		</property>
+		<property name="callbackUrl">
+			<value>${alipay.callback.url}</value>
+		</property>
+		<property name="merchantUrl">
+			<value>${alipay.merchant.url}</value>
+		</property>
+	</bean>
+	
+	<bean id="wxapService" class="com.kintiger.mall.pay.service.impl.WxapServiceImpl">
+		<property name="memcachedCacheService" ref="memcachedCacheService" />
+		<property name="payService" ref="payService" />
+		<property name="tokenUrl">
+			<value>${weixin.token.url}</value>
+		</property>
+		<property name="notifyUrl">
+			<value>${wxap.notify.url}</value>
+		</property>
+		<property name="deliverNotifyUrl">
+			<value>${weixin.deliverNotify.url}</value>
+		</property>
+	</bean>
+	
+	<bean id="payService" class="com.kintiger.mall.pay.service.impl.PayServiceImpl">
+		<property name="payDao" ref="payDao" />
+	</bean>
+	<bean id="payDao" class="com.kintiger.mall.pay.dao.impl.PayDaoImpl" parent="baseDao" />
+		
+</beans>

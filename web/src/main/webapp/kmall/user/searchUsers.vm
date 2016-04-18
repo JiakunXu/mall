@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+    <head>
+		<title>用户配置</title>
+        <meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		#ICON()
+        #CSSM(["ext", "bootstrap", "conflict"])
+		#UA()
+	</head>
+	<body>
+		<div class="container" style="width:95%;">
+			<div class="page-header-sm">
+				<h3>
+					<small>用户管理</small>
+					<div class="pull-right">
+						<a class="btn btn-primary btn-xs" href="javascript:createUser();">创建用户</a>
+						<a class="btn btn-primary btn-xs" href="javascript:updateUsersOrg();">批量维护组织</a>
+						<a class="btn btn-danger btn-xs" href="javascript:updatePasswordExpireDate();">批量设置密码过期</a>
+                    </div>
+				</h3>
+			</div>
+        	<form class="well well-sm" role="form" method="post">
+				<div class="row">
+					<label class="col-xs-1 text-right">用户帐号</label>
+					<div class="col-xs-2">
+						<input type="text" id="passport" />
+                    </div>
+					<label class="col-xs-1 text-right">用户姓名</label>
+					<div class="col-xs-2">
+						<input type="text" id="userName" />
+                    </div>
+					<div class="col-xs-3">
+						<a class="btn btn-primary btn-xs" href="javascript:search();">查询</a>
+						<a class="btn btn-default btn-xs" href="javascript:resets();">重置</a>
+						<a class="btn btn-default btn-xs" href="javascript:trigger();" id="trigger">收起更多</a>
+                    </div>
+				</div>
+				<div class="row" id="more1">
+					<label class="col-xs-1 text-right">用户类型</label>
+					<div class="col-xs-2">
+						<input type="text" id="type" />
+                    </div>
+					<label class="col-xs-1 text-right">组织</label>
+					<div class="col-xs-4">
+						<input type="text" id="orgName" />
+						<input type="hidden" id="orgId" />
+						<a class="btn btn-primary btn-xs" href="javascript:getOrgTree();">选择组织</a>
+						<input type="checkbox" id="include" checked>包含下级组织</input>
+                    </div>
+				</div>
+				<div class="row" id="more2">
+					<label class="col-xs-1 text-right">办公电话</label>
+					<div class="col-xs-2">
+						<input type="text" id="phone" />
+                    </div>
+					<label class="col-xs-1 text-right">手机</label>
+					<div class="col-xs-2">
+						<input type="text" id="mobile" />
+                    </div>
+				</div>
+				<input type='hidden' id='userId' name="userId" />
+				<input type='hidden' id='userList' name="userList" />
+				<input type='hidden' id='password' name="password" />
+            </form>
+			<div class="cent_border">
+				<div id="gridList" class="ext-grid-mask"></div>
+			</div>
+        </div>
+		<iframe id="hideFrame" name="hideFrame" style="display:none"></iframe>
+		#JSM(["common", "ext", "jquery"])
+        #JS_ENV_VAL()
+        <script type="text/javascript">
+        var store;
+		var userRole = '$!{permission.searchUserRole}';
+		var userSAPar = '$!{permission.searchUserSAPar}';
+		var userSAPAuth = '$!{permission.searchUserSAPAuth}';
+		var userSAProfile = '$!{permission.searchUserSAProfile}';
+        </script>
+        <script type="text/javascript" src="$!{env.imgUrl}/js/xplatform/user/searchUsers.js"></script>
+	</body>
+</html>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- pc -->
+	<bean id="accountAction" class="com.kintiger.mall.account.action.AccountAction" parent="baseAction" scope="request">
+		<property name="accountService" ref="accountService" />
+	</bean>
+	
+	<!-- mobile -->
+	<bean id="mobileAccountAction" class="com.kintiger.mall.account.action.MobileAccountAction" parent="baseAction" scope="request">
+		<property name="accountService" ref="accountService" />
+	</bean>
+	
+	<!-- 账号管理 -->
+	<bean id="accountService" class="com.kintiger.mall.account.service.impl.AccountServiceImpl">
+		<property name="memcachedCacheService" ref="memcachedCacheService" />
+		<property name="userService" ref="userService" />
+		<property name="dictService" ref="dictService" />
+		<property name="smsService" ref="smsService" />
+		<property name="appUrl">
+			<value>${appUrl}</value>
+		</property>
+	</bean>
+		
+</beans>

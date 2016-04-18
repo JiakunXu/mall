@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+		<title>我的信息</title>
+		#ICON()
+        #CSSM(["messenger", "bootstrap.datepicker", "bootstrap"])
+		<style>
+		body { padding-top: 70px; padding-bottom: 70px; }
+		div { overflow: hidden; }
+		hr { margin-top: 10px; margin-bottom: 10px; }
+		input { border: 0px; }
+		.col-xs-3, .col-xs-4, .col-xs-8, .col-xs-9 { padding-right: 5px; padding-left: 5px; }
+		</style>
+		#UA()
+	</head>
+	<body>
+		<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+			<a class="navbar-brand glyphicon glyphicon-chevron-left" href="$!{env.appUrl}/member/memberCenter.htm"></a>
+			<div class="navbar-brand pull-right">我的信息</div>
+        </nav>
+		
+		<form role="form" method="post">
+			<div>
+				<div class="col-xs-12">
+					<label class="col-xs-3 control-label">手机号码</label>
+					<div class="col-xs-9">$!{memberInfo.mobile}</div>
+                </div>
+            </div>
+			<hr />
+			<div>
+				<div class="col-xs-12">
+					<label class="col-xs-3 control-label">姓名</label>
+					<div class="col-xs-9"><input type="text" name="memberInfo.userName" value="$!{memberInfo.userName}" placeholder="" /></div>
+				</div>
+            </div>
+			<hr />
+			<div>
+				<div class="col-xs-12">
+					<label class="col-xs-3 control-label">性别</label>
+					<div class="col-xs-9">
+						<div class="radio" style="margin-top: 0; margin-bottom: 0;">
+							#if("M" == "$!{memberInfo.sex}")
+							<label><input type="radio" name="memberInfo.sex" value="M" checked />男</label>
+							#else
+							<label><input type="radio" name="memberInfo.sex" value="M" />男</label>
+							#end
+							
+							#if("F" == "$!{memberInfo.sex}")
+							<label><input type="radio" name="memberInfo.sex" value="F" checked />女</label>
+							#else
+							<label><input type="radio" name="memberInfo.sex" value="F" />女</label>
+							#end
+                        </div>
+                    </div>
+                </div>
+            </div>
+			<hr />
+			<div>
+				<div class="col-xs-12" id="birthday-container">
+					<label class="col-xs-3 control-label">生日</label>
+					<div class="col-xs-9 input-group date">
+                        <input style="width: 90px;" type="text" id="birthday" name="memberInfo.birthday" value="$!{memberInfo.birthday}" placeholder="年－月－日" readonly="true"/>
+						<span class="input-group-addon" style="padding: 3px 10px; display: inline-table;"><i class="glyphicon glyphicon-calendar"></i></span>
+                    </div>
+                </div>
+            </div>
+			<hr />
+			<div>
+				<div class="col-xs-12">
+					<label class="col-xs-3 control-label">地址</label>
+					<div class="col-xs-9"><input style="width: 200px;" type="text" id="address" name="memberInfo.address" value="$!{memberInfo.address}" placeholder="固定常用地址，便于寄送相关贺卡或小礼品" /></div>
+                </div>
+            </div>
+			<hr />
+			<div>
+				<div class="col-xs-12">
+					<label class="col-xs-3 control-label">邮编</label>
+					<div class="col-xs-9"><input type="text" id="postalCode" name="memberInfo.postalCode" value="$!{memberInfo.postalCode}" placeholder="" /></div>
+                </div>
+			</div>
+			<hr />
+			<div>
+				<div class="col-xs-12">
+					<label class="col-xs-3 control-label" style="padding-top: 6px;">行业</label>
+					<div class="col-xs-9">
+						<select class="form-control small" style="width: 110px;" id="profession" name="memberInfo.profession">
+							<option value =""></option>
+							<option value ="公务员">公务员</option>
+							<option value ="事业单位">事业单位</option>
+							<option value="企业职工">企业职工</option>
+							<option value ="军人">军人</option>
+							<option value ="农民">农民</option>
+							<option value="个体工商户">个体工商户</option>
+							<option value="其他">其他</option>
+						</select>
+					</div>
+                </div>
+            </div>
+			<hr />
+			<div>
+				<div class="col-xs-12">
+					<label class="col-xs-3 control-label" style="padding-top: 6px;">学历</label>
+					<div class="col-xs-9">
+						<select class="form-control small" style="width: 80px;" id="education" name="memberInfo.education">
+							<option value =""></option>
+							<option value ="中学">中学</option>
+							<option value ="大学">大学</option>
+							<option value="研究生">研究生</option>
+						</select>
+					</div>
+                </div>
+            </div>
+			<hr />
+			<div>
+				<div class="col-xs-12">
+					<label class="col-xs-3 control-label">婚姻状况</label>
+					<div class="col-xs-9">
+						<div class="radio radioItem" style="margin-top: 0; margin-bottom: 0;">
+							#if("N" == "$!{memberInfo.maritalStatus}")
+							<label><input type="radio" name="memberInfo.maritalStatus" value="N" checked />未婚</label>
+							#else
+							<label><input type="radio" name="memberInfo.maritalStatus" value="N" />未婚</label>	
+							#end
+							
+							#if("Y" == "$!{memberInfo.maritalStatus}")
+							<label><input type="radio" name="memberInfo.maritalStatus" value="Y" checked />已婚</label>
+							#else
+							<label><input type="radio" name="memberInfo.maritalStatus" value="Y" />已婚</label>
+							#end
+                        </div>
+                    </div>
+                </div>
+            </div>
+			<hr />
+			
+			#if("Y" == "$!{memberInfo.maritalStatus}")
+			<div id="wd">
+			#else
+			<div style="display: none;" id="wd">
+			#end
+				<div class="col-xs-12" id="weddingDay-container">
+					<label class="col-xs-4 control-label">结婚纪念日</label>
+					<div class="col-xs-8 input-group date">
+                        <input style="width: 90px;" type="text" id="weddingDay" name="memberInfo.weddingDay" value="$!{memberInfo.weddingDay}" placeholder="年－月－日" readonly="true"/>
+						<span class="input-group-addon" style="padding: 3px 10px; display: inline-table;"><i class="glyphicon glyphicon-calendar"></i></span>
+                    </div>
+                </div>
+            </div>
+		</form>
+		
+		<br /><br />
+		
+		<nav class="navbar navbar-default navbar-fixed-bottom" role="navigation">
+			<div style="margin: 10px;">
+				<a class="btn btn-success btn-block" id="btn" data-loading-text="正在提交..." href="javascript:save();">确认修改</a>
+            </div>
+        </nav>
+		
+		<iframe id="hideFrame" name="hideFrame" style="display:none"></iframe>
+		#JSM(["jquery", "messenger", "bootstrap.datepicker", "bootstrap"])
+		#JS_ENV_VAL()
+		<script type="text/javascript">
+		var profession = "$!{memberInfo.profession}";
+		var education = "$!{memberInfo.education}";
+        </script>
+		<script type="text/javascript" src="$!{env.imgUrl}/js/m/member/memberInfo.js"></script>
+		#HideWeixinJSBridge(["menu", "toolbar"])
+	</body>
+</html>

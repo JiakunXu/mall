@@ -1,0 +1,18 @@
+<!DOCTYPE xwork PUBLIC "-//OpenSymphony Group//XWork 1.1.1//EN" "http://www.opensymphony.com/xwork/xwork-1.1.1.dtd">
+<xwork>
+	<package name="{http://kmall}kmall$shop"
+		extends="{http://kmall}kmall$framework" namespace="/shop">
+
+		<action name="index" class="shopAction" method="index">
+			<interceptor-ref name="authenticationStack" />
+			<result name="success">/kmall/shop/index.vm</result>
+		</action>
+		
+		<!-- mobile -->
+		<action name="homepage" class="shopAction" method="homepage">
+			<interceptor-ref name="shopInfoStack" />
+			<result name="success">/m/shop/index.vm</result>
+		</action>
+		
+	</package>
+</xwork>

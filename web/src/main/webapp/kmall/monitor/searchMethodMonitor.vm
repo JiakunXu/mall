@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+    <head>
+		<title>系统接口监控</title>
+        <meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		#ICON()
+        #CSSM(["ext", "bootstrap", "conflict"])
+		#UA()
+	</head>
+	<body>
+		<div class="container">
+			<div class="page-header-sm">
+				<h3>
+					<small>接口监控</small>
+					<div class="pull-right">
+                    </div>
+				</h3>
+			</div>
+        	<form class="well well-sm" role="form" method="post">
+				<div class="row">
+					<label class="col-xs-1 text-right">开始时间</label>
+					<div class="col-xs-2">
+						<input type='text' id='gmtStart' value="$!{gmtStart}" />
+                    </div>
+					<label class="col-xs-1 text-right">结束时间</label>
+					<div class="col-xs-2">
+						<input type='text' id='gmtEnd' value="$!{gmtEnd}" />
+                    </div>
+					<div class="col-xs-3">
+						<a class="btn btn-primary btn-xs" href="javascript:search();">查询</a>
+						<a class="btn btn-default btn-xs" href="javascript:resets();">重置</a>
+						<a class="btn btn-default btn-xs" href="javascript:trigger();" id="trigger">更多条件</a>
+                    </div>
+				</div>
+				<div class="row" id="more" style="display:none">
+					<label class="col-xs-1 text-right">类名</label>
+					<div class="col-xs-2">
+						<input type='text' id='className' />
+                    </div>
+					<label class="col-xs-1 text-right">方法名</label>
+					<div class="col-xs-2">
+						<input type='text' id='methodName' />
+                    </div>
+				</div>
+            </form>
+			<div class="cent_border">
+				<div id="gridList" class="ext-grid-mask"></div>
+			</div>
+        </div>
+		#JSM(["common", "ext", "jquery"])
+        #JS_ENV_VAL()
+        <script type="text/javascript">
+        var store;
+		var gStart = '$!{gmtStart}';
+		var gEnd = '$!{gmtEnd}';
+        </script>
+        <script type="text/javascript" src="$!{env.imgUrl}/js/xplatform/monitor/searchMethodMonitor.js"></script>
+	</body>
+</html>

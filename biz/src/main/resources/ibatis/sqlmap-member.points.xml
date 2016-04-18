@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="GB2312"?>
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="member.points">
+	
+	<typeAlias alias="memberPoints" type="com.kintiger.mall.api.member.bo.MemberPoints" />
+	
+	<insert id="createMemberPoints" parameterClass="memberPoints">
+		<selectKey resultClass="java.lang.String" keyProperty="id">
+		<![CDATA[
+			SELECT MALL.MALL_SEQ_MEMBER_POINTS.NEXTVAL FROM DUAL
+		]]>
+		</selectKey>
+	<![CDATA[
+		INSERT
+		INTO MALL.MALL_TB_MEMBER_POINTS
+		  (
+			ID,
+			MEM_ID,
+			POINTS,
+			POINTS_SOURCE,
+			TRADE_ID,
+			STATE,
+			CREATE_DATE,
+			MODIFY_DATE,
+			MODIFY_USER
+		  )
+		  VALUES
+		  (
+			#id#,
+			#memId#,
+			#points#,
+			#pointsSource#,
+			#tradeId#,
+			'U',
+			sysdate,
+			sysdate,
+			#memId#
+		  )
+	]]>
+	</insert>
+	
+	<select id="getMemberPointsList" parameterClass="memberPoints" resultClass="memberPoints">
+	<![CDATA[
+		SELECT t.id,
+		  t.points,
+		  t.points_source                     AS pointsSource,
+		  TO_CHAR(t.create_date,'yyyy-MM-dd') AS createDate,
+		  q.type
+		FROM MALL.MALL_TB_MEMBER_POINTS t,
+		  MALL.MALL_TB_MEMBER p,
+		  MALL.MALL_TB_TRADE q
+		WHERE t.mem_id = p.mem_id
+		AND t.trade_id = q.trade_id(+)
+		AND t.state    = 'U'
+		AND p.state    = 'U'
+		AND p.shop_id  = #shopId#
+		AND p.user_id  = #userId#
+	]]>	
+		<dynamic>
+			<isNotEmpty property="tradeId" prepend="and">
+			<![CDATA[ t.trade_id = #tradeId# ]]>
+			</isNotEmpty>
+			<isNotEmpty property="gmtStart" prepend="and">
+			<![CDATA[ t.create_date >= to_date(#gmtStart#, 'yyyy-mm-dd') ]]>
+			</isNotEmpty>
+			<isNotEmpty property="gmtEnd" prepend="and">
+			<![CDATA[ t.create_date < to_date(#gmtEnd#, 'yyyy-mm-dd') + 1 ]]>
+			</isNotEmpty>
+		</dynamic>
+	<![CDATA[
+		ORDER BY t.create_date DESC
+	]]>	
+	</select>
+	
+	<select id="getMemberPoints" parameterClass="memberPoints" resultClass="java.math.BigDecimal">
+	<![CDATA[
+		SELECT NVL(SUM(t.points), 0)
+		FROM MALL.MALL_TB_MEMBER_POINTS t,
+		  MALL.MALL_TB_MEMBER p
+		WHERE t.mem_id      = p.mem_id
+		AND t.state         = 'U'
+		AND p.state         = 'U'
+		AND p.shop_id       = #shopId#
+		AND p.user_id       = #userId#
+		AND t.points_source IN
+	]]>
+		<iterate property="codes" open="(" close=")" conjunction=",">#codes[]#</iterate>
+	</select>
+	
+</sqlMap>

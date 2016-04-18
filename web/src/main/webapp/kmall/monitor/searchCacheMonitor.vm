@@ -1,0 +1,73 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<title>cache状态监控</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		#CSSM(["style", "ext"])
+	</head>
+	<body>
+		<form method="post">
+			<table width="100%" height="100%" border="0" cellpadding="0" cellspacing="8">
+				<tr>
+					<td valign="top">
+						<table width="100%" border="0" cellspacing="0" cellpadding="0" >
+							<tr>
+								<td class="form_top_icon_01" >
+									cache监控
+								</td>
+							</tr>
+							<tr>
+								<td colspan="2" class="home_title_line">
+									<tr>
+        								<td colspan="1" class="home_title">
+        									查询列表
+        								</td>
+									</tr>
+								</td>
+							</tr>
+							<tr>
+								<td colspan="2" class="home_title_line">
+									<table width="100%" border="0" cellpadding="0" cellspacing="1" class="outer">
+										<tr>
+    										<td class="head" noWrap >
+    											hostAddress
+    										</td>
+											<td class="even" noWrap>
+												<input type='text' id='hostAddress' name="hostAddress"/>
+											</td>
+											<td class="head" noWrap >
+    											port
+    										</td>
+											<td class="even" noWrap>
+												<input type='text' id='port' name="port"/>
+											</td>
+											<td class="even" noWrap>
+												<input type="button" onclick="javascript:search()" value="查询" />
+											</td>
+										</tr>
+									</table>
+									<tr>
+        								<td colspan="1" class="home_title">
+        									查询列表
+        								</td>
+									</tr>
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</table>
+			<div class="cent_border">
+				<div id="gridList" class="ext-grid-mask"></div>
+			</div>
+		</form>
+	</body>
+#JSM(["common", "ext", "jquery"])
+#JS_ENV_VAL()
+<script type="text/javascript">
+var store;
+</script>
+
+<script type="text/javascript" src="$!{env.imgUrl}/js/xplatform/monitor/searchCacheMonitor.js"></script>
+</html>

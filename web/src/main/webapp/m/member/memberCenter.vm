@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+		<title>会员中心</title>
+		#ICON()
+        #CSSM(["bootstrap"])
+		<style>
+		body { padding-bottom: 70px; }
+		div { overflow: hidden; }
+		hr { margin-top: 10px; margin-bottom: 10px; }
+		.nav>li>a { padding: 0; }
+		</style>
+		#UA()
+	</head>
+	<body style="background-color: #f9f9f9;">
+		#parse("/m/framework/top.vm")
+		<div style="padding-left: 10px;">
+			<span class="label label-primary" style="font-size: 13px;">我的会员</span>
+        </div>
+		<div class="panel-body" style="padding: 10px;">
+			<ul class="nav nav-pills nav-stacked">
+        		<li>
+        			<a href="$!{env.appUrl}/member/member.htm">
+						<span class="glyphicon glyphicon-chevron-right pull-right"></span>
+        				<span class="glyphicon glyphicon-stats"></span> 会员等级
+						<span class="badge" style="background-color: #f60;">$!{member.levelName}</span>
+        			</a>
+        		</li>
+				<hr />
+        		<li>
+        			<a href="$!{env.appUrl}/member/memberPoints.htm">
+						<span class="glyphicon glyphicon-chevron-right pull-right"></span>
+						<span class="glyphicon glyphicon-star"></span> 会员积分
+                        $!{member.points} <span class="small">(消费剩余积分 $!{member.surplusPoints})</span>
+					</a>
+        		</li>
+				<hr />
+				<li>
+        			<a href="$!{env.appUrl}/points/mall.htm?alias=$!{uuid}">
+        				<span class="glyphicon glyphicon-chevron-right pull-right"></span>
+						<span class="glyphicon glyphicon-home"></span> 积分商城
+        			</a>
+        		</li>
+				<hr />
+				<li>
+        			<a href="$!{env.appUrl}/register/mindex.htm?alias=$!{uuid}&recommend=${user.userId}&goto=$!{env.appUrl}/shop/homepage.htm?alias=$!{uuid}">
+        				<span class="glyphicon glyphicon-chevron-right pull-right"></span>
+						<span class="glyphicon glyphicon-thumbs-up"></span> 推荐会员
+        			</a>
+        		</li>
+            </ul>
+        </div>
+		<hr style="margin-top: 0;" />
+		<div style="padding-left: 10px;">
+			<span class="label label-primary" style="font-size: 13px;">我的账户</span>
+        </div>
+		<div class="panel-body" style="padding: 10px;">
+			<ul class="nav nav-pills nav-stacked">
+				<li>
+        			<a href="$!{env.appUrl}/member/memberInfo.htm">
+        				<span class="glyphicon glyphicon-chevron-right pull-right"></span>
+        				<span class="glyphicon glyphicon-info-sign"></span> 我的信息
+						#if(!$!{member.memPointsId})
+						<span class="small">(完善信息，领取积分)</span>
+						#end
+        			</a>
+        		</li>
+				<hr />
+				<li>
+        			<a href="$!{env.appUrl}/account/resetPassword.htm">
+        				<span class="glyphicon glyphicon-chevron-right pull-right"></span>
+        				<span class="glyphicon glyphicon-cog"></span> 修改密码
+        			</a>
+        		</li>
+				<hr />
+				<li>
+        			<a href="$!{env.appUrl}/points/gotoRecharge.htm">
+        				<span class="glyphicon glyphicon-chevron-right pull-right"></span>
+        				<span class="glyphicon glyphicon-gift"></span> 积分充值
+        			</a>
+        		</li>
+				<hr />
+				<li>
+        			<a href="$!{env.appUrl}/mlogout.htm">
+						<span class="glyphicon glyphicon-chevron-right pull-right"></span>
+        				<span class="glyphicon glyphicon-log-out"></span> 退出系统
+        			</a>
+        		</li>
+            </ul>
+        </div>
+		
+		#JSM(["jquery", "jquery.pin"])
+		<script type="text/javascript">
+        $(function() {
+					$(".pinned").pin();
+        		});
+        </script>
+		#HideWeixinJSBridge(["menu", "toolbar"])
+    </body>
+</html>

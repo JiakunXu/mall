@@ -1,0 +1,20 @@
+<div style="margin: 0 0 10px; background-color: rgba(229, 0, 18, 1);">
+	<div class="media" style="margin-bottom: 8px;">
+		<a class="pull-left" style="margin: 10px 0 0 20px;" href="$!{env.appUrl}/shop/homepage.htm?alias=$!{uuid}">
+            <img class="media-object" src="$!{shop.filePath}" style="width: 70px; height: 70px;" />
+		</a>
+		<div style="margin: 15px 0 0 100px;" >
+			<dl>
+                <dt style="font-size: 18px;">$!{shop.shopName}</dt>
+				<dd>欢迎光临</dd>
+			</dl>
+		</div>
+	</div>
+	<div class="text-center" style="margin-bottom: 4px;">
+		<ol class="breadcrumb pinned" style="margin-bottom: 0; padding: 5px 10px; border-radius: 0; z-index: 1;">
+			<li><a href="$!{env.appUrl}/shop/homepage.htm?alias=$!{uuid}">全部商品</a></li>
+			<li><a href="$!{env.appUrl}/trade/trade.htm?alias=$!{uuid}">我的订单</a></li>
+			<li><a href="$!{env.appUrl}/member/memberCenter.htm?alias=$!{uuid}">我的会员</a></li>
+		</ol>
+    </div>
+</div>

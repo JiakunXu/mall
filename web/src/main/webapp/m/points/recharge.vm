@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+		<title>积分充值</title>
+		#ICON()
+        #CSSM(["messenger", "bootstrap"])
+		<style>
+		body { padding-top: 70px; }
+		div { overflow: hidden; }
+		hr { margin-top: 10px; margin-bottom: 10px; }
+		input { border: 0px; }
+		.col-xs-3, .col-xs-9 { padding-right: 5px; padding-left: 5px; }
+		</style>
+		#UA()
+	</head>
+	<body>
+		<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+			<a class="navbar-brand glyphicon glyphicon-chevron-left" href="$!{env.appUrl}/member/memberCenter.htm"></a>
+			<div class="navbar-brand pull-right">积分充值</div>
+        </nav>
+		
+		<form role="form" method="post">
+			<div>
+				<div class="col-xs-12">
+					<label class="col-xs-3 control-label">卡号</label>
+					<div class="col-xs-9">
+						<input style="width: 200px;" type="text" id="cardNo" placeholder="请输入积分卡卡号" />
+					</div>
+                </div>
+            </div>
+			<hr />
+			<div>
+				<div class="col-xs-12">
+					<label class="col-xs-3 control-label">密码</label>
+					<div class="col-xs-9"><input type="text" id="password" placeholder="请输入6位数字密码" /></div>
+                </div>
+			</div>
+			<hr />
+		</form>
+		
+		<br />
+		<div class="col-xs-12">
+    		<a class="btn btn-success btn-block" id="btn" data-loading-text="正在处理..." href="javascript:save();">充 值</a>
+        </div>
+		
+		#JSM(["jquery", "messenger", "bootstrap"])
+		#JS_ENV_VAL()
+		<script type="text/javascript" src="$!{env.imgUrl}/js/m/points/recharge.js"></script>
+		#HideWeixinJSBridge(["menu", "toolbar"])
+	</body>
+</html>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="GB2312"?>
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="tag">
+	
+	<typeAlias alias="tag" type="com.kintiger.mall.api.tag.bo.Tag" />
+	
+	<insert id="createTag" parameterClass="tag">
+		<selectKey resultClass="java.lang.String" keyProperty="tagId">
+		<![CDATA[
+			SELECT MALL.MALL_SEQ_TAG.NEXTVAL FROM DUAL
+		]]>
+		</selectKey>
+	<![CDATA[
+		INSERT
+		INTO MALL.MALL_TB_TAG
+		  (
+			TAG_ID,
+			TAG_NAME,
+			SHOP_ID,
+			STATE,
+			MODIFY_USER
+		  )
+		  VALUES
+		  (
+			#tagId#,
+			#tagName#,
+			#shopId#,
+			#state#,
+			#modifyUser#
+		  )		
+	]]>
+	</insert>
+	
+	<select id="getTagList" parameterClass="tag" resultClass="tag">
+	<![CDATA[
+		SELECT t.tag_id AS tagId,
+		  t.tag_name    AS tagName
+		FROM MALL.MALL_TB_TAG t
+		WHERE t.state = 'U'
+		AND t.shop_id = #shopId#
+	]]>
+	</select>
+
+</sqlMap>

@@ -1,0 +1,22 @@
+<!DOCTYPE xwork PUBLIC "-//OpenSymphony Group//XWork 1.1.1//EN" "http://www.opensymphony.com/xwork/xwork-1.1.1.dtd">
+<xwork>
+	<package name="{http://kmall}kmall$portal"
+		extends="{http://kmall}kmall$framework" namespace="/">
+
+		<action name="index" class="portalAction" method="index">
+			<result name="success">/kmall/portal/index.vm</result>
+		</action>
+		
+		<!-- mobile 登陆页面 -->
+		<action name="mindex" class="portalAction" method="mindex">
+			<interceptor-ref name="shopInfoStack" />
+			<result name="success">/m/portal/index.vm</result>
+		</action>
+		
+		<action name="home" class="portalAction" method="home">
+			<interceptor-ref name="authenticationStack" />
+			<result name="success">/kmall/portal/home.vm</result>
+		</action>
+		
+	</package>
+</xwork>

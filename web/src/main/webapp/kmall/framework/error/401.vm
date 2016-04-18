@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>Kmall在线商城</title>
+		#ICON()
+		#CSSM(["nav", "bootstrap.docs", "bootstrap"])
+		#UA()
+	</head>
+	<body>
+		<div class="global-reset global-container global-type-global">
+    		#parse("/kmall/framework/top.vm")
+			<div class="global-common-a">
+				<div class="global">
+					<div class="global-header fn-clear">
+						<div class="global-header-content">
+							<div class="global-logo">
+                                <a herf="#"></a>
+                            </div>
+                            <div class="global-logo-neighbor"></div>
+							<ul class="global-nav"></ul>
+                        </div>
+                    </div>
+                </div>
+			</div>
+        </div>
+		
+		<div class="container">
+			<div class="modal-dialog">
+    			<div class="modal-content">
+        			<div class="modal-header">
+        				<h4 class="modal-title">抱歉您没有操作该页面的权限</h4>
+        			</div>
+        			<div class="modal-body">
+                        <p>可能因为：</p>
+						<ul>
+							<li>您所在岗位没有操作该页面权限</li>
+                        </ul>
+						<br />
+						<p>您可能需要：<a href="＃">返回首页</a></p>
+                    </div>
+        			<div class="modal-footer"></div>
+                </div>
+          	</div>
+        </div>
+		#parse("/kmall/framework/footer.vm")
+	</body>
+</html>

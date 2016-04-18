@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+    <head>
+		<title>人员角色配置</title>
+        <meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		#ICON()
+        #CSSM(["ext", "bootstrap", "conflict"])
+		#UA()
+	</head>
+	<body>
+		<div class="container">
+			<div class="page-header-sm">
+				<h3>
+					<small>人员角色配置</small>
+					<div class="pull-right">
+						<a class="btn btn-primary btn-xs" href="javascript:window.close();">关闭</a>
+                    </div>
+				</h3>
+			</div>
+        	<form role="form" method="post">
+				<div class="well well-sm" style="margin-bottom: 10px;">
+					<label class="col-xs-1 text-right">用户帐号</label>
+					<div class="col-xs-2">
+						$!{passport}
+						<input type="hidden" id="passport" value='$!{passport}' />
+                    </div>
+					<label class="col-xs-1 col-xs-offset-1 text-right">用户名称</label>
+					<div class="col-xs-2">
+						$!{userName}
+						<input type='hidden' id='userName' value='$!{userName}' />
+                    </div>
+				</div>
+				<div class="well well-sm" style="margin-bottom: 5px;">
+					<label class="col-xs-1 text-right">新增角色</label>
+					<div class="col-xs-3">
+						<input type='text' id='roleIds' name="roleIds" size='30' />
+                    </div>
+					<label class="col-xs-1 text-right">过期日期</label>
+					<div class="col-xs-2">
+						<input type="text" id="date1" value="$!{expireDate}" />
+                    </div>
+					<div class="pull-right">
+						<a class="btn btn-default btn-xs" href="javascript:forever('1');">永不过期</a>
+						<a class="btn btn-primary btn-xs" href="javascript:selectRole();">保存角色</a>
+                    </div>
+                </div>
+				<div class="well well-sm" style="margin-bottom: 5px;">
+					<label class="col-xs-1 text-right">过期日期</label>
+					<div class="col-xs-2">
+						<input type="text" id="date3" value="$!{expireDate}" />
+                    </div>
+					<div class="col-xs-4">
+						<a class="btn btn-default btn-xs" href="javascript:forever('3');">永不过期</a>
+						<a class="btn btn-default btn-xs" href="javascript:exportDataTemplate();">模板下载</a>
+						<a class="btn btn-primary btn-xs" href="javascript:importData();">批量导入角色</a>
+                    </div>
+                </div>
+				<div class="well well-sm" style="margin-bottom: 10px;">
+					<label class="col-xs-1 text-right">选择用户</label>
+					<div class="col-xs-3">
+						<input type='text' id='copyUserName' />
+						<input type='hidden' id='copyUserId' name='copyUserId' />
+						<a class="btn btn-default btn-xs" href="javascript:selectUser();">选择</a>
+                    </div>
+					<label class="col-xs-1 text-right">过期日期</label>
+					<div class="col-xs-2">
+						<input type="text" id="date2" value="$!{expireDate}" />
+                    </div>
+					<div class="pull-right">
+						<a class="btn btn-primary btn-xs" href="javascript:copyRole();">复制用户角色</a>
+                    </div>
+                </div>
+				<div class="well well-sm" style="margin-bottom: 10px;">
+    				<div class="pull-right">
+    					<a class="btn btn-danger btn-xs" href="javascript:deleteUser4Role();">批量删除角色</a>
+                    </div>
+				</div>
+				<input type="hidden" id="userId" name="userId" value="$!{userId}" />
+				<input type="hidden" id="expireDate" name="expireDate" />
+				<input type="hidden" id="roleList" name="roleList" />
+            </form>
+			<div class="cent_border">
+				<div id="gridList" class="ext-grid-mask"></div>
+			</div>
+        </div>
+		<iframe id="hideFrame" name="hideFrame" style="display:none"></iframe>
+		#JSM(["common", "ext", "jquery"])
+        #JS_ENV_VAL()
+        <script type="text/javascript">
+        var store;
+		var userId = '$!{userId}';
+		var gmtStart = '$!{gmtStart}';
+        </script>
+        <script type="text/javascript" src="$!{env.imgUrl}/js/xplatform/role/searchUserRole.js"></script>
+	</body>
+</html>

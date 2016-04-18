@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="GB2312"?>
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="pay.wx">
+	
+	<typeAlias alias="wxNotify" type="com.kintiger.mall.api.pay.bo.WxNotify" />
+	
+	<insert id="createWxNotify" parameterClass="wxNotify">
+		<selectKey resultClass="java.lang.String" keyProperty="id">
+		<![CDATA[
+			SELECT MALL.MALL_SEQ_PAY_WX_NOTIFY.NEXTVAL FROM DUAL
+		]]>
+		</selectKey>
+	<![CDATA[
+		INSERT
+		INTO MALL.MALL_TB_PAY_WX_NOTIFY
+		  (
+			ID,
+			SIGN_TYPE,
+			INPUT_CHARSET,
+			SIGN,
+			TRADE_MODE,
+			TRADE_STATE,
+			PARTNER,
+			BANK_TYPE,
+			BANK_BILLNO,
+			TOTAL_FEE,
+			FEE_TYPE,
+			NOTIFY_ID,
+			TRANSACTION_ID,
+			OUT_TRADE_NO,
+			ATTACH,
+			TIME_END,
+			TRANSPORT_FEE,
+			PRODUCT_FEE,
+			DISCOUNT,
+			CREATE_DATE,
+			MODIFY_DATE,
+			MODIFY_USER,
+			APP_ID,
+			TIME_STAMP,
+			NONCE_STR,
+			OPEN_ID,
+			APP_SIGNATURE,
+			IS_SUBSCRIBE,		
+			STATE
+		  )
+		  VALUES
+		  (
+			#id#,
+			#signType#,
+			#inputCharset#,
+			#sign#,
+			#tradeMode#,
+			#tradeState#,
+			#partner#,
+			#bankType#,
+			#bankBillno#,
+			#totalFee#,
+			#feeType#,
+			#notifyId#,
+			#transactionId#,
+			#outTradeNo#,
+			#attach#,
+			#timeEnd#,
+			#transportFee#,
+			#productFee#,
+			#discount#,
+			sysdate,
+			sysdate,
+			#modifyUser#,
+			#appId#,
+			#timeStamp#,
+			#nonceStr#,
+			#openId#,
+			#appSignature#,
+			#isSubscribe#,			
+			'U'
+		  )
+	]]>
+	</insert>
+	
+	<select id="getWxNotify" parameterClass="wxNotify" resultClass="wxNotify">
+	<![CDATA[
+		SELECT t.id,
+		  t.app_id         AS appId,
+		  t.open_id        AS openId,
+		  t.transaction_id AS transactionId,
+		  t.out_trade_no   AS outTradeNo
+		FROM MALL.MALL_TB_PAY_WX_NOTIFY t
+		WHERE t.state      = 'U'
+		AND t.out_trade_no = #outTradeNo#
+	]]>
+	</select>
+	
+</sqlMap>

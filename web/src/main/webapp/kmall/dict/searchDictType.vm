@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+    <head>
+		<title>系统参数配置</title>
+        <meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		#ICON()
+        #CSSM(["ext", "bootstrap", "conflict"])
+		#UA()
+	</head>
+	<body>
+		<div class="container">
+			<div class="page-header-sm">
+				<h3>
+					<small>系统参数配置</small>
+					<div class="pull-right">
+						<a class="btn btn-default btn-xs" href="javascript:createDictType();">创建系统参数类型</a>
+						<a class="btn btn-primary btn-xs" href="javascript:createDict();">创建系统参数</a>
+                    </div>
+				</h3>
+			</div>
+        	<form class="well well-sm" role="form" method="post">
+				<div class="row">
+					<label class="col-xs-1 text-right">参数类型</label>
+					<div class="col-xs-1">
+						<input type="text" id="dictTypeName" />
+                    </div>
+					<label class="col-xs-1 text-right">类型值</label>
+					<div class="col-xs-1">
+						<input type="text" id="dictTypeValue" />
+                    </div>
+					<label class="col-xs-1 text-right">备注</label>
+					<div class="col-xs-2">
+						<input type='text' id='remark' />
+                    </div>
+					<div class="col-xs-2">
+						<a class="btn btn-primary btn-xs" href="javascript:search();">查询</a>
+						<a class="btn btn-default btn-xs" href="javascript:resets();">重置</a>
+                    </div>
+				</div>
+            </form>
+			<div class="cent_border">
+				<div id="gridList" class="ext-grid-mask"></div>
+			</div>
+			<p class="lead" />
+			<div class="cent_border">
+				<div id="dictGridList" class="ext-grid-mask"></div>
+			</div>
+        </div>
+		<input type="hidden" id="dictTypeIdForDict" />
+		<input type="hidden" id="dictTypeNameForDict" />
+		<iframe id="hideFrame" name="hideFrame" style="display:none"></iframe>
+		#JSM(["common", "ext", "jquery"])
+		#JS_ENV_VAL()
+        <script type="text/javascript">
+        var store;
+        </script>
+        <script type="text/javascript" src="$!{env.imgUrl}/js/xplatform/dict/searchDictType.js"></script>
+	</body>
+</html>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="GB2312"?>
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="member.level">
+	
+	<typeAlias alias="memberLevel" type="com.kintiger.mall.api.member.bo.MemberLevel" />
+	
+	<insert id="createLevel" parameterClass="memberLevel">
+		<selectKey resultClass="java.lang.String" keyProperty="levelId">
+		<![CDATA[
+			SELECT MALL.MALL_SEQ_LEVEL.NEXTVAL FROM DUAL
+		]]>
+		</selectKey>
+	<![CDATA[
+		INSERT
+		INTO MALL.MALL_TB_LEVEL
+		  (
+			LEVEL_ID,
+			SHOP_ID,
+			LEVEL_NAME,
+			START_POINTS,
+			END_POINTS,
+			STATE,
+			MODIFY_USER
+		  )
+		  VALUES
+		  (
+			#levelId#,
+			#shopId#,
+			#levelName#,
+			#startPoints#,
+			#endPoints#,
+			#state#,
+			#modifyUser#
+		  )
+	]]>
+	</insert>
+	
+	<select id="getMemberLevelList" parameterClass="memberLevel" resultClass="memberLevel">
+	<![CDATA[
+		SELECT t.level_id AS levelId,
+		  t.level_name    AS levelName,
+		  t.start_points  AS startPoints,
+		  t.end_points    AS endPoints,
+		  t.rank,
+		  t.points,
+		  t.discount
+		FROM MALL.MALL_TB_MEMBER_LEVEL t
+		WHERE t.state = 'U'
+		AND t.shop_id = #shopId#
+		ORDER BY t.rank
+	]]>	
+	</select>
+	
+	<select id="getMemberLevel" parameterClass="memberLevel" resultClass="memberLevel">
+	<![CDATA[
+		SELECT t.level_id AS levelId,
+		  t.level_name    AS levelName,
+		  t.points,
+		  t.rank
+		FROM MALL.MALL_TB_MEMBER_LEVEL t
+		WHERE t.state       = 'U'
+		AND t.shop_id       = #shopId#
+		AND t.start_points <= #points#
+		AND t.end_points    > #points#
+	]]>	
+	</select>
+
+</sqlMap>

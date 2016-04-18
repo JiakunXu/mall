@@ -1,0 +1,53 @@
+<!DOCTYPE xwork PUBLIC "-//OpenSymphony Group//XWork 1.1.1//EN" "http://www.opensymphony.com/xwork/xwork-1.1.1.dtd">
+<xwork>
+	<package name="{http://kmall}kmall$account"
+		extends="{http://kmall}kmall$framework" namespace="/account">
+
+		<!-- pc 忘记密码 -->
+		<action name="forgetPassword" class="accountAction" method="forgetPassword">
+			<result name="success">/kmall/portal/forgetPassword.vm</result>
+		</action>
+		
+		<!-- pc 发送邮件 -->
+		<action name="sendCheckCode" class="accountAction" method="sendCheckCode">
+			<result name="success">/kmall/portal/sendVerifyEmail.vm</result>
+			<result name="error">/kmall/portal/forgetPassword.vm</result>
+		</action>
+		
+		<!-- pc 重置密码 -->
+		<action name="setPassword" class="accountAction" method="setPassword">
+			<result name="success">/kmall/portal/setPassword.vm</result>
+		</action>
+		
+		<action name="updatePassword" class="accountAction" method="updatePassword" />
+		
+		<action name="accountAction" class="accountAction" >
+			<interceptor-ref name="authenticationStack" />
+		</action>
+		
+		<!-- mobile 忘记密码 -->
+		<action name="mforgetPassword" class="mobileAccountAction" method="forgetPassword">
+			<interceptor-ref name="shopInfoStack" />
+			<result name="success">/m/portal/forgetPassword.vm</result>
+		</action>
+		
+		<!-- mobile 发送短信 -->
+		<action name="msendCheckCode" class="mobileAccountAction" method="sendCheckCode">
+		</action>
+		
+		<!-- mobile 重置密码 -->
+		<action name="msetPassword" class="mobileAccountAction" method="setPassword">
+		</action>
+		
+		<!-- mobile 修改密码 -->
+		<action name="resetPassword" class="mobileAccountAction" method="resetPassword">
+			<interceptor-ref name="authenticationStack" />
+			<result name="success">/m/portal/resetPassword.vm</result>
+		</action>
+		
+		<action name="mobileAccountAction" class="mobileAccountAction" >
+			<interceptor-ref name="authenticationStack" />
+		</action>
+		
+	</package>
+</xwork>

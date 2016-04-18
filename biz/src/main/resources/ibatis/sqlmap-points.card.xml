@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="GB2312"?>
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="points.card">
+	
+	<typeAlias alias="pointsCard" type="com.kintiger.mall.api.points.bo.PointsCard" />
+	
+	<select id="getPointsCardCount" parameterClass="pointsCard" resultClass="java.lang.Integer">
+	<![CDATA[
+		SELECT COUNT(1)
+		FROM MALL.MALL_TB_POINTS_CARD C,
+		  (SELECT t.USER_ID, t.USER_NAME FROM MALL.MALL_TB_USER t WHERE t.STATE = 'U'
+		  ) U
+		WHERE C.USER_ID = U.USER_ID(+)
+		AND C.STATE     = 'U'
+		AND C.SHOP_ID   = #shopId#		 
+	]]>
+		<dynamic>
+			<isNotEmpty property="userName" prepend="and">
+			<![CDATA[ u.user_name like #userName,handler=wildcard# ]]>
+			</isNotEmpty>
+			<isNotEmpty property="cardNo" prepend="and">
+			<![CDATA[ c.CARD_NO like #cardNo,handler=wildcard# ]]>
+			</isNotEmpty>
+			<isNotEmpty property="isUsed" prepend="and">
+			<![CDATA[ c.IS_USED = #isUsed# ]]>
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<select id="getPointsCardList" parameterClass="pointsCard" resultClass="pointsCard">
+		<include refid="global.paginationStart" />
+	<![CDATA[
+		SELECT C.ID,
+		  C.POINTS,
+		  C.CARD_NO AS cardNo,
+		  c.PASSWORD,
+		  TO_CHAR(C.EXPIRE_DATE, 'yyyy-mm-dd') AS expireDate,
+		  U.USER_NAME                          AS userName,
+		  C.IS_USED                            AS isUsed,
+		  C.modify_date                        AS modifyDate,
+		  CASE
+			WHEN C.EXPIRE_DATE >= sysdate
+			THEN 'N'
+			ELSE 'Y'
+		  END AS expire
+		FROM MALL.MALL_TB_POINTS_CARD C,
+		  (SELECT t.USER_ID, t.USER_NAME FROM MALL.MALL_TB_USER t WHERE t.STATE = 'U'
+		  ) U
+		WHERE C.USER_ID = U.USER_ID(+)
+		AND C.STATE     = 'U'
+		AND C.SHOP_ID   = #shopId#
+	]]>
+		<dynamic>
+			<isNotEmpty property="userName" prepend="and">
+			<![CDATA[ u.user_name like #userName,handler=wildcard# ]]>
+			</isNotEmpty>
+			<isNotEmpty property="cardNo" prepend="and">
+			<![CDATA[ c.CARD_NO like #cardNo,handler=wildcard# ]]>
+			</isNotEmpty>
+			<isNotEmpty property="isUsed" prepend="and">
+			<![CDATA[ c.IS_USED = #isUsed# ]]>
+			</isNotEmpty>
+		</dynamic>
+		
+		<include refid="global.orderBy" />
+		<include refid="global.paginationEnd" />
+	</select>
+	
+	<select id="getPointsCard" parameterClass="pointsCard" resultClass="pointsCard">
+	<![CDATA[
+		SELECT t.id,
+		  t.points
+		FROM MALL.MALL_TB_POINTS_CARD t
+		WHERE t.state      = 'U'
+		AND t.is_used      = 'N'
+		AND t.expire_date >= sysdate
+		AND t.shop_id      = #shopId#
+		AND t.card_no      = #cardNo#
+		AND t.password     = #password#
+	]]>
+	</select>
+	
+	<update id="usePointsCard" parameterClass="pointsCard">
+	<![CDATA[
+		UPDATE MALL.MALL_TB_POINTS_CARD t
+		SET t.modify_date = sysdate,
+		  t.modify_user   = #modifyUser#,
+		  t.user_id       = #userId#,
+		  t.is_used       = 'Y'
+		WHERE t.state     = 'U'
+		AND t.is_used     = 'N'
+		AND t.shop_id     = #shopId#
+		AND t.card_no     = #cardNo#
+		AND t.password    = #password#
+	]]>
+	</update>
+	
+	<insert id="createPointsCard" parameterClass="pointsCard">
+		<selectKey resultClass="java.lang.String" keyProperty="id">
+		<![CDATA[
+			SELECT MALL.MALL_SEQ_POINTS_CARD.NEXTVAL FROM DUAL
+		]]>
+		</selectKey>
+	<![CDATA[
+		INSERT
+		INTO MALL.MALL_TB_POINTS_CARD
+		  (
+			ID,
+			SHOP_ID,
+			CARD_NO,
+			PASSWORD,
+			POINTS,
+			EXPIRE_DATE,
+			USER_ID,
+			IS_USED,
+			STATE,
+			CREATE_DATE,
+			MODIFY_DATE,
+			MODIFY_USER
+		  )
+		  VALUES
+		  (
+			#id#,
+			#shopId#,
+			#cardNo#,
+			#password#,
+			#points#,
+			TO_DATE(#expireDate#, 'yyyy-mm-dd'),
+			'',
+			'N',
+			'U',
+			sysdate,
+			sysdate,
+			#modifyUser#
+		  )
+	]]>
+	</insert>
+	
+</sqlMap>

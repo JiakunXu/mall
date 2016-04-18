@@ -1,0 +1,87 @@
+/*! bootstrap for ext form invalid */
+.x-form-invalid, textarea.x-form-invalid {
+    background-color: #fff;
+    background-image: url(../ext/resources/images/default/grid/invalid_line.gif);
+	border-color: #c30;
+}
+
+/*! bootstrap for ext input */
+.x-form-text, .x-form-field {
+  -webkit-box-sizing: content-box;
+     -moz-box-sizing: content-box;
+          box-sizing: content-box;
+}
+
+/*! bootstrap for ext comboBox */
+.x-form-trigger, .x-form-arrow-trigger, .x-combo-list {
+  -webkit-box-sizing: content-box;
+     -moz-box-sizing: content-box;
+          box-sizing: content-box;
+}
+
+/*! bootstrap for ext toolbar */
+.x-toolbar, .x-small-editor, .x-toolbar-layout-ct {
+  -webkit-box-sizing: content-box;
+     -moz-box-sizing: content-box;
+          box-sizing: content-box;
+}
+
+/*! bootstrap for ext panel */
+.x-panel-body, .x-panel-body-noheader {
+  -webkit-box-sizing: content-box;
+     -moz-box-sizing: content-box;
+          box-sizing: content-box;
+}
+
+/*! bootstrap for ext window */
+.x-window-body {
+  -webkit-box-sizing: content-box;
+     -moz-box-sizing: content-box;
+          box-sizing: content-box;
+}
+
+/*! bootstrap for ext editor */
+.x-html-editor-wrap {
+  -webkit-box-sizing: content-box;
+     -moz-box-sizing: content-box;
+          box-sizing: content-box;
+}
+
+/*! bootstrap for ext progress */
+.x-progress-bar {
+  -webkit-box-sizing: content-box;
+     -moz-box-sizing: content-box;
+          box-sizing: content-box;
+}
+
+/*! bootstrap for ext grid <p> */
+p {
+  margin: 0 0 0px;
+}
+
+/*! bootstrap for ext grid */
+.x-grid3 table {
+  border-collapse: separate;
+}
+
+/*! bootstrap for ext textarea */
+textarea {
+    resize: auto;
+}
+
+/*! bootstrap for ext */
+.form-control[disabled],
+.form-control[readonly],
+fieldset[disabled] .form-control {
+	_background-color: #FFF;
+}
+
+/*! bootstrap for ext dateField */
+ul {
+   margin-bottom: 0px;
+}
+
+.bs-callout {
+  margin: 0 0 20px 0;
+  padding: 15px;
+}

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="GB2312"?>
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="advert">
+	
+	<typeAlias alias="advert" type="com.kintiger.mall.api.advert.bo.Advert" />
+	
+	<select id="getAdvertCount" parameterClass="advert" resultClass="java.lang.Integer">
+	<![CDATA[
+		SELECT COUNT(1)
+		FROM MALL.MALL_TB_ADVERT t
+		WHERE t.state = 'U'
+		AND t.shop_id = #shopId#
+	]]>
+	</select>
+	
+	<select id="getAdvertList" parameterClass="advert" resultClass="advert">
+		<include refid="global.paginationStart" />
+	<![CDATA[
+		SELECT t.advert_id AS advertId,
+		  t.advert_name    AS advertName,
+		  t.redirect_url   AS redirectUrl,
+		  t.points,
+		  t.cycle
+		FROM MALL.MALL_TB_ADVERT t
+		WHERE t.state = 'U'
+		AND t.shop_id = #shopId#
+	]]>		
+		<include refid="global.orderBy" />
+		<include refid="global.paginationEnd" />
+	</select>
+	
+	<select id="getAdvert" parameterClass="advert" resultClass="advert">
+	<![CDATA[
+		SELECT t.advert_id AS advertId,
+		  t.shop_id        AS shopId,
+		  t.redirect_url   AS redirectUrl,
+		  t.points,
+		  t.cycle,
+		  t.is_display AS isDisplay
+		FROM MALL.MALL_TB_ADVERT t
+		WHERE t.state     = 'U'
+		AND t.advert_id = #advertId#
+	]]>
+		<dynamic>
+			<isNotEmpty property="shopId" prepend="and">
+			<![CDATA[ t.shop_id   = #shopId# ]]>
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<select id="getAdvertStats" parameterClass="advert" resultClass="advert">
+	<![CDATA[
+		SELECT aaa.advert_id AS advertId,
+		  aaa.advert_name    AS advertName,
+		  NVL(aaa.pv , 0)    AS pv,
+		  NVL(aaa.uv , 0)    AS uv
+		FROM
+		  (SELECT t.advert_id,
+			MAX(t.advert_name)   AS advert_name,
+			COUNT(1)             AS pv,
+			COUNT(DISTINCT p.ip) AS uv
+		  FROM MALL.MALL_TB_ADVERT t,
+			MALL.MALL_TB_ADVERT_STATS p
+		  WHERE t.advert_id  = p.advert_id
+		  AND t.state        = 'U'
+		  AND p.state        = 'U'
+		  AND p.create_date >= TRUNC(sysdate-7)
+		  AND t.shop_id      = #shopId#
+		  GROUP BY t.advert_id
+		  ORDER BY uv DESC
+		  ) aaa
+		WHERE rownum < 6
+	]]>
+	</select>
+	
+	<insert id="createAdvert" parameterClass="advert">
+		<selectKey resultClass="java.lang.String" keyProperty="advertId">
+		<![CDATA[
+			SELECT MALL.MALL_SEQ_ADVERT.NEXTVAL FROM DUAL
+		]]>
+		</selectKey>
+	<![CDATA[
+		INSERT
+		INTO MALL.MALL_TB_ADVERT
+		  (
+			ADVERT_ID,
+			SHOP_ID,
+			REDIRECT_URL,
+			POINTS,
+			CYCLE,
+			IS_DISPLAY,
+			STATE,
+			CREATE_DATE,
+			MODIFY_DATE,
+			MODIFY_USER,
+			ADVERT_NAME
+		  )
+		  VALUES
+		  (
+			#advertId#,
+			#shopId#,
+			#redirectUrl#,
+			#points#,
+			#cycle#,
+			'Y',
+			'U',
+			sysdate,
+			sysdate,
+			#modifyUser#,
+			#advertName#
+		  )
+	]]>
+	</insert>
+
+</sqlMap>

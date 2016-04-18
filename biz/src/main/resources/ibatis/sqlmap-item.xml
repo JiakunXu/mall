@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="GB2312"?>
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="item">
+	
+	<typeAlias alias="item" type="com.kintiger.mall.api.item.bo.Item" />
+	
+	<select id="getItemCount" parameterClass="item" resultClass="java.lang.Integer">
+	<![CDATA[
+		SELECT COUNT(1)
+		FROM MALL.MALL_TB_ITEM t
+		WHERE t.state = 'U'
+		AND t.shop_id = #shopId#
+	]]>
+		<dynamic>
+			<isNotEmpty property="isDisplay" prepend="and">
+			<![CDATA[ t.is_Display = #isDisplay# ]]>
+			</isNotEmpty>
+			<isNotEmpty property="itemNo" prepend="and">
+			<![CDATA[ t.item_no like #itemNo,handler=wildcard# ]]>
+			</isNotEmpty>
+			<isNotEmpty property="itemName" prepend="and">
+			<![CDATA[ t.item_name like #itemName,handler=wildcard# ]]>
+			</isNotEmpty>
+			<isNotEmpty property="type">
+				<isEqual property="type" compareValue="soldout" prepend="and">
+				<![CDATA[ t.stock = 0 ]]>
+				</isEqual>
+			</isNotEmpty>
+			<isEmpty property="type">
+				<isEmpty property="isDisplay">
+				<![CDATA[ 
+					AND t.is_Display = 'Y'
+				]]>
+				</isEmpty>
+			</isEmpty>
+			<isNotEmpty property="tagId" prepend="and">
+			<![CDATA[
+					EXISTS
+				  (SELECT 1
+				  FROM MALL.MALL_TB_ITEM_TAG p,
+					MALL.MALL_TB_TAG q
+				  WHERE p.tag_id = q.tag_id
+				  AND p.state    = 'U'
+				  AND q.state    = 'U'
+				  AND q.tag_id   = #tagId#
+				  AND p.item_id  = t.item_id
+				  )
+			]]>
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<select id="getItemList" parameterClass="item" resultClass="item">
+		<include refid="global.paginationStart" />
+	<![CDATA[
+		SELECT t.item_id AS itemId,
+		  t.item_no      AS itemNo,
+		  t.item_name    AS itemName,
+		  t.stock,
+		  t.quota,
+		  t.price,
+		  t.origin,
+		  t.create_date AS createDate
+		FROM MALL.MALL_TB_ITEM t
+		WHERE t.state = 'U'
+		AND t.shop_id = #shopId#
+	]]>		
+		<dynamic>
+			<isNotEmpty property="isDisplay" prepend="and">
+			<![CDATA[ t.is_display = #isDisplay# ]]>
+			</isNotEmpty>
+			<isNotEmpty property="itemNo" prepend="and">
+			<![CDATA[ t.item_no like #itemNo,handler=wildcard# ]]>
+			</isNotEmpty>
+			<isNotEmpty property="itemName" prepend="and">
+			<![CDATA[ t.item_name like #itemName,handler=wildcard# ]]>
+			</isNotEmpty>
+			<isNotEmpty property="type">
+				<isEqual property="type" compareValue="soldout" prepend="and">
+				<![CDATA[ t.stock = 0 ]]>
+				</isEqual>
+			</isNotEmpty>
+			<isEmpty property="type">
+				<isEmpty property="isDisplay">
+				<![CDATA[
+					AND t.is_display = 'Y'
+				]]>
+				</isEmpty>
+			</isEmpty>
+			<isNotEmpty property="tagId" prepend="and">
+			<![CDATA[
+					EXISTS
+				  (SELECT 1
+				  FROM MALL.MALL_TB_ITEM_TAG p,
+					MALL.MALL_TB_TAG q
+				  WHERE p.tag_id = q.tag_id
+				  AND p.state    = 'U'
+				  AND q.state    = 'U'
+				  AND q.tag_id   = #tagId#
+				  AND p.item_id  = t.item_id
+				  )
+			]]>
+			</isNotEmpty>
+			<isNotEmpty property="codes" prepend="and">
+			<![CDATA[ t.item_id IN ]]>
+				<iterate property="codes" open="(" close=")" conjunction=",">#codes[]#</iterate>
+			</isNotEmpty>
+		</dynamic>
+		<include refid="global.orderBy" />
+		<include refid="global.paginationEnd" />
+	</select>
+	
+	<!-- 查询商品七天售出量的排名 -->
+	<select id="getItemStats4Sold" parameterClass="java.lang.String" resultClass="item">
+	<![CDATA[
+		SELECT aaa.item_name AS itemName,
+		  NVL(aaa.count , 0) AS COUNT
+		FROM
+		  (SELECT t.item_name,
+			SUM(t.quantity) AS COUNT
+		  FROM MALL.MALL_TB_ORDER t,
+			MALL.MALL_TB_TRADE q
+		  WHERE t.trade_id   = q.trade_id
+		  AND t.state        = 'U'
+		  AND q.state        = 'U'
+		  AND q.type                       IN ('tosend', 'send', 'sign')
+		  AND t.create_date >= TRUNC(sysdate-7)
+		  AND q.shop_id      = #shopId#
+		  GROUP BY t.item_name
+		  ORDER BY COUNT DESC
+		  ) aaa
+		WHERE rownum < 6
+	]]>
+	</select>
+	
+	<!-- 查询商品库存排名 -->
+	<select id="getItemStats4Stock" parameterClass="java.lang.String" resultClass="item">
+	<![CDATA[
+		SELECT aaa.item_name AS itemName,
+		  aaa.stock
+		FROM
+		  (SELECT t.item_name,
+			t.stock
+		  FROM MALL.MALL_TB_ITEM t
+		  WHERE t.state = 'U'
+		  AND t.shop_id = #shopId#
+		  ORDER BY t.stock ASC
+		  ) aaa
+		WHERE rownum < 6
+	]]>
+	</select>
+	
+	<!-- 查询积分兑换商品七天售出量的排名 -->
+	<select id="getItemStats4Exchange" parameterClass="java.lang.String" resultClass="item">
+	<![CDATA[
+		SELECT aaa.item_name AS itemName,
+		  NVL(aaa.count , 0) AS COUNT
+		FROM
+		  (SELECT t.item_name,
+			SUM(t.quantity) AS COUNT
+		  FROM MALL.MALL_TB_ORDER t,
+			MALL.MALL_TB_TRADE q
+		  WHERE t.trade_id   = q.trade_id
+		  AND t.state        = 'U'
+		  AND q.state        = 'U'
+		  AND t.price        = 0
+		  AND q.type                       IN ('tosend', 'send', 'sign')
+		  AND t.create_date >= TRUNC(sysdate-7)
+		  AND q.shop_id      = #shopId#
+		  GROUP BY t.item_name
+		  ORDER BY COUNT DESC
+		  ) aaa
+		WHERE rownum < 6
+	]]>
+	</select>
+	
+	<insert id="createItem" parameterClass="item">
+		<selectKey resultClass="java.lang.String" keyProperty="itemId">
+		<![CDATA[
+			SELECT MALL.MALL_SEQ_ITEM.NEXTVAL FROM DUAL
+		]]>
+		</selectKey>
+	<![CDATA[
+		INSERT
+		INTO MALL.MALL_TB_ITEM
+		  (
+			ITEM_ID,
+			ITEM_NO,
+			ITEM_NAME,
+			SHOP_ID,
+			PRICE,
+			SHIPMENT,
+			STOCK,
+			POSTAGE,
+			QUOTA,
+			STATE,
+			CREATE_DATE,
+			MODIFY_DATE,
+			MODIFY_USER,
+			ITEM_CID,
+			ORIGIN,
+			IS_DISPLAY,
+			REMARK
+		  )
+		  VALUES
+		  (
+			#itemId#,
+			#itemNo#,
+			#itemName#,
+			#shopId#,
+			#price#,
+			#shipment#,
+			#stock#,
+			#postage#,
+			#quota#,
+			'U',
+			sysdate,
+			sysdate,
+			#modifyUser#,
+			#itemCid#,
+			#origin#,
+			#isDisplay#,
+			#remark#
+		  )
+	]]>
+	</insert>
+	
+	<select id="getItem" parameterClass="item" resultClass="item">
+	<![CDATA[
+		SELECT t.item_id AS itemId,
+		  t.item_no      AS itemNo,
+		  t.item_name    AS itemName,
+		  t.price,
+		  t.stock,
+		  t.postage,
+		  t.quota,
+		  t.origin,
+		  t.remark
+		FROM MALL.MALL_TB_ITEM t
+		WHERE t.state = 'U'
+		AND t.shop_id = #shopId#
+		AND t.item_id = #itemId#
+	]]>		
+	</select>
+	
+	<update id="updateItem1" parameterClass="item">
+	<![CDATA[
+		UPDATE MALL.MALL_TB_ITEM t
+		SET t.modify_date = sysdate,
+		  t.modify_user   = #modifyUser#,
+		  t.item_No       = #itemNo#,
+		  t.item_name     = #itemName#,
+		  t.price         = #price#,
+		  t.stock         = #stock#,
+		  t.postage       = #postage#,
+		  t.quota         = #quota#,
+		  t.origin        = #origin#,
+		  t.is_display    = #isDisplay#,
+		  t.remark        = #remark#
+		WHERE t.state     = 'U'
+		AND t.shop_id     = #shopId#
+		AND t.item_id     = #itemId#
+	]]>
+	</update>
+	
+	<update id="updateItem2" parameterClass="item">
+	<![CDATA[
+		UPDATE MALL.MALL_TB_ITEM t
+		SET t.modify_date = sysdate,
+		  t.modify_user   = #modifyUser#,
+		  t.stock         = #stock#
+		WHERE t.state     = 'U'
+		AND t.shop_id     = #shopId#
+		AND t.item_id     = #itemId#
+	]]>
+	</update>
+	
+	<update id="updateItem3" parameterClass="item">
+	<![CDATA[
+		UPDATE MALL.MALL_TB_ITEM t
+		SET t.modify_date = sysdate,
+		  t.modify_user   = #modifyUser#,
+		  t.stock         =
+		  (SELECT NVL(SUM(p.stock), t.stock)
+		  FROM MALL.MALL_TB_ITEM_SKU p
+		  WHERE p.state = 'U'
+		  AND p.item_id = t.item_id
+		  )
+		WHERE t.state  = 'U'
+		AND t.shop_id  = #shopId#
+		AND t.item_id IN
+	]]>
+		<iterate property="codes" open="(" close=")" conjunction=",">#codes[]#</iterate>
+	</update>
+	
+	<update id="updateItem4" parameterClass="item">
+	<![CDATA[
+		UPDATE MALL.MALL_TB_ITEM t
+		SET t.modify_date = sysdate,
+		  t.modify_user   = #modifyUser#,
+		  t.state         = 'D'
+		WHERE t.state     = 'U'
+		AND t.shop_id     = #shopId#
+		AND t.item_id     = #itemId#
+	]]>
+	</update>
+	
+</sqlMap>

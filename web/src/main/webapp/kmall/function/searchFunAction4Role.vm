@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+    <head>
+		<title>角色权限点配置</title>
+        <meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		#ICON()
+        #CSSM(["ext", "bootstrap", "conflict"])
+		#UA()
+	</head>
+	<body>
+		<div class="container">
+			<div class="page-header-sm">
+				<h3>
+					<small>$!{roleName} 角色权限点</small>
+					<div class="pull-right">
+						<a class="btn btn-primary btn-xs" href="javascript:save();">保存</a>
+						<a class="btn btn-default btn-xs" href="javascript:window.close();">关闭</a>
+                    </div>
+				</h3>
+			</div>
+        	<form class="form-horizontal" role="form" method="post">
+				<div class="form-group">
+					<div class="col-xs-12">
+						<a class="btn btn-primary btn-xs" href="javascript:add();">添加一行</a>
+                    </div>
+                </div>
+				<input type='hidden' id='roleId' name="roleId" value="$!{roleId}" />
+				<input type='hidden' id='functionList' name="functionList" />
+            </form>
+			<div class="cent_border">
+				<div id="gridList" class="ext-grid-mask"></div>
+			</div>
+        </div>
+		<iframe id="hideFrame" name="hideFrame" style="display:none"></iframe>
+		#JSM(["common", "ext", "jquery"])
+        #JS_ENV_VAL()
+        <script type="text/javascript">
+        var store;
+        </script>
+        <script type="text/javascript" src="$!{env.imgUrl}/js/xplatform/function/searchFunAction4Role.js"></script>
+	</body>
+</html>

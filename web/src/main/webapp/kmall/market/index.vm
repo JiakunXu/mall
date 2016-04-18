@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>市场营销 － Kmall</title>
+		#ICON()
+        #CSSM(["nav", "bootstrap", "pnotify"])
+		#UA()
+	</head>
+	<body>
+		<div class="global-reset global-container global-type-global">
+    		#parse("/kmall/framework/top.vm")
+            <div class="global-common-a">
+				<div class="global">
+					<div class="global-header fn-clear">
+						<div class="global-header-content">
+							<div class="global-logo">
+                                <a herf="#"></a>
+                            </div>
+                            <div class="global-logo-neighbor"></div>
+							<ul class="global-nav">
+								<li class="global-nav-item"><a href="$!{env.appUrl}/shop/index.htm">店铺管理</a></li>
+                                <li class="global-nav-item"><a href="$!{env.appUrl}/item/index.htm">商品管理</a></li>
+                                <li class="global-nav-item"><a href="$!{env.appUrl}/trade/index.htm">交易管理</a></li>
+								<li class="global-nav-item global-nav-item-current">
+									<a href="$!{env.appUrl}/market/index.htm">市场营销</a>
+									<span class="global-nav-item-arrow">◆</span>
+									<span class="global-nav-item-arrow global-nav-item-arrow-border">◆</span>
+								</li>
+								<li class="global-nav-item"><a href="$!{env.appUrl}/member/index.htm">会员管理</a></li>
+                            </ul>
+                        </div>
+                    </div>
+					<div class="global-subheader">
+                        <ul class="global-subnav">
+							<li class="global-subnav-item global-subnav-item-current"><a href="#">营销概况</a></li>
+							<li class="global-subnav-item"><a href="$!{env.appUrl}/points/pointsMall.htm">积分商城</a></li>
+							<li class="global-subnav-item"><a href="$!{env.appUrl}/points/pointsCard.htm">积分充值</a></li>
+							<li class="global-subnav-item"><a href="$!{env.appUrl}/advert/index.htm">广告投放</a></li>
+						</ul>
+                    </div>
+                </div>
+			</div>
+        </div>
+		
+		<div class="container">
+			<div class="col-md-2">
+				<div class="panel panel-default">
+					<ul class="list-group">
+                        <li class="list-group-item"><span class="glyphicon glyphicon-paperclip"></span><small> 积分商城：维护积分兑换商品</small></li>
+                        <li class="list-group-item"><span class="glyphicon glyphicon-paperclip"></span><small> 积分充值：维护积分卡</small></li>
+                        <li class="list-group-item"><span class="glyphicon glyphicon-paperclip"></span><small> 广告投放：维护广告信息，统计广告点击，根据点击次数赠送积分</small></li>
+					</ul>
+    			</div>
+            </div>
+			
+			<div class="col-md-10">
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<div class="col-md-4">
+    						<div class="panel panel-success">
+        						<div class="panel-heading">7天积分兑换排行</div>
+    							<div class="panel-body">
+    								<table class="table table-hover">
+    									<thead>
+    										<tr><th>#</th><th>商品</th><th>兑换销量</th></tr>
+    									</thead>
+    									<tbody class="small">
+											#foreach($item in $itemList)
+											<tr><td>$velocityCount</td><td>$!{item.itemName}</td><td>$!{item.count}</td></tr>
+											#end
+    									</tbody>
+    								</table>
+    							</div>
+    						</div>
+                        </div>
+						<div class="col-md-5">
+    						<div class="panel panel-info">
+        						<div class="panel-heading">最近积分充值排行</div>
+    							<div class="panel-body">
+    								<table class="table table-hover">
+    									<thead>
+    										<tr><th>#</th><th>会员</th><th>充值</th><th>充值时间</th></tr>
+    									</thead>
+    									<tbody class="small">
+											#foreach($pointsCard in $pointsCardList)
+											<tr>
+												<td>$velocityCount</td>
+												<td>$!{pointsCard.userName}</td>
+												<td>$!{pointsCard.points}</td>
+												<td>$!dateUtil.datetime($!{pointsCard.modifyDate}, 'yyyy-MM-dd HH:mm:ss')</td>
+											</tr>
+											#end
+    									</tbody>
+    								</table>
+    							</div>
+    						</div>
+                        </div>
+						<div class="col-md-3">
+    						<div class="panel panel-warning">
+        						<div class="panel-heading">7天广告投放排行</div>
+    							<div class="panel-body">
+    								<table class="table table-hover">
+    									<thead>
+    										<tr><th>#</th><th>广告名称</th><th>UV/PV</th></tr>
+    									</thead>
+    									<tbody class="small">
+											#foreach($advert in $advertList)
+											<tr>
+												<td>$velocityCount</td>
+												<td>$!{advert.advertName}</td>
+												<td>$!{advert.uv}/$!{advert.pv}</td>
+											</tr>
+											#end
+    									</tbody>
+    								</table>
+    							</div>
+    						</div>
+                        </div>
+					</div>
+				</div>
+			</div>
+        </div>
+		#parse("/kmall/framework/footer.vm")
+		
+		#JSM(["jquery", "bootstrap", "pnotify", "top"])
+	</body>
+</html>

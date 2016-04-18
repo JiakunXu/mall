@@ -1,0 +1,21 @@
+<!DOCTYPE xwork PUBLIC "-//OpenSymphony Group//XWork 1.1.1//EN" "http://www.opensymphony.com/xwork/xwork-1.1.1.dtd">
+<xwork>
+	<package name="{http://kmall}kmall$role"
+		extends="{http://kmall}kmall$framework" namespace="/role">
+
+		<action name="roleAction" class="roleAction" >
+			<interceptor-ref name="authenticationStack" />
+			<result name="searchRole">/kmall/role/searchRole.vm</result>
+			<result name="searchUserRole">/kmall/role/searchUserRole.vm</result>
+			<result name="createPrepare">/kmall/role/createRole.vm</result>
+			<result name="updatePrepare">/kmall/role/searchRoleDetail.vm</result>
+			<result name="searchSelectedRole">/kmall/role/searchSelectedRole.vm</result>
+			<result name="searchRole4Config">/kmall/role/searchRole4Config.vm</result>
+			<result name='searchUser4RolePrepare'>/kmall/role/searchUser4Role.vm</result>
+			<result name="searchUser">/kmall/role/searchUser.vm</result>
+			<result name="orgTreeAjaxInfo">/kmall/org/orgTreeAjaxInfo.vm</result>
+			<result name="getUserSelector">/kmall/role/userSelector.vm</result>
+		</action>
+		
+	</package>
+</xwork>

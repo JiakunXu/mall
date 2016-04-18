@@ -1,0 +1,48 @@
+<!DOCTYPE xwork PUBLIC "-//OpenSymphony Group//XWork 1.1.1//EN" "http://www.opensymphony.com/xwork/xwork-1.1.1.dtd">
+<xwork>
+	<package name="{http://kmall}kmall$points"
+		extends="{http://kmall}kmall$framework" namespace="/points">
+		
+		<action name="pointsMall" class="pointsAction" method="index">
+			<interceptor-ref name="authenticationStack" />
+			<result name="success">/kmall/points/mall.vm</result>
+		</action>
+
+		<action name="pointsAction" class="pointsAction">
+			<interceptor-ref name="authenticationStack" />
+		</action>
+		
+		<!-- 积分卡 -->
+		<action name="pointsCard" class="pointsCardAction" method="index">
+			<interceptor-ref name="authenticationStack" />
+			<result name="success">/kmall/points/searchPointsCard.vm</result>
+		</action>
+		
+		<action name="pointsCardAction" class="pointsCardAction">
+			<interceptor-ref name="authenticationStack" />
+		</action>
+		
+		<!-- mobile 积分商城 -->
+		<action name="mall" class="pointsAction" method="mall">
+			<interceptor-ref name="shopInfoStack" />
+			<result name="success">/m/points/mall.vm</result>
+		</action>
+		
+		<!-- mobile 积分商品 -->
+		<action name="item" class="pointsAction" method="item">
+			<interceptor-ref name="shopInfoStack" />
+			<result name="success">/m/points/item.vm</result>
+		</action>
+		
+		<!-- mobile 积分兑换 -->
+		<action name="gotoRecharge" class="pointsAction" method="gotoRecharge">
+			<interceptor-ref name="shopInfoStack" />
+			<result name="success">/m/points/recharge.vm</result>
+		</action>
+		
+		<!-- mobile 积分兑换 -->
+		<action name="exchange" class="pointsAction" method="exchange">
+		</action>
+		
+	</package>
+</xwork>

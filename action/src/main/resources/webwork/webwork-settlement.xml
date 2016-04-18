@@ -1,0 +1,16 @@
+<!DOCTYPE xwork PUBLIC "-//OpenSymphony Group//XWork 1.1.1//EN" "http://www.opensymphony.com/xwork/xwork-1.1.1.dtd">
+<xwork>
+	<package name="{http://kmall}kmall$settlement"
+		extends="{http://kmall}kmall$framework" namespace="/settlement">
+
+		<action name="index" class="settlementAction" method="index">
+			<interceptor-ref name="authenticationStack"/>
+			<result name="success">/kmall/settlement/index.vm</result>
+		</action>
+		
+		<action name="settlementAction" class="settlementAction">
+			<interceptor-ref name="authenticationStack"/>
+		</action>
+		
+	</package>
+</xwork>

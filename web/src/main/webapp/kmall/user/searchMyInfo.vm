@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>我的信息</title>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		#ICON()
+		#CSSM(["ext", "bootstrap", "conflict"])
+		#UA()
+	</head>
+	<body>
+		<div class="container">
+			<div class="page-header-sm">
+				<h3>
+					<small>我的信息</small>
+					<div class="pull-right">
+						#if("userAction!updateMyInfo.htm" == "$!{actionName}")
+						<a class="btn btn-primary btn-xs" href="javascript:resetPassword();">修改密码</a>
+						#end
+                    </div>
+				</h3>
+			</div>
+			<form class="form-horizontal" role="form" action="$!{actionName}" method="post">
+				<div class="form-group">
+					<label class="col-xs-2 control-label text-right">姓名</label>
+					<div class="col-xs-4">
+						<input type="text" class="form-control" id="userName" name="user.userName" placeholder="必填" value='$!{user.userName}' />
+                    </div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-2 text-right">登录帐号</label>
+    				<div class="col-xs-4">
+						$!{user.passport}
+                    </div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-2 text-right">性别</label>
+					<div class="col-xs-4">
+						#if($!{user.sex} == 'M')
+                        <label><input type="radio" name="user.sex" value="M" checked > 男 </input></label>&nbsp;&nbsp;
+                        <label><input type="radio" name="user.sex" value="F" > 女 </input></label>
+						#else
+						<label><input type="radio" name="user.sex" value="M" > 男 </input></label>&nbsp;&nbsp;
+                        <label><input type="radio" name="user.sex" value="F" checked > 女 </input></label>
+						#end
+                    </div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-2 control-label text-right">固定电话</label>
+					<div class="col-xs-4">
+						<input type='text' class="form-control" id='phone' name="user.phone" value='$!{user.phone}' />
+                    </div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-2 control-label text-right">手机号码</label>
+					<div class="col-xs-4">
+						<input type='text' class="form-control" id='mobile' name="user.mobile" placeholder="必填" value='$!{user.mobile}' />
+                    </div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-2 control-label text-right">邮箱</label>
+					<div class="col-xs-4">
+						<input type='text' class="form-control" id='email' name="user.email" placeholder="必填" value='$!{user.email}' />
+                    </div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-2 control-label text-right">传真</label>
+					<div class="col-xs-4">
+						<input type='text' class="form-control" id='workFax' name="user.workFax" value='$!{user.workFax}' />
+                    </div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-2 control-label text-right">地址</label>
+					<div class="col-xs-6">
+						<input type='text' class="form-control" id='address' name="user.address" value='$!{user.address}' />
+                    </div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-2 text-right">语言</label>
+					<div class="col-xs-4">
+						<input type="text" id="langu" name="user.langu" />
+                    </div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-2 text-right">所属组织</label>
+					<div class="col-xs-6">
+						$!{orgStr}
+                    </div>
+				</div>
+				<p class="lead" />
+				<div class="form-group">
+					<div class="col-xs-offset-2 col-xs-10">
+						<a class="btn btn-primary" href="javascript:updateUser();">保存</a>
+						#if("userAction!updateMyInfo.htm" != "$!{actionName}")
+						<a class="btn btn-default" href="javascript:window.close();">关闭</a>
+						#end
+                    </div>
+				</div>
+				<input type='hidden' name="user.userId" value='$!{user.userId}' />
+            </form>
+        </div>
+		<iframe id="hideFrame" name="hideFrame" style="display:none"></iframe>
+		#JSM(["common", "ext", "jquery"])
+		#JS_ENV_VAL()
+		<script type="text/javascript">
+        var lan = '$!{user.langu}';
+        </script>
+		<script type="text/javascript" src="$!{env.imgUrl}/js/xplatform/user/searchMyInfo.js"></script>
+	</body>
+</html>

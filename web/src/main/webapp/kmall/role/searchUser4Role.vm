@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+    <head>
+		<title>角色人员配置</title>
+        <meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		#ICON()
+        #CSSM(["ext", "bootstrap", "conflict"])
+		#UA()
+	</head>
+	<body>
+		<div class="container">
+			<div class="page-header-sm">
+				<h3>
+					<small>角色人员配置</small>
+					<div class="pull-right">
+						<a class="btn btn-primary btn-xs" href="javascript:searchUser('$!{roleId}');">添加人员</a>
+						<a class="btn btn-default btn-xs" href="javascript:window.close();">关闭</a>
+                    </div>
+				</h3>
+			</div>
+        	<form class="well well-sm" role="form" method="post">
+				<div class="row">
+					<label class="col-xs-1 text-right">角色</label>
+					<div class="col-xs-2">
+						$!{roleName}
+						<input type="hidden" id="roleName" value="$!{roleName}" />
+                    </div>
+				</div>
+				<div class="row">
+					<label class="col-xs-1 text-right">帐号</label>
+					<div class="col-xs-2">
+						<input type="text" id="passport" />
+                    </div>
+					<label class="col-xs-1 text-right">名称</label>
+					<div class="col-xs-2">
+						<input type="text" id="userName" />
+                    </div>
+					<div class="col-xs-2">
+						<a class="btn btn-primary btn-xs" href="javascript:search();">查询</a>
+						<a class="btn btn-default btn-xs" href="javascript:resets();">重置</a>
+                    </div>
+				</div>
+				<input type='hidden' id="roleId" value="$!{roleId}"/>
+            </form>
+			<div class="cent_border">
+				<div id="gridList" class="ext-grid-mask"></div>
+			</div>
+        </div>
+		<iframe id="hideFrame" name="hideFrame" style="display:none"></iframe>
+        #JSM(["common", "ext", "jquery"])
+        #JS_ENV_VAL()
+        <script type="text/javascript" src="$!{env.imgUrl}/js/xplatform/role/searchUser4Role.js"></script>
+	</body>
+</html>

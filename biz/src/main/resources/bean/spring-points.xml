@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="pointsAction" class="com.kintiger.mall.points.action.PointsAction" parent="baseAction" scope="request">
+		<property name="pointsService" ref="pointsService" />
+		<property name="shopService" ref="shopService" />
+		<property name="itemService" ref="itemService" />
+	</bean>
+	<bean id="pointsService" class="com.kintiger.mall.points.service.impl.PointsServiceImpl">
+		<property name="transactionTemplate" ref="transactionTemplate" />
+		<property name="memcachedCacheService" ref="memcachedCacheService" />
+		<property name="itemFileService" ref="itemFileService" />
+		<property name="cartService" ref="cartService" />
+		<property name="pointsCardService" ref="pointsCardService" />
+		<property name="memberPointsService" ref="memberPointsService" />
+		<property name="pointsDao" ref="pointsDao" />
+	</bean>
+	<bean id="pointsDao" class="com.kintiger.mall.points.dao.impl.PointsDaoImpl" parent="baseDao" />
+	
+	<bean id="pointsCardAction" class="com.kintiger.mall.points.action.PointsCardAction" parent="baseAction" scope="request">
+		<property name="pointsCardService" ref="pointsCardService" />
+	</bean>
+	<bean id="pointsCardService" class="com.kintiger.mall.points.service.impl.PointsCardServiceImpl">
+		<property name="pointsCardDao" ref="pointsCardDao" />
+	</bean>
+	<bean id="pointsCardDao" class="com.kintiger.mall.points.dao.impl.PointsCardDaoImpl" parent="baseDao" />
+	
+</beans>

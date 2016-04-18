@@ -1,0 +1,36 @@
+<!DOCTYPE xwork PUBLIC "-//OpenSymphony Group//XWork 1.1.1//EN" "http://www.opensymphony.com/xwork/xwork-1.1.1.dtd">
+<xwork>
+	<package name="{http://kmall}kmall$login"
+		extends="{http://kmall}kmall$framework" namespace="/">
+
+		<action name="login" class="loginAction" method="login">
+			<result name="incorrect">/kmall/portal/index.vm</result>
+			<result name="gotoShop" type="redirect-action">
+				<param name="namespace">shop</param>
+				<param name="actionName">index</param>
+			</result>
+			<result name="registerCompany" type="redirect-action">
+				<param name="namespace">company</param>
+				<param name="actionName">register</param>
+			</result>
+			<result name="goto" type="redirect">${url}</result>
+		</action>
+		
+		<action name="logout" class="loginAction" method="logout">
+			<result name="logout" type="redirect">
+				/
+			</result>
+		</action>
+		
+		<action name="mlogin" class="mobileLoginAction" method="login">
+			<interceptor-ref name="shopInfoStack" />
+			<result name="incorrect">/m/portal/index.vm</result>
+			<result name="goto" type="redirect">${url}</result>
+		</action>
+		
+		<action name="mlogout" class="mobileLoginAction" method="logout">
+			<result name="logout" type="redirect">${env.appUrl}/shop/homepage.htm?alias=${uuid}</result>
+		</action>
+		
+	</package>
+</xwork>

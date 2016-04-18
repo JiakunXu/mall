@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="GB2312"?>
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="member">
+	
+	<typeAlias alias="member" type="com.kintiger.mall.api.member.bo.Member" />
+	
+	<insert id="createMember" parameterClass="member">
+		<selectKey resultClass="java.lang.String" keyProperty="memId">
+		<![CDATA[
+			SELECT MALL.MALL_SEQ_MEMBER.NEXTVAL FROM DUAL
+		]]>
+		</selectKey>
+	<![CDATA[
+		INSERT
+		INTO MALL.MALL_TB_MEMBER
+		  (
+			MEM_ID,
+			USER_ID,
+			SHOP_ID,
+			LEVEL_ID,
+			POINTS,
+			STATE,
+			CREATE_DATE,
+			MODIFY_DATE,
+			MODIFY_USER,
+			SURPLUS_POINTS
+		  )
+		  VALUES
+		  (
+			#memId#,
+			#userId#,
+			#shopId#,
+			#levelId#,
+			#points#,
+			'U',
+			sysdate,
+			sysdate,
+			#userId#,
+			#points#
+		  )
+	]]>
+	</insert>
+	
+	<select id="getMemberCount" parameterClass="member" resultClass="java.lang.Integer">
+	<![CDATA[
+		SELECT COUNT(1)
+		FROM MALL.MALL_TB_MEMBER t,
+		  MALL.MALL_TB_USER p,
+		  MALL.MALL_TB_MEMBER_LEVEL q
+		WHERE t.user_id = p.user_id
+		AND t.level_id  = q.level_id
+		AND t.state     = 'U'
+		AND p.state     = 'U'
+		AND q.state     = 'U'
+		AND t.shop_id   = #shopId#
+	]]>
+		<dynamic>
+			<isNotEmpty property="userName" prepend="and">
+			<![CDATA[ p.user_name like #userName,handler=wildcard# ]]>
+			</isNotEmpty>
+			<isNotEmpty property="levelId" prepend="and">
+			<![CDATA[ q.level_id = #levelId# ]]>
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<select id="getMemberList" parameterClass="member" resultClass="member">
+		<include refid="global.paginationStart" />
+	<![CDATA[
+		SELECT t.mem_id AS memId,
+		  t.user_id     AS userId,
+		  p.user_name   AS userName,
+		  p.mobile,
+		  q.level_name AS levelName,
+		  t.points,
+		  t.surplus_points AS surplusPoints,
+		  i.SEX,
+		  TO_CHAR(i.BIRTHDAY, 'yyyy-mm-dd') AS birthday,
+		  i.ADDRESS,
+		  i.POSTAL_CODE AS postalCode,
+		  i.PROFESSION,
+		  i.EDUCATION,
+		  i.MARITAL_STATUS                     AS maritalStatus,
+		  TO_CHAR(i.WEDDING_DAY, 'yyyy-mm-dd') AS weddingDay
+		FROM MALL.MALL_TB_MEMBER t,
+		  MALL.MALL_TB_USER p,
+		  MALL.MALL_TB_MEMBER_LEVEL q,
+		  (SELECT ii.mem_id,
+			ii.SEX,
+			ii.BIRTHDAY,
+			ii.ADDRESS,
+			ii.POSTAL_CODE,
+			ii.PROFESSION,
+			ii.EDUCATION,
+			ii.MARITAL_STATUS,
+			ii.WEDDING_DAY
+		  FROM MALL.MALL_TB_MEMBER_INFO ii
+		  WHERE ii.state = 'U'
+		  )i
+		WHERE t.user_id = p.user_id
+		AND t.level_id  = q.level_id
+		AND t.mem_id    = i.mem_id(+)
+		AND t.state     = 'U'
+		AND p.state     = 'U'
+		AND q.state     = 'U'
+		AND t.shop_id   = #shopId#
+	]]>
+		<dynamic>
+			<isNotEmpty property="userName" prepend="and">
+			<![CDATA[ p.user_name like #userName,handler=wildcard# ]]>
+			</isNotEmpty>
+			<isNotEmpty property="levelId" prepend="and">
+			<![CDATA[ q.level_id = #levelId# ]]>
+			</isNotEmpty>
+		</dynamic>
+		<include refid="global.orderBy" />
+		<include refid="global.paginationEnd" />
+	</select>
+	
+	<select id="getMemberStats" parameterClass="member" resultClass="member">
+	<![CDATA[
+		SELECT TO_CHAR(t.create_date, 'yyyy-mm-dd') AS dates,
+		  COUNT(1)                                  AS COUNT
+		FROM MALL.MALL_TB_MEMBER t
+		WHERE t.state      = 'U'
+		AND t.shop_id      = #shopId#
+		AND t.create_date >= to_date(#gmtStart#, 'yyyy-mm-dd')
+		AND t.create_date  < to_date(#gmtEnd#, 'yyyy-mm-dd') + 1
+		GROUP BY TO_CHAR(t.create_date, 'yyyy-mm-dd')
+		ORDER BY TO_CHAR(t.create_date, 'yyyy-mm-dd') ASC
+	]]>	
+	</select>
+	
+	<select id="getMemberCountStats" parameterClass="member" resultClass="java.lang.Integer">
+	<![CDATA[
+		SELECT COUNT(1)
+		FROM MALL.MALL_TB_MEMBER t
+		WHERE t.state      = 'U'
+		AND t.shop_id      = #shopId#
+	]]>
+		<dynamic>
+			<isNotEmpty property="gmtStart" prepend="and">
+			<![CDATA[ t.create_date >= to_date(#gmtStart#, 'yyyy-mm-dd') ]]>
+			</isNotEmpty>
+			<isNotEmpty property="gmtEnd" prepend="and">
+			<![CDATA[ t.create_date < to_date(#gmtEnd#, 'yyyy-mm-dd') + 1 ]]>
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<select id="getMember" parameterClass="member" resultClass="member">
+	<![CDATA[
+		SELECT t.mem_id AS memId,
+		  t.points,
+		  t.surplus_points AS surplusPoints,
+		  p.discount,
+		  p.rank,
+		  p.level_name    AS levelName,
+		  q.mem_points_id AS memPointsId
+		FROM MALL.MALL_TB_MEMBER t,
+		  MALL.MALL_TB_MEMBER_LEVEL p,
+		  (SELECT qq.mem_id,
+			qq.mem_points_id
+		  FROM MALL.MALL_TB_MEMBER_INFO qq
+		  WHERE qq.state = 'U'
+		  ) q
+		WHERE t.level_id = p.level_id
+		AND t.mem_id     = q.mem_id(+)
+		AND p.state      = 'U'
+		AND p.shop_id    = #shopId#
+		AND t.state      = 'U'
+		AND t.shop_id    = #shopId#
+		AND t.user_id    = #userId#
+	]]>
+	</select>
+	
+	<update id="updateMember" parameterClass="member">
+	<![CDATA[
+		UPDATE MALL.MALL_TB_MEMBER t
+		SET t.modify_date = sysdate,
+		  t.modify_user   = #modifyUser#
+	]]>
+		<dynamic>
+			<isNotEmpty property="levelId" prepend=",">
+			<![CDATA[ t.level_id      = #levelId# ]]>
+			</isNotEmpty>
+		</dynamic>
+	<![CDATA[
+		  ,t.points         = #points#
+		  ,t.surplus_points = #surplusPoints#
+		WHERE t.state     = 'U'
+		AND t.mem_id      = #memId#
+	]]>
+	</update>
+
+</sqlMap>
