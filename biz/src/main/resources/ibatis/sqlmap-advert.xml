@@ -4,7 +4,7 @@
 	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
 <sqlMap namespace="advert">
 	
-	<typeAlias alias="advert" type="com.kintiger.mall.api.advert.bo.Advert" />
+	<typeAlias alias="advert" type="com.jk.mall.api.advert.bo.Advert" />
 	
 	<select id="getAdvertCount" parameterClass="advert" resultClass="java.lang.Integer">
 	<![CDATA[

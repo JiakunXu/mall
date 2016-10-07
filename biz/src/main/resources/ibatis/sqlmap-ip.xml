@@ -4,7 +4,7 @@
 	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
 <sqlMap namespace="ip">
 	
-	<typeAlias alias="ip" type="com.kintiger.mall.api.ip.bo.IP" />
+	<typeAlias alias="ip" type="com.jk.mall.api.ip.bo.IP" />
 	
 	<insert id="createIP" parameterClass="ip">
 		<selectKey resultClass="java.lang.String" keyProperty="id">

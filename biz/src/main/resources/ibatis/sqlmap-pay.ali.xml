@@ -4,8 +4,8 @@
 	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
 <sqlMap namespace="pay.ali">
 	
-	<typeAlias alias="aliCallback" type="com.kintiger.mall.api.pay.bo.AliCallback" />
-	<typeAlias alias="aliNotify" type="com.kintiger.mall.api.pay.bo.AliNotify" />
+	<typeAlias alias="aliCallback" type="com.jk.mall.api.pay.bo.AliCallback" />
+	<typeAlias alias="aliNotify" type="com.jk.mall.api.pay.bo.AliNotify" />
 	
 	<insert id="createAliCallback" parameterClass="aliCallback">
 		<selectKey resultClass="java.lang.String" keyProperty="id">

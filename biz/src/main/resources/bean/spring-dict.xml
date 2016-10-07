@@ -3,16 +3,16 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<bean id="dictAction" class="com.kintiger.mall.dict.action.DictAction" scope="request" parent="baseAction">
+	<bean id="dictAction" class="com.jk.mall.dict.action.DictAction" scope="request" parent="baseAction">
 		<property name="dictService" ref="dictService" />
 	</bean>
 	
-	<bean id="dictService" class="com.kintiger.mall.dict.service.impl.DictServiceImpl">
+	<bean id="dictService" class="com.jk.mall.dict.service.impl.DictServiceImpl">
 		<property name="transactionTemplate" ref="transactionTemplate" />
 		<property name="memcachedCacheService" ref="memcachedCacheService" />
 		<property name="dictDao" ref="dictDao" />
 	</bean>
 
-	<bean id="dictDao" class="com.kintiger.mall.dict.dao.impl.DictDaoImpl" parent="baseDao" />
+	<bean id="dictDao" class="com.jk.mall.dict.dao.impl.DictDaoImpl" parent="baseDao" />
 	
 </beans>

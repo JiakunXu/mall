@@ -4,7 +4,7 @@
 	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
 <sqlMap namespace="sms">
 	
-	<typeAlias alias="sms" type="com.kintiger.mall.api.sms.bo.SMS" />
+	<typeAlias alias="sms" type="com.jk.mall.api.sms.bo.SMS" />
 	
 	<insert id="createSMS" parameterClass="sms">
 		<selectKey resultClass="java.lang.String" keyProperty="id">

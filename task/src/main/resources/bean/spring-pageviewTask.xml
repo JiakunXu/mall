@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 	
 	<bean id="pageviewTask"
-		class="com.kintiger.mall.monitor.task.PageviewTask">
+		class="com.jk.mall.monitor.task.PageviewTask">
 		<property name="memcachedCacheService" ref="memcachedCacheService" />
 		<property name="pageviewService" ref="pageviewService" />
 	</bean>

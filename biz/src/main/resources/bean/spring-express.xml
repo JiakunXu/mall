@@ -3,15 +3,15 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<bean id="expressAction" class="com.kintiger.mall.express.action.ExpressAction" parent="baseAction" scope="request">
+	<bean id="expressAction" class="com.jk.mall.express.action.ExpressAction" parent="baseAction" scope="request">
 		<property name="expressService" ref="expressService" />
 	</bean>
 	
-	<bean id="expressService" class="com.kintiger.mall.express.service.impl.ExpressServiceImpl">
+	<bean id="expressService" class="com.jk.mall.express.service.impl.ExpressServiceImpl">
 		<property name="memcachedCacheService" ref="memcachedCacheService" />
 		<property name="expressDao" ref="expressDao" />
 	</bean>
 	
-	<bean id="expressDao" class="com.kintiger.mall.express.dao.impl.ExpressDaoImpl" parent="baseDao" />
+	<bean id="expressDao" class="com.jk.mall.express.dao.impl.ExpressDaoImpl" parent="baseDao" />
 	
 </beans>

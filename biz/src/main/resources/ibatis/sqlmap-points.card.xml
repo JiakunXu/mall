@@ -4,7 +4,7 @@
 	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
 <sqlMap namespace="points.card">
 	
-	<typeAlias alias="pointsCard" type="com.kintiger.mall.api.points.bo.PointsCard" />
+	<typeAlias alias="pointsCard" type="com.jk.mall.api.points.bo.PointsCard" />
 	
 	<select id="getPointsCardCount" parameterClass="pointsCard" resultClass="java.lang.Integer">
 	<![CDATA[

@@ -4,7 +4,7 @@
 	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
 <sqlMap namespace="coupon">
 	
-	<typeAlias alias="coupon" type="com.kintiger.mall.api.coupon.bo.Coupon" />
+	<typeAlias alias="coupon" type="com.jk.mall.api.coupon.bo.Coupon" />
 	
 	<insert id="createCoupon" parameterClass="coupon">
 		<selectKey resultClass="java.lang.String" keyProperty="couponId">

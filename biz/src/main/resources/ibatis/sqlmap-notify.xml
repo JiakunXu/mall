@@ -4,7 +4,7 @@
 	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
 <sqlMap namespace="notify">
 	
-	<typeAlias alias="notifys" type="com.kintiger.mall.api.notify.bo.Notify" />
+	<typeAlias alias="notifys" type="com.jk.mall.api.notify.bo.Notify" />
 	
 	<select id="getNotifyCount" parameterClass="notifys" resultClass="java.lang.Integer">
 	<![CDATA[

@@ -4,7 +4,7 @@
 	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
 <sqlMap namespace="file">
 	
-	<typeAlias alias="fileInfo" type="com.kintiger.mall.api.file.bo.FileInfo" />
+	<typeAlias alias="fileInfo" type="com.jk.mall.api.file.bo.FileInfo" />
 	
 	<select id="getFileInfo" parameterClass="fileInfo" resultClass="fileInfo">
 	<![CDATA[

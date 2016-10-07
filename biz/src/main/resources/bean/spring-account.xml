@@ -4,17 +4,17 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<!-- pc -->
-	<bean id="accountAction" class="com.kintiger.mall.account.action.AccountAction" parent="baseAction" scope="request">
+	<bean id="accountAction" class="com.jk.mall.account.action.AccountAction" parent="baseAction" scope="request">
 		<property name="accountService" ref="accountService" />
 	</bean>
 	
 	<!-- mobile -->
-	<bean id="mobileAccountAction" class="com.kintiger.mall.account.action.MobileAccountAction" parent="baseAction" scope="request">
+	<bean id="mobileAccountAction" class="com.jk.mall.account.action.MobileAccountAction" parent="baseAction" scope="request">
 		<property name="accountService" ref="accountService" />
 	</bean>
 	
 	<!-- 账号管理 -->
-	<bean id="accountService" class="com.kintiger.mall.account.service.impl.AccountServiceImpl">
+	<bean id="accountService" class="com.jk.mall.account.service.impl.AccountServiceImpl">
 		<property name="memcachedCacheService" ref="memcachedCacheService" />
 		<property name="userService" ref="userService" />
 		<property name="dictService" ref="dictService" />

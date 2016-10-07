@@ -17,7 +17,7 @@
 	
 	<!-- JAX-WS -->
 	
-	<jaxws:server id="userService-ws" serviceClass="com.kintiger.mall.api.user.IUserService" address="/user">
+	<jaxws:server id="userService-ws" serviceClass="com.jk.mall.api.user.IUserService" address="/user">
 		<jaxws:serviceBean>
 			<ref bean="userService"/>
 		</jaxws:serviceBean>

@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 	
 	<bean id="logMonitorTask"
-		class="com.kintiger.mall.monitor.task.LogMonitorTask">
+		class="com.jk.mall.monitor.task.LogMonitorTask">
 		<property name="memcachedCacheService" ref="memcachedCacheService" />
 		<property name="logMonitorService" ref="logMonitorService" />
 		<property name="to">

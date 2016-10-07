@@ -4,7 +4,7 @@
 	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
 <sqlMap namespace="pageview">
 	
-	<typeAlias alias="pageview" type="com.kintiger.mall.api.pageview.bo.Pageview" />
+	<typeAlias alias="pageview" type="com.jk.mall.api.pageview.bo.Pageview" />
 	
 	<insert id="createPageview" parameterClass="pageview">
 		<selectKey resultClass="java.lang.String" keyProperty="id">

@@ -4,7 +4,7 @@
 	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
 <sqlMap namespace="module">
 	
-	<typeAlias alias="module" type="com.kintiger.mall.api.module.bo.Module" />
+	<typeAlias alias="module" type="com.jk.mall.api.module.bo.Module" />
 	
 	<select id="getModuleCount" parameterClass="module" resultClass="java.lang.Integer">
 	<![CDATA[

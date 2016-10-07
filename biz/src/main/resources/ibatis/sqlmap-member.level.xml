@@ -4,7 +4,7 @@
 	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
 <sqlMap namespace="member.level">
 	
-	<typeAlias alias="memberLevel" type="com.kintiger.mall.api.member.bo.MemberLevel" />
+	<typeAlias alias="memberLevel" type="com.jk.mall.api.member.bo.MemberLevel" />
 	
 	<insert id="createLevel" parameterClass="memberLevel">
 		<selectKey resultClass="java.lang.String" keyProperty="levelId">

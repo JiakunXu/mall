@@ -3,14 +3,14 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<bean id="specAction" class="com.kintiger.mall.spec.action.SpecAction" parent="baseAction" scope="request">
+	<bean id="specAction" class="com.jk.mall.spec.action.SpecAction" parent="baseAction" scope="request">
 		<property name="specService" ref="specService" />
 	</bean>
 	
-	<bean id="specService" class="com.kintiger.mall.spec.service.impl.SpecServiceImpl">
+	<bean id="specService" class="com.jk.mall.spec.service.impl.SpecServiceImpl">
 		<property name="specDao" ref="specDao" />
 	</bean>
 
-	<bean id="specDao" class="com.kintiger.mall.spec.dao.impl.SpecDaoImpl" parent="baseDao" />
+	<bean id="specDao" class="com.jk.mall.spec.dao.impl.SpecDaoImpl" parent="baseDao" />
 	
 </beans>

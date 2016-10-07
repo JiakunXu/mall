@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.kintiger</groupId>
+	<groupId>com.jk</groupId>
 	<artifactId>kmall</artifactId>
 	<name>kmall</name>
 	<packaging>pom</packaging>
@@ -125,7 +125,7 @@
 				<version>${velocity.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.kintiger.velocity</groupId>
+				<groupId>com.jk.velocity</groupId>
 				<artifactId>velocity-tools</artifactId>
 				<version>1.1</version>
 			</dependency>
@@ -220,7 +220,7 @@
 
 			<!-- hadoop -->
 			<dependency>
-				<groupId>com.kintiger.hadoop</groupId>
+				<groupId>com.jk.hadoop</groupId>
 				<artifactId>hadoop-core</artifactId>
 				<version>${hadoop-core.version}</version>
 			</dependency>
@@ -255,27 +255,27 @@
 
 			<!-- jodconverter -->
 			<dependency>
-				<groupId>com.kintiger.jodconverter</groupId>
+				<groupId>com.jk.jodconverter</groupId>
 				<artifactId>jodconverter-core</artifactId>
 				<version>3.0-beta-4</version>
 			</dependency>
 			<dependency>
-				<groupId>com.kintiger.jodconverter</groupId>
+				<groupId>com.jk.jodconverter</groupId>
 				<artifactId>juh</artifactId>
 				<version>3.2.1</version>
 			</dependency>
 			<dependency>
-				<groupId>com.kintiger.jodconverter</groupId>
+				<groupId>com.jk.jodconverter</groupId>
 				<artifactId>jurt</artifactId>
 				<version>3.2.1</version>
 			</dependency>
 			<dependency>
-				<groupId>com.kintiger.jodconverter</groupId>
+				<groupId>com.jk.jodconverter</groupId>
 				<artifactId>ridl</artifactId>
 				<version>3.2.1</version>
 			</dependency>
 			<dependency>
-				<groupId>com.kintiger.jodconverter</groupId>
+				<groupId>com.jk.jodconverter</groupId>
 				<artifactId>unoil</artifactId>
 				<version>3.2.1</version>
 			</dependency>
@@ -301,14 +301,14 @@
 
 			<!-- alipay -->
 			<dependency>
-				<groupId>com.kintiger.alipay</groupId>
+				<groupId>com.jk.alipay</groupId>
 				<artifactId>commons-httpclient</artifactId>
 				<version>3.0.1</version>
 			</dependency>
 
 			<!-- wechat -->
 			<dependency>
-				<groupId>com.kintiger.wechat</groupId>
+				<groupId>com.jk.wechat</groupId>
 				<artifactId>jdom</artifactId>
 				<version>1.1</version>
 			</dependency>
@@ -320,7 +320,7 @@
 
 			<!-- cxf -->
 			<dependency>
-				<groupId>com.kintiger.cxf</groupId>
+				<groupId>com.jk.cxf</groupId>
 				<artifactId>cxf</artifactId>
 				<version>2.6.11</version>
 			</dependency>

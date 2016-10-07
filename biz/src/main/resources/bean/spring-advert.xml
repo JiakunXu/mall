@@ -4,36 +4,36 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<!-- 广告基本信息管理 -->
-	<bean id="advertAction" class="com.kintiger.mall.advert.action.AdvertAction" parent="baseAction" scope="request">
+	<bean id="advertAction" class="com.jk.mall.advert.action.AdvertAction" parent="baseAction" scope="request">
 		<property name="advertService" ref="advertService" />
 		<property name="shopService" ref="shopService" />
 	</bean>
-	<bean id="advertService" class="com.kintiger.mall.advert.service.impl.AdvertServiceImpl">
+	<bean id="advertService" class="com.jk.mall.advert.service.impl.AdvertServiceImpl">
 		<property name="advertStatsService" ref="advertStatsService" />
 		<property name="advertPointsService" ref="advertPointsService" />
 		<property name="advertDao" ref="advertDao" />
 	</bean>
-	<bean id="advertDao" class="com.kintiger.mall.advert.dao.impl.AdvertDaoImpl" parent="baseDao" />
+	<bean id="advertDao" class="com.jk.mall.advert.dao.impl.AdvertDaoImpl" parent="baseDao" />
 	
 	<!-- 广告点击次数统计 -->
-	<bean id="advertStatsService" class="com.kintiger.mall.advert.service.impl.AdvertStatsServiceImpl">
+	<bean id="advertStatsService" class="com.jk.mall.advert.service.impl.AdvertStatsServiceImpl">
 		<property name="transactionTemplate" ref="transactionTemplate" />
 		<property name="memcachedCacheService" ref="memcachedCacheService" />
 		<property name="advertPointsService" ref="advertPointsService" />
 		<property name="advertStatsDao" ref="advertStatsDao" />
 	</bean>
-	<bean id="advertStatsDao" class="com.kintiger.mall.advert.dao.impl.AdvertStatsDaoImpl" parent="baseDao" />
+	<bean id="advertStatsDao" class="com.jk.mall.advert.dao.impl.AdvertStatsDaoImpl" parent="baseDao" />
 	
 	<!-- 广告点击赠送积分 -->
-	<bean id="advertPointsAction" class="com.kintiger.mall.advert.action.AdvertPointsAction" parent="baseAction" scope="request">
+	<bean id="advertPointsAction" class="com.jk.mall.advert.action.AdvertPointsAction" parent="baseAction" scope="request">
 		<property name="advertPointsService" ref="advertPointsService" />
 	</bean>
-	<bean id="advertPointsService" class="com.kintiger.mall.advert.service.impl.AdvertPointsServiceImpl">
+	<bean id="advertPointsService" class="com.jk.mall.advert.service.impl.AdvertPointsServiceImpl">
 		<property name="transactionTemplate" ref="transactionTemplate" />
 		<property name="advertService" ref="advertService" />
 		<property name="memberPointsService" ref="memberPointsService" />
 		<property name="advertPointsDao" ref="advertPointsDao" />
 	</bean>
-	<bean id="advertPointsDao" class="com.kintiger.mall.advert.dao.impl.AdvertPointsDaoImpl" parent="baseDao" />
+	<bean id="advertPointsDao" class="com.jk.mall.advert.dao.impl.AdvertPointsDaoImpl" parent="baseDao" />
 		
 </beans>

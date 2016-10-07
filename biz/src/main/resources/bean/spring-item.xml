@@ -4,12 +4,12 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<!-- 商品 -->
-	<bean id="itemAction" class="com.kintiger.mall.item.action.ItemAction" parent="baseAction" scope="request">
+	<bean id="itemAction" class="com.jk.mall.item.action.ItemAction" parent="baseAction" scope="request">
 		<property name="itemService" ref="itemService" />
 		<property name="fileService" ref="fileService" />
 		<property name="shopService" ref="shopService" />
 	</bean>
-	<bean id="itemService" class="com.kintiger.mall.item.service.impl.ItemServiceImpl">
+	<bean id="itemService" class="com.jk.mall.item.service.impl.ItemServiceImpl">
 		<property name="transactionTemplate" ref="transactionTemplate" />
 		<property name="memcachedCacheService" ref="memcachedCacheService" />
 		<property name="specService" ref="specService" />
@@ -19,28 +19,28 @@
 		<property name="pageviewService" ref="pageviewService" />
 		<property name="itemDao" ref="itemDao" />
 	</bean>
-	<bean id="itemDao" class="com.kintiger.mall.item.dao.impl.ItemDaoImpl" parent="baseDao" />
+	<bean id="itemDao" class="com.jk.mall.item.dao.impl.ItemDaoImpl" parent="baseDao" />
 	
 	<!-- 商品文件 -->
-	<bean id="itemFileService" class="com.kintiger.mall.item.service.impl.ItemFileServiceImpl">
+	<bean id="itemFileService" class="com.jk.mall.item.service.impl.ItemFileServiceImpl">
 		<property name="memcachedCacheService" ref="memcachedCacheService" />
 		<property name="itemFileDao" ref="itemFileDao" />
 		<property name="fileDownloadPath">
 			<value>${file.download.path}</value>
 		</property>
 	</bean>
-	<bean id="itemFileDao" class="com.kintiger.mall.item.dao.impl.ItemFileDaoImpl" parent="baseDao" />
+	<bean id="itemFileDao" class="com.jk.mall.item.dao.impl.ItemFileDaoImpl" parent="baseDao" />
 	
 	<!-- sku -->
-	<bean id="itemSkuService" class="com.kintiger.mall.item.service.impl.ItemSkuServiceImpl">
+	<bean id="itemSkuService" class="com.jk.mall.item.service.impl.ItemSkuServiceImpl">
 		<property name="itemSkuDao" ref="itemSkuDao" />
 	</bean>
-	<bean id="itemSkuDao" class="com.kintiger.mall.item.dao.impl.ItemSkuDaoImpl" parent="baseDao" />
+	<bean id="itemSkuDao" class="com.jk.mall.item.dao.impl.ItemSkuDaoImpl" parent="baseDao" />
 	
 	<!-- 商品标签 -->
-	<bean id="itemTagService" class="com.kintiger.mall.item.service.impl.ItemTagServiceImpl">
+	<bean id="itemTagService" class="com.jk.mall.item.service.impl.ItemTagServiceImpl">
 		<property name="itemTagDao" ref="itemTagDao" />
 	</bean>
-	<bean id="itemTagDao" class="com.kintiger.mall.item.dao.impl.ItemTagDaoImpl" parent="baseDao" />
+	<bean id="itemTagDao" class="com.jk.mall.item.dao.impl.ItemTagDaoImpl" parent="baseDao" />
 	
 </beans>

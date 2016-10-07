@@ -4,26 +4,26 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<!-- 登录 -->
-	<bean id="loginAction" class="com.kintiger.mall.portal.action.LoginAction" parent="baseAction" scope="request">
+	<bean id="loginAction" class="com.jk.mall.portal.action.LoginAction" parent="baseAction" scope="request">
 		<property name="memcachedCacheService" ref="memcachedCacheService" />
 		<property name="caService" ref="caService" />
 		<property name="employeeService" ref="employeeService" />
 		<property name="shopService" ref="shopService" />
 	</bean>
 	
-	<bean id="mobileLoginAction" class="com.kintiger.mall.portal.action.MobileLoginAction" parent="baseAction" scope="request">
+	<bean id="mobileLoginAction" class="com.jk.mall.portal.action.MobileLoginAction" parent="baseAction" scope="request">
 		<property name="memcachedCacheService" ref="memcachedCacheService" />
 		<property name="caService" ref="caService" />
 		<property name="memberService" ref="memberService" />
 	</bean>
 	
 	<!-- 首页 -->
-	<bean id="portalAction" class="com.kintiger.mall.portal.action.PortalAction" parent="baseAction" scope="request">
+	<bean id="portalAction" class="com.jk.mall.portal.action.PortalAction" parent="baseAction" scope="request">
 		<property name="notifyService" ref="notifyService" />
 	</bean>
 	
 	<!-- ca -->
-	<bean id="caService" class="com.kintiger.mall.portal.service.impl.CAServiceImpl">
+	<bean id="caService" class="com.jk.mall.portal.service.impl.CAServiceImpl">
 		<property name="memcachedCacheService" ref="memcachedCacheService" />
 		<property name="userService" ref="userService" />
 	</bean>

@@ -4,7 +4,7 @@
 	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
 <sqlMap namespace="item.sku">
 	
-	<typeAlias alias="itemSku" type="com.kintiger.mall.api.item.bo.ItemSku" />
+	<typeAlias alias="itemSku" type="com.jk.mall.api.item.bo.ItemSku" />
 	
 	<insert id="createItemSku" parameterClass="itemSku">
 		<selectKey resultClass="java.lang.String" keyProperty="skuId">

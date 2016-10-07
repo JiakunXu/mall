@@ -3,6 +3,6 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<bean id="helpAction" class="com.kintiger.mall.help.action.HelpAction" scope="request" parent="baseAction" />
+	<bean id="helpAction" class="com.jk.mall.help.action.HelpAction" scope="request" parent="baseAction" />
 	
 </beans>

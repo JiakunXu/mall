@@ -4,7 +4,7 @@
 	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
 <sqlMap namespace="item.tag">
 	
-	<typeAlias alias="itemTag" type="com.kintiger.mall.api.item.bo.ItemTag" />
+	<typeAlias alias="itemTag" type="com.jk.mall.api.item.bo.ItemTag" />
 	
 	<update id="updateItemTag" parameterClass="itemTag">
 	<![CDATA[

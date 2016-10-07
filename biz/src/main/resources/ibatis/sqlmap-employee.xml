@@ -4,7 +4,7 @@
 	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
 <sqlMap namespace="employee">
 	
-	<typeAlias alias="employee" type="com.kintiger.mall.api.employee.bo.Employee" />
+	<typeAlias alias="employee" type="com.jk.mall.api.employee.bo.Employee" />
 	
 	<select id="getEmployeeList" parameterClass="employee" resultClass="employee">
 	<![CDATA[

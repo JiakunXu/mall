@@ -3,7 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<bean id="baseDao" class="com.kintiger.mall.framework.dao.impl.BaseDaoImpl" abstract="true">
+	<bean id="baseDao" class="com.jk.mall.framework.dao.impl.BaseDaoImpl" abstract="true">
 		<property name="sqlMapClient" ref="sqlMapClient" />
 	</bean>
 

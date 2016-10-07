@@ -4,50 +4,50 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<!-- member -->
-	<bean id="memberAction" class="com.kintiger.mall.member.action.MemberAction" parent="baseAction" scope="request">
+	<bean id="memberAction" class="com.jk.mall.member.action.MemberAction" parent="baseAction" scope="request">
 		<property name="memberService" ref="memberService" />
 		<property name="memberLevelService" ref="memberLevelService" />
 	</bean>
-	<bean id="memberService" class="com.kintiger.mall.member.service.impl.MemberServiceImpl">
+	<bean id="memberService" class="com.jk.mall.member.service.impl.MemberServiceImpl">
 		<property name="transactionTemplate" ref="transactionTemplate" />
 		<property name="memcachedCacheService" ref="memcachedCacheService" />
 		<property name="memberLevelService" ref="memberLevelService" />
 		<property name="memberPointsService" ref="memberPointsService" />
 		<property name="memberDao" ref="memberDao" />
 	</bean>
-	<bean id="memberDao" class="com.kintiger.mall.member.dao.impl.MemberDaoImpl" parent="baseDao" />
+	<bean id="memberDao" class="com.jk.mall.member.dao.impl.MemberDaoImpl" parent="baseDao" />
 	
 	<!-- member level -->
-	<bean id="memberLevelService" class="com.kintiger.mall.member.service.impl.MemberLevelServiceImpl">
+	<bean id="memberLevelService" class="com.jk.mall.member.service.impl.MemberLevelServiceImpl">
 		<property name="memcachedCacheService" ref="memcachedCacheService" />
 		<property name="memberLevelDao" ref="memberLevelDao" />
 	</bean>
-	<bean id="memberLevelDao" class="com.kintiger.mall.member.dao.impl.MemberLevelDaoImpl" parent="baseDao" />
+	<bean id="memberLevelDao" class="com.jk.mall.member.dao.impl.MemberLevelDaoImpl" parent="baseDao" />
 	
 	<!-- member points -->
-	<bean id="memberPointsAction" class="com.kintiger.mall.member.action.MemberPointsAction" parent="baseAction" scope="request">
+	<bean id="memberPointsAction" class="com.jk.mall.member.action.MemberPointsAction" parent="baseAction" scope="request">
 		<property name="memberPointsService" ref="memberPointsService" />
 	</bean>
-	<bean id="memberPointsService" class="com.kintiger.mall.member.service.impl.MemberPointsServiceImpl">
+	<bean id="memberPointsService" class="com.jk.mall.member.service.impl.MemberPointsServiceImpl">
 		<property name="transactionTemplate" ref="transactionTemplate" />
 		<property name="memcachedCacheService" ref="memcachedCacheService" />
 		<property name="memberService" ref="memberService" />
 		<property name="memberLevelService" ref="memberLevelService" />
 		<property name="memberPointsDao" ref="memberPointsDao" />
 	</bean>
-	<bean id="memberPointsDao" class="com.kintiger.mall.member.dao.impl.MemberPointsDaoImpl" parent="baseDao" />
+	<bean id="memberPointsDao" class="com.jk.mall.member.dao.impl.MemberPointsDaoImpl" parent="baseDao" />
 	
 	<!-- member info -->
-	<bean id="memberInfoAction" class="com.kintiger.mall.member.action.MemberInfoAction" parent="baseAction" scope="request">
+	<bean id="memberInfoAction" class="com.jk.mall.member.action.MemberInfoAction" parent="baseAction" scope="request">
 		<property name="memberInfoService" ref="memberInfoService" />
 	</bean>
-	<bean id="memberInfoService" class="com.kintiger.mall.member.service.impl.MemberInfoServiceImpl">
+	<bean id="memberInfoService" class="com.jk.mall.member.service.impl.MemberInfoServiceImpl">
 		<property name="transactionTemplate" ref="transactionTemplate" />
 		<property name="memcachedCacheService" ref="memcachedCacheService" />
 		<property name="memberPointsService" ref="memberPointsService" />
 		<property name="userService" ref="userService" />
 		<property name="memberInfoDao" ref="memberInfoDao" />
 	</bean>
-	<bean id="memberInfoDao" class="com.kintiger.mall.member.dao.impl.MemberInfoDaoImpl" parent="baseDao" />
+	<bean id="memberInfoDao" class="com.jk.mall.member.dao.impl.MemberInfoDaoImpl" parent="baseDao" />
 	
 </beans>

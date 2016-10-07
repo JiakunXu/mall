@@ -3,7 +3,7 @@
 	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
 	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
 <sqlMap namespace="function">
-	<typeAlias alias="function" type="com.kintiger.mall.api.function.bo.Function" />
+	<typeAlias alias="function" type="com.jk.mall.api.function.bo.Function" />
 	
 	<select id="getFunAction4RoleList" parameterClass="function" resultClass="function">
 	<![CDATA[

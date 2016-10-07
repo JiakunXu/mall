@@ -4,11 +4,11 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<!-- 交易信息 -->
-	<bean id="tradeAction" class="com.kintiger.mall.trade.action.TradeAction" parent="baseAction" scope="request">
+	<bean id="tradeAction" class="com.jk.mall.trade.action.TradeAction" parent="baseAction" scope="request">
 		<property name="tradeService" ref="tradeService" />
 		<property name="expressService" ref="expressService" />
 	</bean>
-	<bean id="tradeService" class="com.kintiger.mall.trade.service.impl.TradeServiceImpl">
+	<bean id="tradeService" class="com.jk.mall.trade.service.impl.TradeServiceImpl">
 		<property name="transactionTemplate" ref="transactionTemplate" />
 		<property name="memcachedCacheService" ref="memcachedCacheService" />
 		<property name="cartService" ref="cartService" />
@@ -24,18 +24,18 @@
 		<property name="tradeExpressService" ref="tradeExpressService" />
 		<property name="tradeDao" ref="tradeDao" />
 	</bean>
-	<bean id="tradeDao" class="com.kintiger.mall.trade.dao.impl.TradeDaoImpl" parent="baseDao" />
+	<bean id="tradeDao" class="com.jk.mall.trade.dao.impl.TradeDaoImpl" parent="baseDao" />
 	
 	<!-- 订单信息 -->
-	<bean id="orderService" class="com.kintiger.mall.trade.service.impl.OrderServiceImpl">
+	<bean id="orderService" class="com.jk.mall.trade.service.impl.OrderServiceImpl">
 		<property name="orderDao" ref="orderDao" />
 	</bean>
-	<bean id="orderDao" class="com.kintiger.mall.trade.dao.impl.OrderDaoImpl" parent="baseDao" />
+	<bean id="orderDao" class="com.jk.mall.trade.dao.impl.OrderDaoImpl" parent="baseDao" />
 	
 	<!-- 物流信息 -->
-	<bean id="tradeExpressService" class="com.kintiger.mall.trade.service.impl.TradeExpressServiceImpl">
+	<bean id="tradeExpressService" class="com.jk.mall.trade.service.impl.TradeExpressServiceImpl">
 		<property name="tradeExpressDao" ref="tradeExpressDao" />
 	</bean>
-	<bean id="tradeExpressDao" class="com.kintiger.mall.trade.dao.impl.TradeExpressDaoImpl" parent="baseDao" />
+	<bean id="tradeExpressDao" class="com.jk.mall.trade.dao.impl.TradeExpressDaoImpl" parent="baseDao" />
 	
 </beans>

@@ -4,7 +4,7 @@
 	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
 <sqlMap namespace="company">
 	
-	<typeAlias alias="company" type="com.kintiger.mall.api.company.bo.Company" />
+	<typeAlias alias="company" type="com.jk.mall.api.company.bo.Company" />
 	
 	<insert id="createCompany" parameterClass="company">
 		<selectKey resultClass="java.lang.String" keyProperty="companyId">

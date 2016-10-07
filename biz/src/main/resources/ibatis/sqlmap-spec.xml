@@ -4,8 +4,8 @@
 	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
 <sqlMap namespace="spec">
 	
-	<typeAlias alias="specCat" type="com.kintiger.mall.api.spec.bo.SpecCat" />
-	<typeAlias alias="specItem" type="com.kintiger.mall.api.spec.bo.SpecItem" />
+	<typeAlias alias="specCat" type="com.jk.mall.api.spec.bo.SpecCat" />
+	<typeAlias alias="specItem" type="com.jk.mall.api.spec.bo.SpecItem" />
 	
 	<select id="getSpecCatList" parameterClass="specCat" resultClass="specCat">
 	<![CDATA[

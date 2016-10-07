@@ -10,47 +10,47 @@
 
 <%@ page import="org.springframework.context.ApplicationContext"%>
 <%@ page import="org.springframework.web.context.support.WebApplicationContextUtils"%>
-<%@ page import="com.kintiger.mall.api.trade.ITradeService"%>
+<%@ page import="com.jk.mall.api.trade.ITradeService"%>
 <%@ page import="com.wxap.config.WxapConfig"%>
 <%
 	//---------------------------------------------------------
-	//Î¢ÐÅÖ§¸¶Ö§¸¶Í¨Öª£¨ºóÌ¨Í¨Öª£©Ê¾Àý£¬ÉÌ»§°´ÕÕ´ËÎÄµµ½øÐÐ¿ª·¢¼´¿É
+	//Î¢ï¿½ï¿½Ö§ï¿½ï¿½Ö§ï¿½ï¿½Í¨Öªï¿½ï¿½ï¿½ï¿½Ì¨Í¨Öªï¿½ï¿½Ê¾ï¿½ï¿½ï¿½Ì»ï¿½ï¿½ï¿½ï¿½Õ´ï¿½ï¿½Äµï¿½ï¿½ï¿½ï¿½Ð¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	//---------------------------------------------------------
 
-	//´´½¨Ö§¸¶Ó¦´ð¶ÔÏó
+	//ï¿½ï¿½ï¿½ï¿½Ö§ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½ï¿½
 
 	ResponseHandler resHandler = new ResponseHandler(request, response);
 	resHandler.setKey(WxapConfig.PARTNER_KEY);
 	// demo error
 	// resHandler.setKey(WxapConfig.APP_KEY);
-	//´´½¨ÇëÇó¶ÔÏó
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	RequestHandler queryReq = new RequestHandler(null, null);
 	queryReq.init();
 	if (resHandler.isValidSign() == true) {
 		if (resHandler.isWXsign() == true) {
-		//ÉÌ»§¶©µ¥ºÅ
+		//ï¿½Ì»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		String out_trade_no = resHandler.getParameter("out_trade_no");
-		//²Æ¸¶Í¨¶©µ¥ºÅ
+		//ï¿½Æ¸ï¿½Í¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		String transaction_id = resHandler
 				.getParameter("transaction_id");
-		//½ð¶î,ÒÔ·ÖÎªµ¥Î»
+		//ï¿½ï¿½ï¿½,ï¿½Ô·ï¿½Îªï¿½ï¿½Î»
 		String total_fee = resHandler.getParameter("total_fee");
-		//Èç¹ûÓÐÊ¹ÓÃÕÛ¿ÛÈ¯£¬discountÓÐÖµ£¬total_fee+discount=Ô­ÇëÇóµÄtotal_fee
+		//ï¿½ï¿½ï¿½ï¿½ï¿½Ê¹ï¿½ï¿½ï¿½Û¿ï¿½È¯ï¿½ï¿½discountï¿½ï¿½Öµï¿½ï¿½total_fee+discount=Ô­ï¿½ï¿½ï¿½ï¿½ï¿½total_fee
 		String discount = resHandler.getParameter("discount");
-		//Ö§¸¶½á¹û
+		//Ö§ï¿½ï¿½ï¿½ï¿½ï¿½
 		String trade_state = resHandler.getParameter("trade_state");
-		// ÒµÎñÊý¾Ý´¦Àí½á¹û
+		// Òµï¿½ï¿½ï¿½ï¿½Ý´ï¿½ï¿½ï¿½ï¿½ï¿½
     	boolean result = false;
 		
-		//ÅÐ¶ÏÇ©Ãû¼°½á¹û
+		//ï¿½Ð¶ï¿½Ç©ï¿½ï¿½ï¿½ï¿½
 		if ("0".equals(trade_state)) {
 			//------------------------------
-			//¼´Ê±µ½ÕË´¦ÀíÒµÎñ¿ªÊ¼
+			//ï¿½ï¿½Ê±ï¿½ï¿½ï¿½Ë´ï¿½ï¿½ï¿½Òµï¿½ï¿½Ê¼
 			//------------------------------
 
-			//´¦ÀíÊý¾Ý¿âÂß¼­
-			//×¢Òâ½»Ò×µ¥²»ÒªÖØ¸´´¦Àí
-			//×¢ÒâÅÐ¶Ï·µ»Ø½ð¶î
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý¿ï¿½ï¿½ß¼ï¿½
+			//×¢ï¿½â½»ï¿½×µï¿½ï¿½ï¿½Òªï¿½Ø¸ï¿½ï¿½ï¿½ï¿½ï¿½
+			//×¢ï¿½ï¿½ï¿½Ð¶Ï·ï¿½ï¿½Ø½ï¿½ï¿½
 			
 			ApplicationContext ctx = WebApplicationContextUtils.getWebApplicationContext(request.getSession().getServletContext());
     		ITradeService tradeService = (ITradeService)ctx.getBean("tradeService");
@@ -60,23 +60,23 @@
     		}
 			
 			//------------------------------
-			//¼´Ê±µ½ÕË´¦ÀíÒµÎñÍê±Ï
+			//ï¿½ï¿½Ê±ï¿½ï¿½ï¿½Ë´ï¿½ï¿½ï¿½Òµï¿½ï¿½ï¿½ï¿½ï¿½
 			//------------------------------
 
-			// System.out.println("success ºóÌ¨Í¨Öª³É¹¦");
-			//¸ø²Æ¸¶Í¨ÏµÍ³·¢ËÍ³É¹¦ÐÅÏ¢£¬²Æ¸¶Í¨ÏµÍ³ÊÕµ½´Ë½á¹ûºó²»ÔÙ½øÐÐºóÐøÍ¨Öª
+			// System.out.println("success ï¿½ï¿½Ì¨Í¨Öªï¿½É¹ï¿½");
+			//ï¿½ï¿½Æ¸ï¿½Í¨ÏµÍ³ï¿½ï¿½ï¿½Í³É¹ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½Æ¸ï¿½Í¨ÏµÍ³ï¿½Õµï¿½ï¿½Ë½ï¿½ï¿½ï¿½ï¿½Ù½ï¿½ï¿½Ðºï¿½ï¿½ï¿½Í¨Öª
 		} else {
-			// System.out.println("fail Ö§¸¶Ê§°Ü");
+			// System.out.println("fail Ö§ï¿½ï¿½Ê§ï¿½ï¿½");
 		}
 		
 		if (result) {
 			resHandler.sendToCFT("success");	
 		}
-	} else {//sha1Ç©ÃûÊ§°Ü
+	} else {//sha1Ç©ï¿½ï¿½Ê§ï¿½ï¿½
 		// System.out.println("fail -SHA1 failed");
 		resHandler.sendToCFT("fail");
 	}
-	}else{//MD5Ç©ÃûÊ§°Ü
+	}else{//MD5Ç©ï¿½ï¿½Ê§ï¿½ï¿½
 		// System.out.println("fail -Md5 failed");
 }	
 %>

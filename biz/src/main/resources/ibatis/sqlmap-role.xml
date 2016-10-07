@@ -4,7 +4,7 @@
 	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
 <sqlMap namespace="role">
 	
-	<typeAlias alias="role" type="com.kintiger.mall.api.role.bo.Role" />
+	<typeAlias alias="role" type="com.jk.mall.api.role.bo.Role" />
 
 	<select id="getRoleCount" parameterClass="role" resultClass="java.lang.Integer">
 	<![CDATA[

@@ -4,7 +4,7 @@
 	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
 <sqlMap namespace="region">
 	
-	<typeAlias alias="region" type="com.kintiger.mall.api.region.bo.Region" />
+	<typeAlias alias="region" type="com.jk.mall.api.region.bo.Region" />
 	
 	<insert id="createRegion" parameterClass="region">
 	<selectKey resultClass="java.lang.String" keyProperty="regionId">

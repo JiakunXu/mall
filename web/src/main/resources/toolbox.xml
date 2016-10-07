@@ -3,12 +3,12 @@
 	<tool>
 		<key>esc</key>
 		<scope>application</scope>
-		<class>com.kintiger.mall.framework.util.EncodeUtil</class>
+		<class>com.jk.mall.framework.util.EncodeUtil</class>
 	</tool>
 	<tool>
 		<key>dateUtil</key>
 		<scope>application</scope>
-		<class>com.kintiger.mall.framework.util.DateUtil</class>
+		<class>com.jk.mall.framework.util.DateUtil</class>
 	</tool>
 	<tool>
 		<key>stringUtil</key>
@@ -23,12 +23,12 @@
 	<tool>
 		<key>formatUtil</key>
 		<scope>application</scope>
-		<class>com.kintiger.mall.framework.util.FormatUtil</class>
+		<class>com.jk.mall.framework.util.FormatUtil</class>
 	</tool>
 	<tool>
 		<key>count</key>
 		<scope>application</scope>
-		<class>com.kintiger.mall.framework.listener.OnlineCounter</class>
+		<class>com.jk.mall.framework.listener.OnlineCounter</class>
 	</tool>
 	<tool>
 		<key>velocityMath</key>

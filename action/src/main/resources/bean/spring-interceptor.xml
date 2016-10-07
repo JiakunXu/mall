@@ -4,29 +4,29 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<!-- 操作日志 -->
-	<bean id="actionMonitorInterceptor" class="com.kintiger.mall.framework.webwork.interceptor.ActionMonitorInterceptor">
+	<bean id="actionMonitorInterceptor" class="com.jk.mall.framework.webwork.interceptor.ActionMonitorInterceptor">
 		<property name="memcachedCacheService" ref="memcachedCacheService" />
 	</bean>
 	
 	<!-- 操作权限 -->
-	<bean id="authenticationInterceptor" class="com.kintiger.mall.framework.webwork.interceptor.AuthenticationInterceptor">
+	<bean id="authenticationInterceptor" class="com.jk.mall.framework.webwork.interceptor.AuthenticationInterceptor">
 		<property name="caService" ref="caService" />
 	</bean>
 	
 	<!-- 权限点 -->
-	<bean id="funActionInterceptor" class="com.kintiger.mall.framework.webwork.interceptor.FunActionInterceptor">
+	<bean id="funActionInterceptor" class="com.jk.mall.framework.webwork.interceptor.FunActionInterceptor">
 		<property name="memcachedCacheService" ref="memcachedCacheService" />
 		<property name="functionService" ref="functionService" />
 	</bean>
 	
 	<!-- pageview -->
-	<bean id="pageviewInterceptor" class="com.kintiger.mall.framework.webwork.interceptor.PageviewInterceptor">
+	<bean id="pageviewInterceptor" class="com.jk.mall.framework.webwork.interceptor.PageviewInterceptor">
 		<property name="memcachedCacheService" ref="memcachedCacheService" />
 		<property name="ipService" ref="ipService" />
 	</bean>
 	
 	<!-- 店铺信息 -->
-	<bean id="shopInfoInterceptor" class="com.kintiger.mall.framework.webwork.interceptor.ShopInfoInterceptor">
+	<bean id="shopInfoInterceptor" class="com.jk.mall.framework.webwork.interceptor.ShopInfoInterceptor">
 		<property name="shopService" ref="shopService" />
 	</bean>
 	

@@ -4,7 +4,7 @@
 	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
 <sqlMap namespace="tag">
 	
-	<typeAlias alias="tag" type="com.kintiger.mall.api.tag.bo.Tag" />
+	<typeAlias alias="tag" type="com.jk.mall.api.tag.bo.Tag" />
 	
 	<insert id="createTag" parameterClass="tag">
 		<selectKey resultClass="java.lang.String" keyProperty="tagId">

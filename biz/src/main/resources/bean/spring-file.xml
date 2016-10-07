@@ -3,20 +3,20 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 	
-	<bean id="fileAction" class="com.kintiger.mall.file.action.FileAction" scope="request" parent="baseAction">
+	<bean id="fileAction" class="com.jk.mall.file.action.FileAction" scope="request" parent="baseAction">
 		<property name="fileService" ref="fileService" />
 		<property name="dfsService" ref="dfsService" />
 	</bean>
-	<bean id="fileService" class="com.kintiger.mall.file.service.impl.FileServiceImpl">
+	<bean id="fileService" class="com.jk.mall.file.service.impl.FileServiceImpl">
 		<property name="memcachedCacheService" ref="memcachedCacheService" />
 		<property name="fileDao" ref="fileDao" />
 		<property name="fileDownloadPath">
 			<value>${file.download.path}</value>
 		</property>
 	</bean>
-	<bean id="fileDao" class="com.kintiger.mall.file.dao.impl.FileDaoImpl" parent="baseDao" />
+	<bean id="fileDao" class="com.jk.mall.file.dao.impl.FileDaoImpl" parent="baseDao" />
 	
-	<bean id="dfsService" class="com.kintiger.mall.file.service.impl.DFSServiceImpl">
+	<bean id="dfsService" class="com.jk.mall.file.service.impl.DFSServiceImpl">
 		<property name="transactionTemplate" ref="transactionTemplate" />
 		<property name="fileService" ref="fileService" />
 		<property name="fileUploadPath">

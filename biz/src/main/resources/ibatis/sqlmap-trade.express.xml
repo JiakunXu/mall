@@ -4,7 +4,7 @@
 	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
 <sqlMap namespace="trade.express">
 	
-	<typeAlias alias="tradeExpress" type="com.kintiger.mall.api.trade.bo.TradeExpress" />
+	<typeAlias alias="tradeExpress" type="com.jk.mall.api.trade.bo.TradeExpress" />
 	
 	<insert id="createTradeExpress" parameterClass="tradeExpress">
 		<selectKey resultClass="java.lang.String" keyProperty="id">

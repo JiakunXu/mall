@@ -3,15 +3,15 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<bean id="cartAction" class="com.kintiger.mall.cart.action.CartAction" parent="baseAction" scope="request">
+	<bean id="cartAction" class="com.jk.mall.cart.action.CartAction" parent="baseAction" scope="request">
 		<property name="cartService" ref="cartService" />
 	</bean>
 	
-	<bean id="cartService" class="com.kintiger.mall.cart.service.impl.CartServiceImpl">
+	<bean id="cartService" class="com.jk.mall.cart.service.impl.CartServiceImpl">
 		<property name="itemFileService" ref="itemFileService" />
 		<property name="cartDao" ref="cartDao" />
 	</bean>
 
-	<bean id="cartDao" class="com.kintiger.mall.cart.dao.impl.CartDaoImpl" parent="baseDao" />
+	<bean id="cartDao" class="com.jk.mall.cart.dao.impl.CartDaoImpl" parent="baseDao" />
 	
 </beans>

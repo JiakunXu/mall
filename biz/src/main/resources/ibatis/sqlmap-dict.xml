@@ -4,8 +4,8 @@
 	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
 <sqlMap namespace="dict">
 	
-	<typeAlias alias="dict" type="com.kintiger.mall.api.dict.bo.Dict" />
-	<typeAlias alias="dictType" type="com.kintiger.mall.api.dict.bo.DictType" />
+	<typeAlias alias="dict" type="com.jk.mall.api.dict.bo.Dict" />
+	<typeAlias alias="dictType" type="com.jk.mall.api.dict.bo.DictType" />
 	
 	<!-- dict_type -->
 	

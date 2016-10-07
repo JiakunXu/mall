@@ -3,11 +3,11 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<bean id="tagService" class="com.kintiger.mall.tag.service.impl.TagServiceImpl">
+	<bean id="tagService" class="com.jk.mall.tag.service.impl.TagServiceImpl">
 		<property name="memcachedCacheService" ref="memcachedCacheService" />
 		<property name="tagDao" ref="tagDao" />
 	</bean>
 
-	<bean id="tagDao" class="com.kintiger.mall.tag.dao.impl.TagDaoImpl" parent="baseDao" />
+	<bean id="tagDao" class="com.jk.mall.tag.dao.impl.TagDaoImpl" parent="baseDao" />
 	
 </beans>

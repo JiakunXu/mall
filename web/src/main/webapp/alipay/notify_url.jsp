@@ -24,7 +24,7 @@
 
 <%@ page import="org.springframework.context.ApplicationContext"%>
 <%@ page import="org.springframework.web.context.support.WebApplicationContextUtils"%>
-<%@ page import="com.kintiger.mall.api.trade.ITradeService"%>
+<%@ page import="com.jk.mall.api.trade.ITradeService"%>
 <%
 	//获取支付宝POST过来反馈信息
 	Map<String,String> params = new HashMap<String,String>();

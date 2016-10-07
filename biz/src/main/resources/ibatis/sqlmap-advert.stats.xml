@@ -4,7 +4,7 @@
 	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
 <sqlMap namespace="advert.stats">
 	
-	<typeAlias alias="advertStats" type="com.kintiger.mall.api.advert.bo.AdvertStats" />
+	<typeAlias alias="advertStats" type="com.jk.mall.api.advert.bo.AdvertStats" />
 	
 	<insert id="createAdvertStats" parameterClass="advertStats">
 		<selectKey resultClass="java.lang.String" keyProperty="id">

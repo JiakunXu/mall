@@ -4,7 +4,7 @@
 	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
 <sqlMap namespace="member.points">
 	
-	<typeAlias alias="memberPoints" type="com.kintiger.mall.api.member.bo.MemberPoints" />
+	<typeAlias alias="memberPoints" type="com.jk.mall.api.member.bo.MemberPoints" />
 	
 	<insert id="createMemberPoints" parameterClass="memberPoints">
 		<selectKey resultClass="java.lang.String" keyProperty="id">

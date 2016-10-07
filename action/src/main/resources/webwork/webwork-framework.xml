@@ -8,13 +8,13 @@
 			<result-type name="httpheader" class="com.opensymphony.webwork.dispatcher.HttpHeaderResult" />
 			<result-type name="chain" class="com.opensymphony.xwork.ActionChainResult" />
 
-			<result-type name="redirect" class="com.kintiger.mall.framework.webwork.result.RedirectResult" />
-			<result-type name="redirect-action" class="com.kintiger.mall.framework.webwork.result.RedirectActionResult" />
-			<result-type name="json" class="com.kintiger.mall.framework.webwork.result.JSONResult" />
+			<result-type name="redirect" class="com.jk.mall.framework.webwork.result.RedirectResult" />
+			<result-type name="redirect-action" class="com.jk.mall.framework.webwork.result.RedirectActionResult" />
+			<result-type name="json" class="com.jk.mall.framework.webwork.result.JSONResult" />
 		</result-types>
 
 		<interceptors>
-			<interceptor name="exception" class="com.kintiger.mall.framework.webwork.interceptor.ExceptionInterceptor">
+			<interceptor name="exception" class="com.jk.mall.framework.webwork.interceptor.ExceptionInterceptor">
 				<param name="ignoreExceptions">java.net.SocketException</param>
 				<param name="logEnabled">true</param>
 				<param name="logLevel">error</param>
@@ -36,9 +36,9 @@
 				<param name="excludeMethods">login,logout,create,update,detail,activate</param>
 			</interceptor>
 
-			<interceptor name="decodeParams" class="com.kintiger.mall.framework.webwork.interceptor.DecodeParametersInterceptor" />
+			<interceptor name="decodeParams" class="com.jk.mall.framework.webwork.interceptor.DecodeParametersInterceptor" />
 
-			<!-- interceptor name="set-app-context" class="com.kintiger.mall.framework.webwork.interceptor.SetAppContextInterceptor" 
+			<!-- interceptor name="set-app-context" class="com.jk.mall.framework.webwork.interceptor.SetAppContextInterceptor" 
 				/ -->
 
 			<interceptor name="actionMonitor" class="actionMonitorInterceptor" />

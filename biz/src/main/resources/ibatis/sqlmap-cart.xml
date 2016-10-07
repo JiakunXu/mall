@@ -4,7 +4,7 @@
 	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
 <sqlMap namespace="cart">
 	
-	<typeAlias alias="cart" type="com.kintiger.mall.api.cart.bo.Cart" />
+	<typeAlias alias="cart" type="com.jk.mall.api.cart.bo.Cart" />
 	
 	<select id="getCartList" parameterClass="cart" resultClass="cart">
 	<![CDATA[

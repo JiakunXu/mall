@@ -4,10 +4,10 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<!-- 注册管理 -->
-	<bean id="registerAction" class="com.kintiger.mall.register.action.RegisterAction" parent="baseAction" scope="request">
+	<bean id="registerAction" class="com.jk.mall.register.action.RegisterAction" parent="baseAction" scope="request">
 		<property name="registerService" ref="registerService" />
 	</bean>
-	<bean id="registerService" class="com.kintiger.mall.register.service.impl.RegisterServiceImpl">
+	<bean id="registerService" class="com.jk.mall.register.service.impl.RegisterServiceImpl">
 		<property name="transactionTemplate" ref="transactionTemplate" />
 		<property name="memcachedCacheService" ref="memcachedCacheService" />
 		<property name="userService" ref="userService" />
@@ -16,7 +16,7 @@
 	</bean>
 	
 	<!-- 客户端 注册管理 -->
-	<bean id="mobileRegisterAction" class="com.kintiger.mall.register.action.MobileRegisterAction" parent="baseAction" scope="request">
+	<bean id="mobileRegisterAction" class="com.jk.mall.register.action.MobileRegisterAction" parent="baseAction" scope="request">
 		<property name="registerService" ref="registerService" />
 	</bean>
 	
